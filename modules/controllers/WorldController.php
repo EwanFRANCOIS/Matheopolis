@@ -4,10 +4,15 @@ namespace modules\controllers;
 
 use modules\core\Request;
 use modules\core\Response;
+use modules\core\View;
 
 class WorldController
 {
-    public function execute($request): Response
+    public function __construct(private readonly View $view)
+    {
+    }
+
+    public function execute(Request $request): Response
     {
         if ($request->session('email') !== null) {
             $activites = [
@@ -26,7 +31,7 @@ class WorldController
             $nombrePages = 3;
 
             $vue = (new \modules\views\WorldView())->show($activites, $page, $nombrePages);
-            return new Response($vue);
+            return $this->view->render('L\'univers', $vue);
         } else {
             return Response::redirect('index.php?action=login');
         }

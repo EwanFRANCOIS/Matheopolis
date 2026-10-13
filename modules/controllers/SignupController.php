@@ -5,6 +5,7 @@ namespace modules\controllers;
 use _assets\includes\DatabaseConnection;
 use modules\core\Response;
 use modules\core\Request;
+use modules\core\View;
 use modules\models\SignupModel;
 use includes\ExceptionDatabaseController;
 use PDOException;
@@ -18,6 +19,10 @@ use Exception;
  */
 class SignupController
 {
+    public function __construct(private readonly View $view)
+    {
+    }
+
     /**
      * Exécute le traitement du formulaire et affiche la vue associée.
      *
@@ -41,7 +46,7 @@ class SignupController
                     try {
                         $signupModel = new SignupModel(DatabaseConnection::getInstance());
                         $signup = $signupModel->getSignup($_login, $Password);
-                        Request::setSession('email', $_login);
+                        $request->setSession('email', $_login);
                         return Response::redirect('index.php?success=true');
 
                         # Les | permettent juste de reunnir 3 catch en 1 seul pour eviter d'en avoir 3
@@ -55,6 +60,6 @@ class SignupController
         }
 
         $vue = (new \modules\views\SignupView())->show($error);
-        return new Response($vue);
+        return $this->view->render('Inscription', $vue);
     }
 }

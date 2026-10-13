@@ -5,6 +5,7 @@ namespace modules\controllers;
 use _assets\includes\DatabaseConnection;
 use modules\core\Response;
 use modules\core\Request;
+use modules\core\View;
 use modules\models\DeleteModel;
 
 /**
@@ -15,6 +16,10 @@ use modules\models\DeleteModel;
  */
 class DeleteController
 {
+    public function __construct(private readonly View $view)
+    {
+    }
+
     /**
      * Exécute la logique de suppression.
      *
@@ -27,7 +32,7 @@ class DeleteController
     {
         if ($request->session('email') !== null) {
             $error = null;
-            $_login = $request->Session('email');
+            $_login = $request->session('email');
             if ($request->method === 'POST') {
                 $_action = $request->post('action');
 
@@ -38,7 +43,7 @@ class DeleteController
                         $delete = $deleteModel->getDelete($_login, $Password);
 
                         if ($delete) {
-                            Request::destroySession();
+                            $request->destroySession();
                             return Response::redirect('index.php');
                         } else {
                             $error = 'Mot de passe incorrect';
@@ -49,7 +54,7 @@ class DeleteController
                 }
             }
             $vue = (new \modules\views\DeleteView())->show($error);
-            return new Response($vue);
+            return $this->view->render('Suppression', $vue);
         } else {
             return Response::redirect("index.php?action=account");
         }

@@ -2,15 +2,21 @@
 
 namespace modules\controllers;
 
+use modules\core\Request;
 use modules\core\Response;
+use modules\core\View;
 
 class BookController
 {
-    public function execute(): Response
+    public function __construct(private readonly View $view)
     {
-        if (isset($_SESSION['email'])) {
+    }
+
+    public function execute(Request $request): Response
+    {
+        if ($request->session('email') !== null) {
             $vue = (new \modules\views\BookView())->show();
-            return new Response(content: $vue);
+            return $this->view->render('Les livres', $vue);
         } else {
             return Response::redirect('index.php?action=login');
         }

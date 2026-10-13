@@ -2,19 +2,19 @@
 
 namespace modules\views;
 
-use modules\core\Request;
 use modules\core\Response;
 
 class Layout
 {
     public function __construct(
         private string $title,
-        private string $content
+        private string $content,
+        private ?string $userEmail
     ) {
     }
 
 
-    public function show(): Response
+    public function show(int $status = 200): Response
 {
             $_Image = 'https://ninamc.alwaysdata.net/_assets/Images/FubukiRef.jpg';
             $_description = 'Liens vers notre super site \'MATHEOPOLIS\'. 
@@ -54,10 +54,10 @@ class Layout
         <div class="dropdown">
             <button type="button">Menu ▾</button>
             <div class="menu">
-                <?php if (!isset($_SESSION['email'])) { ?>
+                <?php if ($this->userEmail === null) { ?>
                 <a href="index.php?action=signup">Inscription</a>
                 <a href="index.php?action=login">Connexion</a>
-                <?php } if (isset($_SESSION['email'])) { ?>
+                <?php } else { ?>
                 <a href="index.php?action=logout">Déconnexion</a>
                 <a href="index.php?action=delete">Suppression</a>
                 <?php }?>
@@ -88,7 +88,7 @@ class Layout
     </html>
         <?php
         $html = ob_get_clean();
-        return new Response(content: $html);
+        return new Response(content: $html, statusCode: $status);
     }
 }
 

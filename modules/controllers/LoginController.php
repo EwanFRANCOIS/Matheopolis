@@ -5,6 +5,7 @@ namespace modules\controllers;
 use _assets\includes\DatabaseConnection;
 use modules\core\Request;
 use modules\core\Response;
+use modules\core\View;
 use modules\models\LoginModel;
 
 /**
@@ -16,6 +17,10 @@ use modules\models\LoginModel;
 
 class LoginController
 {
+    public function __construct(private readonly View $view)
+    {
+    }
+
 /**
      * Exécute la logique de connexion.
      *
@@ -40,7 +45,7 @@ class LoginController
                     $connection = $connectionModel->getConnection($_login, $_password);
 
                     if (!empty($connection)) {
-                        Request::setSession('email', $_login);
+                        $request->setSession('email', $_login);
                         return Response::redirect('index.php');
                     } else {
                         $error = 'Email ou mot de passe incorrect';
@@ -52,6 +57,6 @@ class LoginController
         }
 
         $vue = (new \modules\views\LoginView())->show($error);
-        return new Response($vue);
+        return $this->view->render('Connexion', $vue);
     }
 }
