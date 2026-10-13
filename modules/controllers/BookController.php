@@ -2,16 +2,17 @@
 
 namespace modules\controllers;
 
+use modules\core\Response;
+
 class BookController
 {
-    public function execute(): void
+    public function execute(): Response
     {
-        session_start();
         if (isset($_SESSION['email'])) {
-            (new \modules\views\BookView())->show();
+            $vue = (new \modules\views\BookView())->show();
+            return new Response(content: $vue);
         } else {
-            header('location: index.php?action=account');
-            exit();
+            return Response::redirect('index.php?action=login');
         }
     }
 }

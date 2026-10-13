@@ -3,6 +3,8 @@
 namespace modules\controllers;
 
 use _assets\includes\DatabaseConnection;
+use modules\core\Response;
+use modules\core\Request;
 use modules\models\SignupModel;
 use includes\ExceptionDatabaseController;
 use PDOException;
@@ -21,19 +23,15 @@ class SignupController
      *
      * @return void
      */
-    public function execute(): void
+    public function execute(Request $request): Response
     {
-
-        session_start();
-
         $error = null;
-
-        if (isset($_POST['action']) && !empty($_POST['action'])) {
-            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-                $_login = $_POST['email'];
-                $Password = $_POST['password'];
-                $_verifPassword = $_POST['verif'];
-                $_action = $_POST['action'];
+        if (($request->post('action')) && !empty($request->post('action'))) {
+            if ($request->method === 'POST') {
+                $_login = $request->post('email');
+                $Password = $request->post('password');
+                $_verifPassword = $request->post('verif');
+                $_action = $request->post('action');
 
                 if (empty($_login) || empty($Password) || empty($_verifPassword)) {
                     $error = 'Veuillez remplir le formulaire';
@@ -43,10 +41,9 @@ class SignupController
                     try {
                         $signupModel = new SignupModel(DatabaseConnection::getInstance());
                         $signup = $signupModel->getSignup($_login, $Password);
-                        $_SESSION['email'] = $_login;
-                        $_SESSION['password'] = $Password;
-                        header('Location: index.php?success=true');
-                        exit();
+                        Request::setSession('email', $_login);
+                        return Response::redirect('index.php?success=true');
+
                         # Les | permettent juste de reunnir 3 catch en 1 seul pour eviter d'en avoir 3
                     } catch (ExceptionDatabaseController | PDOException | Exception $e) {
                         $error = 'Ce compte existe déjà';
@@ -57,6 +54,7 @@ class SignupController
             }
         }
 
-        (new \modules\views\SignupView())->show($error);
+        $vue = (new \modules\views\SignupView())->show($error);
+        return new Response($vue);
     }
 }

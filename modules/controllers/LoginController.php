@@ -3,6 +3,8 @@
 namespace modules\controllers;
 
 use _assets\includes\DatabaseConnection;
+use modules\core\Request;
+use modules\core\Response;
 use modules\models\LoginModel;
 
 /**
@@ -22,28 +24,24 @@ class LoginController
      *
      * @return void
      */
-    public function execute(): void
+    public function execute(Request $request): Response
     {
-
-        session_start();
-
         $error = null; // On met l'erreur a null de base car on la met dans le show a la fin
 
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $_action = filter_input(INPUT_POST, 'action');
+        if ($request->method === 'POST') {
+            $_action = $request->post('action');
 
             if ($_action === 'logUser') {
-                $_login = filter_input(INPUT_POST, 'email');
-                $Password = filter_input(INPUT_POST, 'password');
+                $_login = $request->post('email');
+                $_password = $request->post('password');
 
-                if ($_login && $Password) {
+                if ($_login && $_password) {
                     $connectionModel = new LoginModel(DatabaseConnection::getInstance());
-                    $connection = $connectionModel->getConnection($_login, $Password);
+                    $connection = $connectionModel->getConnection($_login, $_password);
 
                     if (!empty($connection)) {
-                        $_SESSION['email'] = $_login;
-                        header('Location: index.php');
-                        exit();
+                        Request::setSession('email', $_login);
+                        return Response::redirect('index.php');
                     } else {
                         $error = 'Email ou mot de passe incorrect';
                     }
@@ -53,6 +51,7 @@ class LoginController
             }
         }
 
-        (new \modules\views\LoginView())->show($error);
+        $vue = (new \modules\views\LoginView())->show($error);
+        return new Response($vue);
     }
 }

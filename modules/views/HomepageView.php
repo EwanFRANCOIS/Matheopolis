@@ -6,9 +6,8 @@ namespace modules\views;
 
 class HomepageView
 {
-    public function show(): void
+    public function show(): string
     {
-        session_start();
         ob_start();
         ?>
 
@@ -48,7 +47,7 @@ class HomepageView
 </div>
 
         <?php
-        (new \modules\views\Layout('Bienvenue', ob_get_clean()))->show();
+        return ob_get_clean();
     }
 }
 ?>

@@ -4,7 +4,7 @@ namespace modules\views;
 
 class AccountView
 {
-    public function show(): void
+    public function show(): string
     {
         ob_start();
         ?>
@@ -35,7 +35,7 @@ class AccountView
 </div>
 
         <?php
-        (new \modules\views\Layout('Profil', ob_get_clean()))->show();
+        return ob_get_clean();
     }
 }
 ?>
