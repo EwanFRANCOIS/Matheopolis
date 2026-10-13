@@ -2,17 +2,19 @@
 
 namespace modules\controllers;
 
+use modules\core\Response;
+
 class ActivityController
 {
-    public function execute(): void
+    public function execute($request): Response
     {
-        if (isset($_SESSION['email'])) {
+        if ($request->session('email') !== null) {
                 $op = 0;
 
-            if (isset($_POST['operation'])) {
-                $action = $_POST['operation'];
-                $op1 = (float) $_POST['op1'];
-                $op2 = (float) $_POST['op2'];
+            if ($request->post('operation')) {
+                $action = $request->post('operation');
+                $op1 = (float) $request->post('op1');
+                $op2 = (float) $request->post('op2');
 
                 if ($action == '+') {
                     $op = $op1 + $op2;
@@ -21,16 +23,17 @@ class ActivityController
                 } elseif ($action == '*') {
                     $op = $op1 * $op2;
                 } elseif ($action == '/') {
+
                     $op = $op1 / $op2;
                 }
             } else {
                 $result = "L'action n'a pas été enregistrée";
             }
                 $result = $op;
-            (new \modules\views\ActivityView())->show($result);
+            $vue = (new \modules\views\ActivityView())->show($result);
+            return new Response($vue);
         } else {
-            header("location:index.php?action=account");
-            exit();
+            return Response::redirect("index.php?action=login");
         }
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace _assets\http;
+namespace modules\core;
 
 // le type readonly est juste une securite pour pas que les variables superglobales ou importante
 // soient modifiees
@@ -19,6 +19,29 @@ class Request {
           $_GET,    // recup les param du $_GET
           $_POST,   // pareil mais pour $_POST
         );
+    }
+
+    public function get(string $key, $default = null) {
+        return $this->get[$key] ?? $default;
+    }
+
+    public function post(string $key, $default = null) {
+        return $this->post[$key] ?? $default;
+    }
+
+    public static function session(string $key, $default = null): array {
+        return $_SESSION[$key] ?? $default;
+    }
+
+    public static function setSession(string $key, $value): void {
+        $_SESSION[$key] = $value;
+    }
+
+    public static function destroySession(): void {
+        if (session_status() === PHP_SESSION_ACTIVE) {
+            session_unset();
+            session_destroy();
+        }
     }
 }
 

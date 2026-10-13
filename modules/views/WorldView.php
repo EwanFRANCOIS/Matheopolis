@@ -15,7 +15,7 @@ class WorldView
         array $activites,
         int $page,
         int $nombrePages
-    ): void {
+    ): string {
     // PSR-12 : Accolade à la ligne pour la méthode
         ob_start();
         ?>
@@ -48,7 +48,7 @@ class WorldView
 
 
         <?php
-        (new \modules\views\Layout('world', ob_get_clean()))->show();
+        return ob_get_clean();
     }
 }
 ?>

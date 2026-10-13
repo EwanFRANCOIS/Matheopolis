@@ -3,6 +3,8 @@
 namespace modules\controllers;
 
 use _assets\includes\DatabaseConnection;
+use modules\core\Request;
+use modules\core\Response;
 use modules\models\ForgotPasswordModel;
 use modules\views\ForgotPasswordView;
 
@@ -17,7 +19,7 @@ class ForgotPasswordController
      * @return void
      */
 
-    public function execute(): void
+    public function execute(Request $request): Response
     {
         $model = new ForgotPasswordModel(DatabaseConnection::getInstance());
         $messageError = null;
@@ -25,21 +27,21 @@ class ForgotPasswordController
 
 
     // On traite les données mis en post
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if ($request->method == 'POST') {
         //On verif le type d'action
-            if (isset($_POST['action_type'])) {
+            if ($request->post('action_type') !== null) {
           //1 : Soumission du nouveau mdp
-                if ($_POST['action_type'] === 'reset_password') {
+                if ($request->post('action_type') === 'reset_password') {
                 // Recup du token
-                    if (isset($_POST['token'])) {
-                        $token = $_POST['token'];
+                    if ($request->post('token') !== null) {
+                        $token = $request->post('token');
                     } else {
                         $token = '';
                     }
 
                 //Recup du mdp
-                    if (isset($_POST['password'])) {
-                        $newPassword = $_POST['password'];
+                    if ($request->post('password') !== null) {
+                        $newPassword = $request->post('password');
                     } else {
                         $newPassword = '';
                     }
@@ -50,8 +52,7 @@ class ForgotPasswordController
                         $success = $model->verifyTokenAndChangePassword($token, $newPassword);
 
                         if ($success) {
-                            header('Location: index.php?action=login&reset=success');
-                            exit();
+                            return Response::redirect('index.php?action=login&reset=success');
                         } else {
                             $messageError = "Lien invalide ou expiré.";
                         }
@@ -63,17 +64,16 @@ class ForgotPasswordController
 
 
           //2 : Demande d'envoi de l'e-mail
-                if ($_POST['action_type'] === 'request_reset') {
-                    if (isset($_POST['email'])) {
-                        $email = $_POST['email'];
+                if ($request->post('action_type') === 'request_reset') {
+                    if ($request->post('email') !== null) {
+                        $email = $request->post('email');
                     } else {
                         $email = '';
                     }
 
                     if (!empty($email)) {
                         $model->sendMail($email);
-                        header('Location: index.php?action=forgot_pwd&mail=sent');
-                        exit();
+                        return Response::redirect('index.php?action=forgot_pwd&mail=sent');
                     } else {
                         $messageError = "Veuillez saisir votre adresse email.";
                     }
@@ -83,15 +83,16 @@ class ForgotPasswordController
 
 
     //Recup du token pour vue
-        if (isset($_GET['token'])) {
-            $token = $_GET['token'];
+        if ($request->get('token')) {
+            $token = $request->get('token');
            //dans le cas ou le token est dans le post
-        } elseif (isset($_POST['token'])) {
-            $token = $_POST['token'];
+        } elseif ($request->post('token') !== null) {
+            $token = $request->post('token');
         }
 
 
         //Appel de vue
-        (new ForgotPasswordView())->show($token, $messageError);
+        $vue = (new ForgotPasswordView())->show($token, $messageError);
+        return new Response($vue);
     }
 }

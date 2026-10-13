@@ -15,7 +15,7 @@ class ForgotPasswordView
      * @return void
      */
 
-    public function show($token = null, $messageError = null): void
+    public function show($token = null, $messageError = null): string
     {
         $mailSent = isset($_GET['mail']) && $_GET['mail'] === 'sent';
         ob_start();
@@ -85,7 +85,7 @@ class ForgotPasswordView
         <?php endif; ?>
 
         <?php
-        (new \modules\views\Layout('Mot de passe oublié', ob_get_clean()))->show();
+       return ob_get_clean();
     }
 }
 ?>

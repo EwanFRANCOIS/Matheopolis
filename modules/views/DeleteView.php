@@ -17,7 +17,7 @@ class DeleteView
      *
      * @return void
      */
-    public function show(?string $error = null): void
+    public function show(?string $error = null): string
     {
         ob_start();
         ?>
@@ -53,7 +53,7 @@ class DeleteView
 </div>
 
         <?php
-        (new \modules\views\Layout('Suppression', ob_get_clean()))->show();
+        return ob_get_clean();
     }
 }
 ?>

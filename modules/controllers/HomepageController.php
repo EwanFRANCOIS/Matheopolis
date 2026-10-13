@@ -2,10 +2,14 @@
 
 namespace modules\controllers;
 
+use modules\core\Response;
+use modules\core\Request;
+
 class HomepageController
 {
-    public function execute(): void
+    public function execute(Request $request): Response
     {
-        (new \modules\views\HomepageView())->show();
+        $vue = (new \modules\views\HomepageView())->show();
+        return (new Response(content: $vue));
     }
 }

@@ -2,13 +2,15 @@
 
 namespace modules\controllers;
 
+use modules\core\Request;
+use modules\core\Response;
+
 class LogoutController
 {
-    public function execute(): void
+    public function execute(): Response
     {
-        $_SESSION = [];
-        session_destroy();
-        header('Location: index.php');
-        exit();
+        Request::destroySession();
+
+        return Response::redirect('index.php?action=home');
     }
 }
