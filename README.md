@@ -1,7 +1,7 @@
 # 🌵 Matheopolis 
 Situation d’Apprentissage et d’Évaluation de deuxième année de BUT Informatique. Le projet consiste en la création d'un site web éducatif et ludique dans le cadre des ouvrages Mathéopolis.
+<img src="_assets/Images/favicon.png" alt="Logo du site">
 
-[Pilier Dje](_assets/Images/favicon.png "Logo du site")
 ## 🤖 Commandes 
 **aucune pour le moment**
 
