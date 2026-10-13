@@ -54,7 +54,7 @@ class Layout
             <a href="index.php?action=signup">Inscription</a>
             <a href="index.php?action=login">Connexion</a>
             <?php } if (isset($_SESSION['email'])) { ?>
-            <a href="signout.php">Déconnexion</a>
+            <a href="index.php?action=logout">Déconnexion</a>
             <a href="index.php?action=delete">Suppression</a>
             <?php }?>
         </div>

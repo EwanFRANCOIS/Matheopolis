@@ -24,9 +24,6 @@ class LoginController
      */
     public function execute(): void
     {
-
-        session_start();
-
         $error = null; // On met l'erreur a null de base car on la met dans le show a la fin
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {

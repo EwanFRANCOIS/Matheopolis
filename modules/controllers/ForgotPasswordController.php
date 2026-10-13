@@ -29,7 +29,7 @@ class ForgotPasswordController
         //On verif le type d'action
             if (isset($_POST['action_type'])) {
           //1 : Soumission du nouveau mdp
-                if ($_POST['action_type'] === 'resetPassword') {
+                if ($_POST['action_type'] === 'reset_password') {
                 // Recup du token
                     if (isset($_POST['token'])) {
                         $token = $_POST['token'];

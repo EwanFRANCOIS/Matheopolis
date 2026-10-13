@@ -8,7 +8,6 @@ class HomepageView
 {
     public function show(): void
     {
-        session_start();
         ob_start();
         ?>
 

@@ -6,7 +6,6 @@ class ActivityController
 {
     public function execute(): void
     {
-        session_start();
         if (isset($_SESSION['email'])) {
                 $op = 0;
 

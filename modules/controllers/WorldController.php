@@ -6,7 +6,6 @@ class WorldController
 {
     public function execute(): void
     {
-        session_start();
         if (isset($_SESSION['email'])) {
             $activites = [
                 "Voici l'introduction de Mathéopolis, une série de livres créées par l'association Maths pour tous avec
