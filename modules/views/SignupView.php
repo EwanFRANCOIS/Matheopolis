@@ -1,20 +1,35 @@
 <?php
 
-    namespace modules\views;
+namespace modules\views;
 
-    /**
-    * Vue responsable de l'affichage de la page d'inscription.
-    */
+use modules\views\components\Alert;
+use modules\views\components\Button;
+use modules\views\components\Form;
+use modules\views\components\Input;
+use modules\views\components\Link;
+use modules\views\components\Paragraph;
+
 class SignupView
 {
-    /**
-    * Génère et affiche le code HTML du formulaire d'inscription.
-    *
-    * @param string|null $error Message d'erreur éventuel à afficher à l'utilisateur.
-    * @return void
-    */
     public function show(?string $error = null): string
     {
+        $info = new Paragraph([
+            'Si vous voulez accedez à l\'ensemble du site blah blah blah vendez votre âme et inscrivez vous :)'
+        ]);
+
+        $form = new Form('index.php?action=signup', [
+            new Input('email', 'Votre adresse email :', 'email', 'exemple@domaine.fr', '', true),
+            new Input('password', 'Votre Mot de Passe :', 'password', 'Mot de passe', '', true),
+            new Input('verif', 'Vérification de votre Mot de Passe :', 'password', 'Verification', '', true),
+            new Paragraph([
+                new Button('Envoyer', 'submit', 'action', 'inscription'),
+                new Button('Réinitialiser', 'reset'),
+            ]),
+        ]);
+
+        $alert = $error !== null && $error !== '' ? new Alert([$error]) : new Alert([]);
+        $link = new Link('index.php?action=login', 'S\'inscrire');
+
         ob_start();
         ?>
 
@@ -22,37 +37,17 @@ class SignupView
     <h1>S'inscrire</h1>
 </header>
 
-<div class=card>
-    <p>
-    Si vous voulez accedez à l'ensemble du site blah blah blah vendez votre âme et inscrivez vous :)
-    </p>
+<div class="card">
+    <?= $info ?>
 </div>
 
 <div class="form-area">
-    <form method="post">
-        <label for="email">Votre adresse email :</label>
-        <input type="email" id="email" name="email" placeholder="exemple@domaine.fr" class="input" required >
-        <label for="password">Votre Mot de Passe :</label>
-        <input type="password" id="password" name="password" placeholder="Mot de passe" class="input" required >
-        <label for="verif">Vérification de votre Mot de Passe :</label>
-        <input type="password" id="verif" name="verif" placeholder="Verification" class="input" required >
-
-        <div>
-            <button type="submit" name="action" value="inscription" class="btn">Envoyer</button>
-            <button type="reset" class="btn">Réinitialiser</button>
-        </div>
-    </form>
-        <?php
-        if ($error) {
-            echo htmlspecialchars($error);
-        }
-        ?>
-    <a href="index.php?action=login">S'inscrire</a>
+    <?= $form ?>
+    <?= $alert ?>
+    <?= $link ?>
 </div>
 
         <?php
         return ob_get_clean();
     }
 }
-
-?>

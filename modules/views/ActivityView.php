@@ -2,10 +2,29 @@
 
 namespace modules\views;
 
+use modules\views\components\Button;
+use modules\views\components\Form;
+use modules\views\components\Input;
+use modules\views\components\Paragraph;
+
 class ActivityView
 {
     public function show(string|float|null $result = null): string
     {
+        $form = new Form('index.php?action=activity', [
+            new Input('op1', 'Opérande 1 :', 'text', '', '', true),
+            new Input('op2', 'Opérande 2 :', 'text', '', '', true),
+            new Paragraph([
+                new Button('+', 'submit', 'operation', '+'),
+                new Button('-', 'submit', 'operation', '-'),
+                new Button('×', 'submit', 'operation', '*'),
+                new Button('÷', 'submit', 'operation', '/'),
+            ]),
+            new Button('Réinitialiser', 'reset'),
+        ]);
+
+        $resultBlock = $result !== null ? new Paragraph([(string) $result]) : null;
+
         ob_start();
         ?>
 
@@ -15,36 +34,15 @@ class ActivityView
 
 <div class="card form-area">
     <h2>Calculatrice</h2>
-
-    <form action="index.php?action=activity" method="post">
-        <label for="op1">Opérande 1 :</label>
-        <input type="text" name="op1" required />
-
-        <label for="op2">Opérande 2 :</label>
-        <input type="text" name="op2" required />
-
-        <div style="display: flex; gap: 8px; justify-content: center; flex-wrap: wrap;">
-            <button class="btn" type="submit" name="operation" value="+">+</button>
-            <button class="btn" type="submit" name="operation" value="-">-</button>
-            <button class="btn" type="submit" name="operation" value="*">×</button>
-            <button class="btn" type="submit" name="operation" value="/">÷</button>
-        </div>
-
-        <button class="btn" type="reset">Réinitialiser</button>
-    </form>
-        <?php
-        if ($result !== null) {
-            ?>
+    <?= $form ?>
+    <?php if ($resultBlock !== null) : ?>
         <div class="card parchment">
-            <?= htmlspecialchars((string)$result); ?>
+            <?= $resultBlock ?>
         </div>
-            <?php
-        }
-        ?>
+    <?php endif; ?>
 </div>
 
         <?php
         return ob_get_clean();
     }
 }
-?>

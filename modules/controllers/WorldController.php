@@ -26,7 +26,6 @@ class WorldController
                 elle apprendra qu'il y aurait quelque chose de plus grand que des symboles écrits sur son cahier..."
             ];
 
-            //$page = isset($_GET['page']) ? (int) $_GET['page'] : 1;
             $page = (int) $request->get('page', 1);
             $nombrePages = 3;
 
