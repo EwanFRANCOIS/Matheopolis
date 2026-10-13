@@ -23,9 +23,6 @@ class SignupController
      */
     public function execute(): void
     {
-
-        session_start();
-
         $error = null;
 
         if (isset($_POST['action']) && !empty($_POST['action'])) {
@@ -44,7 +41,6 @@ class SignupController
                         $signupModel = new SignupModel(DatabaseConnection::getInstance());
                         $signup = $signupModel->getSignup($_login, $Password);
                         $_SESSION['email'] = $_login;
-                        $_SESSION['password'] = $Password;
                         header('Location: index.php?success=true');
                         exit();
                         # Les | permettent juste de reunnir 3 catch en 1 seul pour eviter d'en avoir 3

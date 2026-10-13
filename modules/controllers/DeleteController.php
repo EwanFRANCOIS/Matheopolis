@@ -23,8 +23,6 @@ class DeleteController
      */
     public function execute(): void
     {
-
-        session_start();
         if (isset($_SESSION['email'])) {
             $error = null;
             $_login = $_SESSION['email'];
@@ -40,7 +38,6 @@ class DeleteController
 
                         if ($delete) {
                             $_SESSION['email'] = null;
-                            $_SESSION['password'] = null;
                             header('Location: index.php');
                         } else {
                             $error = 'Mot de passe incorrect';
