@@ -15,7 +15,7 @@ class ForgotPasswordView
      * @return void
      */
 
-    public function show($token = null, $messageError = null): void
+    public function show($token = null, $messageError = null): string
     {
         $mailSent = isset($_GET['mail']) && $_GET['mail'] === 'sent';
         ob_start();
@@ -60,7 +60,7 @@ class ForgotPasswordView
             <?php if ($token) : ?>
             <!-- Formulaire : Nouveau mdp -->
             <form action="index.php?action=forgot_pwd" method="post">
-                <input type="hidden" name="action_type" value="resetPassword">
+                <input type="hidden" name="action_type" value="reset_password">
                 <input type="hidden" name="token" value="<?= htmlspecialchars($token) ?>">
 
 
@@ -85,7 +85,7 @@ class ForgotPasswordView
         <?php endif; ?>
 
         <?php
-        (new \modules\views\Layout('Mot de passe oublié', ob_get_clean()))->show();
+       return ob_get_clean();
     }
 }
 ?>

@@ -1,49 +1,45 @@
 <?php
 
-require '_assets/includes/autoloader.php';
+require_once '_assets/includes/autoloader.php';
+
+use modules\core\Request;
+use modules\core\Response;
+
+session_start();
 
 try {
-    if (filter_input(INPUT_GET, 'action')) {
-        if ($_GET['action'] === 'login') {
-            (new \modules\controllers\LoginController())->execute();
-        }
 
-        else if ($_GET['action'] === 'signup') {
-            (new \modules\controllers\SignupController())->execute();
-        }
+    // On fabrique la requete global
+    $request = Request::fromGlobals();
 
-        else if ($_GET['action'] === 'account') {
-            (new \modules\controllers\AccountController())->execute();
-        }
+    // on recup l'action via la method get() dans l'url si ya pas d'action, on envois vers le homepage
+    $action = $request->get('action', 'home');
 
-        else if ($_GET['action'] === 'book') {
-            (new \modules\controllers\BookController())->execute();
-        }
+    $routes = [
+        'home' => \modules\controllers\HomepageController::class,
+        'login' => \modules\controllers\LoginController::class,
+        'signup' => \modules\controllers\SignupController::class,
+        'account' => \modules\controllers\AccountController::class,
+        'book' => \modules\controllers\BookController::class,
+        'world' => \modules\controllers\WorldController::class,
+        'activity' => \modules\controllers\ActivityController::class,
+        'forgot_pwd' => \modules\controllers\ForgotPasswordController::class,
+        'delete' => \modules\controllers\DeleteController::class,
+        'logout' => \modules\controllers\LogoutController::class,
+    ];
 
-        else if ($_GET['action'] === 'world') {
-            (new \modules\controllers\WorldController())->execute();
-        }
-
-        else if ($_GET['action'] === 'activity') {
-            (new \modules\controllers\ActivityController())->execute();
-        }
-
-        else if ($_GET['action'] === 'forgot_pwd') {
-            (new \modules\controllers\ForgotPasswordController())->execute();
-        }
-
-        else if ($_GET['action'] === 'delete') {
-            (new \modules\controllers\DeleteController())->execute();
-        }
-
-        else {
-            throw new Exception('La page que vous recherchez n\'existe pas');
-        }
+    if (!isset($routes[$action])) {
+        throw new Exception('La page que vous recherchez n\'existe pas');
     }
-    else {
-        (new \modules\controllers\HomepageController())->execute();
-    }
+
+    $controller = new $routes[$action]();
+    $response = $controller->execute($request);
 } catch (Exception $e) {
-    (new \modules\views\Error($e->getMessage()))->show();
+    $reponse = new Response(
+        content: '<h1>Erreur</h1><p>' . htmlspecialchars($e->getMessage()) . '</p>',
+        statusCode: 404
+    );
 }
+
+$reponse->send();
 ?>

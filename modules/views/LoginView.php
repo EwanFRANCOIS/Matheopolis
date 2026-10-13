@@ -17,7 +17,7 @@ class LoginView
      *
      * @return void
      */
-    public function show(?string $error = null): void
+    public function show(?string $error = null): string
     {
         ob_start();
         ?>
@@ -58,7 +58,7 @@ class LoginView
 </div>
 
         <?php
-        (new \modules\views\Layout('Connection', ob_get_clean()))->show();
+        return ob_get_clean();
     }
 }
 ?>

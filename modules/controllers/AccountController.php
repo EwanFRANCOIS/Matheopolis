@@ -2,10 +2,13 @@
 
 namespace modules\controllers;
 
+use modules\core\Response;
+
 class AccountController
 {
-    public function execute(): void
+    public function execute(): Response
     {
-        (new \modules\views\AccountView())->show();
+        $vue = (new \modules\views\AccountView())->show();
+        return (new Response(content: $vue));
     }
 }

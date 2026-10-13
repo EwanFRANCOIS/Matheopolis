@@ -4,7 +4,7 @@ namespace modules\views;
 
 class ActivityView
 {
-    public function show(string|float|null $result = null): void
+    public function show(string|float|null $result = null): string
     {
         ob_start();
         ?>
@@ -44,7 +44,7 @@ class ActivityView
 </div>
 
         <?php
-        (new \modules\views\Layout('activity', ob_get_clean()))->show();
+        return ob_get_clean();
     }
 }
 ?>

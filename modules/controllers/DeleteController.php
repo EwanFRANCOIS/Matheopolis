@@ -3,6 +3,8 @@
 namespace modules\controllers;
 
 use _assets\includes\DatabaseConnection;
+use modules\core\Response;
+use modules\core\Request;
 use modules\models\DeleteModel;
 
 /**
@@ -21,27 +23,23 @@ class DeleteController
      *
      * @return void
      */
-    public function execute(): void
+    public function execute(Request $request): Response
     {
-
-        session_start();
-        if (isset($_SESSION['email'])) {
+        if ($request->session('email') !== null) {
             $error = null;
-            $_login = $_SESSION['email'];
-
-            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-                $_action = filter_input(INPUT_POST, 'action');
+            $_login = $request->Session('email');
+            if ($request->method === 'POST') {
+                $_action = $request->post('action');
 
                 if ($_action === 'deleteUser') {
-                    $Password = filter_input(INPUT_POST, 'password');
+                    $Password = $request->post('password');
                     if ($Password) {
                         $deleteModel = new DeleteModel(DatabaseConnection::getInstance());
                         $delete = $deleteModel->getDelete($_login, $Password);
 
                         if ($delete) {
-                            $_SESSION['email'] = null;
-                            $_SESSION['password'] = null;
-                            header('Location: index.php');
+                            Request::destroySession();
+                            return Response::redirect('index.php');
                         } else {
                             $error = 'Mot de passe incorrect';
                         }
@@ -50,10 +48,10 @@ class DeleteController
                     }
                 }
             }
-            (new \modules\views\DeleteView())->show($error);
+            $vue = (new \modules\views\DeleteView())->show($error);
+            return new Response($vue);
         } else {
-            header('location: index.php?action=account');
-            exit();
+            return Response::redirect("index.php?action=account");
         }
     }
 }

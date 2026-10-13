@@ -4,7 +4,7 @@ namespace modules\views;
 
 class BookView
 {
-    public function show(): void
+    public function show(): string
     {
         ob_start();
         ?>
@@ -26,7 +26,7 @@ class BookView
 </div>
 
         <?php
-        (new \modules\views\Layout('book', ob_get_clean()))->show();
+        return ob_get_clean();
     }
 }
 

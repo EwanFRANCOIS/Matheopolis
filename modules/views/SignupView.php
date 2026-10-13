@@ -13,7 +13,7 @@ class SignupView
     * @param string|null $error Message d'erreur éventuel à afficher à l'utilisateur.
     * @return void
     */
-    public function show(?string $error = null): void
+    public function show(?string $error = null): string
     {
         ob_start();
         ?>
@@ -51,7 +51,7 @@ class SignupView
 </div>
 
         <?php
-        (new \modules\views\Layout('Inscription', ob_get_clean()))->show();
+        return ob_get_clean();
     }
 }
 

@@ -2,12 +2,14 @@
 
 namespace modules\controllers;
 
+use modules\core\Request;
+use modules\core\Response;
+
 class WorldController
 {
-    public function execute(): void
+    public function execute($request): Response
     {
-        session_start();
-        if (isset($_SESSION['email'])) {
+        if ($request->session('email') !== null) {
             $activites = [
                 "Voici l'introduction de Mathéopolis, une série de livres créées par l'association Maths pour tous avec
                 le soutien des Instituts de recherche sur l'enseignement des mathématiques de Lyon et Aix Marseille...",
@@ -19,13 +21,14 @@ class WorldController
                 elle apprendra qu'il y aurait quelque chose de plus grand que des symboles écrits sur son cahier..."
             ];
 
-            $page = isset($_GET['page']) ? (int) $_GET['page'] : 1;
+            //$page = isset($_GET['page']) ? (int) $_GET['page'] : 1;
+            $page = (int) $request->get('page', 1);
             $nombrePages = 3;
 
-            (new \modules\views\WorldView())->show($activites, $page, $nombrePages);
+            $vue = (new \modules\views\WorldView())->show($activites, $page, $nombrePages);
+            return new Response($vue);
         } else {
-            header('location: index.php?action=account');
-            exit();
+            return Response::redirect('index.php?action=login');
         }
     }
 }
