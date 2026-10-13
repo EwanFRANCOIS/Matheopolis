@@ -60,7 +60,7 @@ class ForgotPasswordView
             <?php if ($token) : ?>
             <!-- Formulaire : Nouveau mdp -->
             <form action="index.php?action=forgot_pwd" method="post">
-                <input type="hidden" name="action_type" value="resetPassword">
+                <input type="hidden" name="action_type" value="reset_password">
                 <input type="hidden" name="token" value="<?= htmlspecialchars($token) ?>">
 
 
