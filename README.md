@@ -1,2 +1,0 @@
-# Matheopolis
-Projet Matheopolis.
