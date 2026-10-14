@@ -28,7 +28,7 @@ class SignupView
         ]);
 
         $alert = $error !== null && $error !== '' ? new Alert([$error]) : new Alert([]);
-        $link = new Link('index.php?action=login', 'S\'inscrire');
+        $link = new Link('index.php?action=login', 'Se connecter');
 
         ob_start();
         ?>

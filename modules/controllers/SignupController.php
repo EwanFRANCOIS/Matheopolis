@@ -31,7 +31,7 @@ class SignupController
     public function execute(Request $request): Response
     {
         $error = null;
-        if (($request->post('action')) && !empty($request->post('action'))) {
+        if (!empty($request->post('action'))) {
             if ($request->method === 'POST') {
                 $_login = $request->post('email');
                 $Password = $request->post('password');
