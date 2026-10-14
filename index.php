@@ -7,6 +7,7 @@ use modules\core\Response;
 use modules\core\Router;
 use modules\core\View;
 
+
 session_start();
 
 try {
