@@ -6,9 +6,9 @@ class Response {
 
     // constructeur par defaut
     public function __construct(
-        private string $content = '',   // Le code HTML a affiché (ici vide par defaut du coup)
-        private int $statusCode = 200,  // 200 => OK 404 => Erreur page pas trouvé
-        private ?string $url = null    // Url de redirection eventuel
+        private string $content = '',
+        private int $statusCode = 200,
+        private array $headers = []
     ) {}
 
     // Redirection vers la page souhaitais qu'on va juste mettre en param lors de l'appel
@@ -16,18 +16,21 @@ class Response {
         return new self(
             content: '',
             statusCode: 302,
-            url: $url
+            headers: ['Location' => $url]
         );
     }
 
     public function send(): void {
-        if ($this->url) {
-            header('Location: ' . $this->url);
-            exit();
+        http_response_code($this->statusCode);
+        foreach ($this->headers as $name => $value) {
+            header($name . ': ' . $value);
         }
 
-        http_response_code($this->statusCode);
         echo $this->content;
+
+        if (isset($this->headers['Location'])) {
+            exit();
+        }
     }
 }
 

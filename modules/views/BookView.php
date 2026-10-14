@@ -2,10 +2,18 @@
 
 namespace modules\views;
 
+use modules\views\components\Link;
+use modules\views\components\Paragraph;
+
 class BookView
 {
     public function show(): string
     {
+        $text = new Paragraph([
+            'Si vous souhaitez acheter les livres pour suivre l\'histoire et l\'aventure de Laurence Guerney, vous pouvez acheter les livres. sur le site officiel de Matheopolis en cliquant sur le lien ci-dessous.'
+        ]);
+        $link = new Link('https://www.matheopolis.org/les-livres', 'Lien vers les livres');
+
         ob_start();
         ?>
 
@@ -14,20 +22,12 @@ class BookView
 </header>
 
 <div class="card">
-    <p>
-        Si vous souhaitez acheter les livres pour suivre l'histoire et l'aventure de 
-        Laurence Guerney, vous pouvez acheter les livres.
-        sur le site officiel de Matheopolis en cliquant sur le lien ci-dessous.
-    </p>
-
+    <?= $text ?>
     <br>
-
-    <a href="https://www.matheopolis.org/les-livres">Lien vers les livres</a>
+    <?= $link ?>
 </div>
 
         <?php
         return ob_get_clean();
     }
 }
-
-?>

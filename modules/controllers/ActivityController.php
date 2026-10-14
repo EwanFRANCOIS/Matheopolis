@@ -2,11 +2,17 @@
 
 namespace modules\controllers;
 
+use modules\core\Request;
 use modules\core\Response;
+use modules\core\View;
 
 class ActivityController
 {
-    public function execute($request): Response
+    public function __construct(private readonly View $view)
+    {
+    }
+
+    public function execute(Request $request): Response
     {
         if ($request->session('email') !== null) {
                 $op = 0;
@@ -31,7 +37,7 @@ class ActivityController
             }
                 $result = $op;
             $vue = (new \modules\views\ActivityView())->show($result);
-            return new Response($vue);
+            return $this->view->render('Activités', $vue);
         } else {
             return Response::redirect("index.php?action=login");
         }

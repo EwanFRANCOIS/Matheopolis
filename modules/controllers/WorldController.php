@@ -4,10 +4,15 @@ namespace modules\controllers;
 
 use modules\core\Request;
 use modules\core\Response;
+use modules\core\View;
 
 class WorldController
 {
-    public function execute($request): Response
+    public function __construct(private readonly View $view)
+    {
+    }
+
+    public function execute(Request $request): Response
     {
         if ($request->session('email') !== null) {
             $activites = [
@@ -21,12 +26,11 @@ class WorldController
                 elle apprendra qu'il y aurait quelque chose de plus grand que des symboles écrits sur son cahier..."
             ];
 
-            //$page = isset($_GET['page']) ? (int) $_GET['page'] : 1;
             $page = (int) $request->get('page', 1);
             $nombrePages = 3;
 
             $vue = (new \modules\views\WorldView())->show($activites, $page, $nombrePages);
-            return new Response($vue);
+            return $this->view->render('L\'univers', $vue);
         } else {
             return Response::redirect('index.php?action=login');
         }

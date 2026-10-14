@@ -14,10 +14,10 @@ class Request {
 
     public static function fromGlobals(): self {
         return new self(
-          $_SERVER['REQUEST_METHOD'],   // recup $_GET et $_POST
-          parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH),    // nettoie l'URL pour garder seulement le chemin
-          $_GET,    // recup les param du $_GET
-          $_POST,   // pareil mais pour $_POST
+                    $_SERVER['REQUEST_METHOD'] ?? 'GET',
+                    parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH) ?: '/',
+                    $_GET,
+                    $_POST,
         );
     }
 
@@ -29,15 +29,15 @@ class Request {
         return $this->post[$key] ?? $default;
     }
 
-    public static function session(string $key, $default = null): array {
+    public function session(string $key, mixed $default = null): mixed {
         return $_SESSION[$key] ?? $default;
     }
 
-    public static function setSession(string $key, $value): void {
+    public function setSession(string $key, mixed $value): void {
         $_SESSION[$key] = $value;
     }
 
-    public static function destroySession(): void {
+    public function destroySession(): void {
         if (session_status() === PHP_SESSION_ACTIVE) {
             session_unset();
             session_destroy();

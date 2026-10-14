@@ -15,9 +15,8 @@ class ForgotPasswordView
      * @return void
      */
 
-    public function show($token = null, $messageError = null): string
+    public function show($token = null, $messageError = null, bool $mailSent = false): string
     {
-        $mailSent = isset($_GET['mail']) && $_GET['mail'] === 'sent';
         ob_start();
         ?>
 

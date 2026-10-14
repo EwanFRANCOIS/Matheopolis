@@ -5,6 +5,7 @@ namespace modules\controllers;
 use _assets\includes\DatabaseConnection;
 use modules\core\Request;
 use modules\core\Response;
+use modules\core\View;
 use modules\models\ForgotPasswordModel;
 use modules\views\ForgotPasswordView;
 
@@ -13,6 +14,10 @@ use modules\views\ForgotPasswordView;
  */
 class ForgotPasswordController
 {
+    public function __construct(private readonly View $view)
+    {
+    }
+
     /**
      * Exécute le traitement des requêtes GET et POST pour la réinitialisation du mot de passe.
      *
@@ -92,7 +97,8 @@ class ForgotPasswordController
 
 
         //Appel de vue
-        $vue = (new ForgotPasswordView())->show($token, $messageError);
-        return new Response($vue);
+        $mailSent = $request->get('mail') === 'sent';
+        $vue = (new ForgotPasswordView())->show($token, $messageError, $mailSent);
+        return $this->view->render('Mot de passe oublié', $vue);
     }
 }

@@ -2,10 +2,19 @@
 
 namespace modules\views;
 
+use modules\views\components\Link;
+use modules\views\components\Paragraph;
+
 class AccountView
 {
     public function show(): string
     {
+        $free = new Paragraph(['Vous ne possédez pas de compte, créez en un :']);
+        $signup = new Link('index.php?action=signup', 'Inscrivez-vous');
+
+        $already = new Paragraph(['Vous avez déjà un compte, connectez vous :']);
+        $login = new Link('index.php?action=login', 'Connectez-vous');
+
         ob_start();
         ?>
 
@@ -14,28 +23,16 @@ class AccountView
 </header>
 
 <div class="card">
-    <p>
-    Vous ne possédez pas de compte, créez en un :
-    </p>
-                
-    <a href="index.php?action=signup">
-        Inscrivez-vous
-    </a>
+    <?= $free ?>
+    <?= $signup ?>
 </div>
 
-
 <div class="card">
-    <p>
-    Vous avez déjà un compte, connectez vous :
-    </p>
-
-    <a href="index.php?action=login">
-        Connectez-vous 
-    </a>
+    <?= $already ?>
+    <?= $login ?>
 </div>
 
         <?php
         return ob_get_clean();
     }
 }
-?>

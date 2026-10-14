@@ -2,23 +2,38 @@
 
 namespace modules\views;
 
-/**
- * Vue de la page de connexion.
- *
- * Génère le formulaire HTML de connexion et gère l'affichage
- * des messages d'erreur.
- */
+use modules\views\components\Alert;
+use modules\views\components\Button;
+use modules\views\components\Form;
+use modules\views\components\Input;
+use modules\views\components\Link;
+use modules\views\components\Paragraph;
+
 class LoginView
 {
-    /**
-     * Affiche le formulaire de connexion.
-     *
-     * @param string|null $error Message d'erreur éventuel à afficher à l'utilisateur.
-     *
-     * @return void
-     */
     public function show(?string $error = null): string
     {
+        $info = new Paragraph([
+            'Vous avez déjà vendu votre âme ? Connectez vous pour accéder à l\'ensemble du site.'
+        ]);
+
+        $form = new Form('index.php?action=login', [
+            new Input('email', 'Votre adresse email :', 'email', 'exemple@domaine.fr', '', true),
+            new Input('password', 'Votre Mot de Passe :', 'password', 'Mot de passe', '', true),
+            new Paragraph([
+                new Button('Envoyer', 'submit', 'action', 'logUser'),
+                new Button('Réinitialiser', 'reset'),
+            ]),
+        ]);
+
+        $alert = $error !== null && $error !== '' ? new Alert([$error]) : new Alert([]);
+        $linkForgot = new Paragraph([
+            new Link('index.php?action=forgot_pwd', 'Mot de passe oublié ?')
+        ]);
+        $linkSignup = new Paragraph([
+            new Link('index.php?action=signup', 'Se connecter')
+        ]);
+
         ob_start();
         ?>
 
@@ -27,38 +42,17 @@ class LoginView
 </header>
 
 <div class="card">
-    <div>
-        <p>
-        Vous avez déjà vendu votre âme ? Connectez vous pour accéder à l'ensemble du site.
-        </p>
-    </div>
+    <?= $info ?>
 </div>
 
 <div class="form-area">
-    <form action="index.php?action=login" method="post">
-        <label for="email">Votre adresse email :</label>
-        <input type="email" id="email" name="email" placeholder="exemple@domaine.fr" class="input" required >
-        <label for="password">Votre Mot de Passe :</label>
-        <input type="password" id="password" name="password" placeholder="Mot de passe" class="input" required >
-
-        <div>
-            <button type="submit" name="action" value="logUser" class="btn">Envoyer</button>
-            <button type="reset" class="btn">Réinitialiser</button>
-        </div>
-    </form>
-
-        <?php
-        if ($error) {
-            echo htmlspecialchars($error);
-        }
-        ?>
-            
-    <a href="index.php?action=forgot_pwd">Mot de passe oublié ?</a>
-    <br><a href="index.php?action=signup">Se connecter</a>
+    <?= $form ?>
+    <?= $alert ?>
+    <?= $linkForgot ?>
+    <?= $linkSignup ?>
 </div>
 
         <?php
         return ob_get_clean();
     }
 }
-?>

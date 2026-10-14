@@ -7,9 +7,9 @@ use modules\core\Response;
 
 class LogoutController
 {
-    public function execute(): Response
+    public function execute(Request $request): Response
     {
-        Request::destroySession();
+        $request->destroySession();
 
         return Response::redirect('index.php?action=home');
     }
