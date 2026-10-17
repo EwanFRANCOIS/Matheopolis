@@ -26,7 +26,7 @@ class TeacherController {
             On recup les donnees mise dans le formulaire creee dans la vue TeacherView (ou un truc du genre)
             et apres on fait la creation du compte dans la table
             */
-            $vue = (new \modules\views\TeacherPageView())->show();
+            $vue = (new \modules\views\TeacherProfileView())->show();
             return $this->view->render('teacher', $vue); // Bon en soit faudrat voir le nom mais pour le moment dans ce truc de mrd je met Teacher
         }
     }
