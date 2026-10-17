@@ -18,8 +18,10 @@ class StoryView
             <br>
             <button type="button" id="next-story-btn" class="btn">Continuer</button>
         </div>
+        <script src="_assets/includes/scripts/story.js"></script>
         <?php
         return ob_get_clean();
+        
     }
 }
 
