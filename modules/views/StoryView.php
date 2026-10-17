@@ -16,7 +16,7 @@ class StoryView
             <!-- balise vide pour les caractères -->
             <p id="story-text"></p>
             <br>
-            <button type="button" id="next-story-btn">Continuer</button>
+            <button type="button" id="next-story-btn" class="btn">Continuer</button>
         </div>
         <?php
         return ob_get_clean();
