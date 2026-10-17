@@ -35,7 +35,7 @@ class LoginModel
     {
 
         $statement = $this->connection->getConnection()->prepare(
-            'SELECT id, email, password FROM users WHERE email = :login LIMIT 1;'
+            'SELECT id, email, password, role FROM users WHERE email = :login LIMIT 1;'
         );
 
         if (!$statement->execute([':login' => $_login])) {

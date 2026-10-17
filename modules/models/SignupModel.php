@@ -39,7 +39,7 @@ class SignupModel
     {
         $passwordHash = password_hash($Password, PASSWORD_DEFAULT);
         $statement = $this->connection->getConnection()->prepare(
-            "INSERT INTO users (email, password, reset_code, expiration_date, role) VALUES (:login, :password, NULL, NULL, 'enseignant');"
+            "INSERT INTO users (email, password, reset_code, expiration_date) VALUES (:login, :password, NULL, NULL);"
         );
         if (!$statement->execute([':login' => $_login, ':password' => $passwordHash])) {
             throw new ExceptionDatabaseController('Le mot de passe ou le login est incorrect');
