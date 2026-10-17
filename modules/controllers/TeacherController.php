@@ -27,7 +27,7 @@ class TeacherController {
             et apres on fait la creation du compte dans la table
             */
             $vue = (new \modules\views\TeacherPageView())->show();
-            return $this->view->render('Teacher', $vue); // Bon en soit faudrat voir le nom mais pour le moment dans ce truc de mrd je met Teacher
+            return $this->view->render('teacher', $vue); // Bon en soit faudrat voir le nom mais pour le moment dans ce truc de mrd je met Teacher
         }
     }
 }
