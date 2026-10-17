@@ -52,4 +52,26 @@ class ClassModel{
         //Permet de dire en gros "Transforme chaque ligne renvoyé par curseur (fetch) en tableau associatif"
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    /**
+    * Permet à l'enseignant de créer directement un compte élève rattaché à sa classe.
+    * @param int $teacherId Identifiant associé au professeur
+    * @param string $pseudo Pseudonyme de l'élève
+    * @param string $password Mot de passe de l'élève
+    * @param string $codeClasse Code pour rejoindre la classe
+
+    */
+        
+    public function createStudent(int $teacherId, string $pseudo, string $password, string $codeClasse): bool
+    {
+        $sql = "INSERT INTO users (pseudo, password, role, prof_id, code_classe) VALUES (:pseudo, :password, 'eleve', :prof_id, :code_classe)";
+        $statement = $this->connection->getConnection()->prepare($sql);
+
+        return $statement->execute([
+            ':pseudo' => $pseudo,
+            ':password' => password_hash($password, PASSWORD_DEFAULT),
+            ':prof_id' => $teacherId,
+            ':code_classe' => $codeClasse
+        ]);
+    }
 }

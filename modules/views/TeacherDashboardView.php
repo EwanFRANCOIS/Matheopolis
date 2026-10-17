@@ -18,14 +18,20 @@ class TeacherDashboardView
      * @param array $students Tableau associatif contenant la liste des élèves inscrits
      * @return string Le code HTML généré
      */
-    public function show(?string $codeClasse = null, array $students = []): string
+    public function show(?string $codeClasse = null, array $students = [], ?string $error = null): string
     {
+        // Création de message d'erreur en cas de probleme
+        $messages = [];
+        if ($error) {
+            $messages[] = $error;
+        }
        // Création d'alerte pour afficher code d'invitation (ou un message si pas la)
         $codeMessage = $codeClasse 
             ? "Votre code d'invitation de classe à partager à vos élèves : " . $codeClasse 
             : "Vous n'avez pas encore généré de code pour votre classe.";
 
         $alertCode = new Alert([$codeMessage]);
+        $alertError = new Alert($messages);
 
         // Formulaire qui génère (ou regénère) un code de classe
         $buttonLabel = $codeClasse 
@@ -41,6 +47,7 @@ class TeacherDashboardView
     <header>
         <h1>Tableau de bord : Gestion des Classes</h1>
     </header>
+    <?= $alertError ?>
 
     <div class="card">
             <?= $alertCode ?>
@@ -49,6 +56,28 @@ class TeacherDashboardView
     <div class="form-area" style="margin-top: 20px;">
         <?= $form ?>
     </div>
+
+    <!-- création de compte pour élève-->
+    <?php if ($codeClasse) : ?>
+        <div class="form-area" style="margin-top: 30px; background: #f9f9f9; padding: 15px; border-radius: 5px;">
+            <h3>Créer un compte pour un élève</h3>
+            <form action="index.php?action=teacher" method="post">
+                <input type="hidden" name="action_type" value="create_student">
+                
+                <div style="margin-bottom: 10px;">
+                    <label for="pseudo">Pseudo de l'élève :</label><br>
+                    <input type="text" id="pseudo" name="pseudo" required style="padding: 5px; width: 100%;">
+                </div>
+
+                <div style="margin-bottom: 10px;">
+                    <label for="password">Mot de passe temporaire :</label><br>
+                    <input type="password" id="password" name="password" required style="padding: 5px; width: 100%;">
+                </div>
+
+                <button type="submit" class="btn">Créer l'élève</button>
+            </form>
+        </div>
+        <?php endif; ?>
 
     <div class="students-section" style="margin-top: 30px;">
         <h3>Liste de vos élèves inscrits :</h3>
