@@ -42,7 +42,7 @@ class HomepageView
     <?= $intro ?>
     </div>
 
-    <div class="card">
+    <div class="card notebook">
         <h2>Objectif</h2>
         <?= $info ?>
     </div>

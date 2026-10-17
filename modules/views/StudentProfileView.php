@@ -13,15 +13,29 @@ class StudentProfileView
             'Bienvenue sur votre profil élève'
         ]);
 
+        $form = new Form('index.php?action=joinClass', [
+            new Input('classCode', 'Code d\'une classe :', 'text', 'XXXXXX', '', true),
+            new Button('Rejoindre', 'submit'),
+        ]);
+
         ob_start();
         ?>
 
 <header>
-    <h1>Profil de l'élève</h1>
+    <span class="small">VOUS VOICI SUR</span>
+    <h1>Votre Profil élève</h1>
 </header>
 
 <div class="card">
     <?= $info ?>
+</div>
+
+<div class="card notebook">
+        <span class="small">CARNET D'APPRENTISSAGE</span>
+        <div>
+            <h2>Code d'une classe :</h2>
+            <?= $form ?>
+        </div>
 </div>
 
         <?php
