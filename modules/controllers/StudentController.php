@@ -24,7 +24,7 @@ class StudentController {
             /*
             Tout les tests etc...
             */
-            $vue = (new \modules\views\StudentPageView())->show();
+            $vue = (new \modules\views\StudentProfileView())->show();
             return $this->view->render('student', $vue); // Bon en soit faudrat voir le nom mais pour le moment dans ce truc de mrd je met Teacher
         }
     }
