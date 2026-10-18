@@ -19,6 +19,13 @@ class TeacherProfileView
             new Button('Créer une classe', 'submit'),
         ]);
 
+        $deleteInfo = new Paragraph([
+            'Si vous supprimez votre profil, toutes vos données seront définitivement perdues.'
+        ]);
+        $deleteForm = new Form('index.php?action=delete', [
+            new Button('Supprimer mon profil', 'submit', 'action', 'delete', 'red'),
+        ]);
+
         ob_start();
         ?>
 
@@ -36,6 +43,12 @@ class TeacherProfileView
     <h2>Creer une nouvelle Classe</h2>
 
     <?= $form ?>
+</div>
+
+<div class="card parchment">
+    <h2>Voulez-vous supprimer votre profil ?</h2>
+    <?= $deleteInfo ?>
+    <?= $deleteForm ?>
 </div>
 
         <?php
