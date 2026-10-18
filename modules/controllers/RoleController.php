@@ -30,7 +30,7 @@ class RoleController {
         // Sinon si le role est anonyme on fait la vue anonyme
         else {
             // On affiche la page anonyme
-            $vue = (new \modules\views\UnknowProfileView())->show();
+            $vue = (new \modules\views\UnknownProfileView())->show();
             return $this->view->render('unknow', $vue);
         }
     }
