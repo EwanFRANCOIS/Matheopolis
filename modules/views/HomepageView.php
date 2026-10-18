@@ -4,6 +4,8 @@ namespace modules\views;
 
 /* Toujours en premier */
 
+use modules\views\components\Paragraph;
+
 class HomepageView
 {
     public function show(): string
