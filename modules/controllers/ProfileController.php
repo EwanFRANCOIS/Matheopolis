@@ -11,7 +11,7 @@ use includes\ExceptionDatabaseController;
 use PDOException;
 use Exception;
 
-class RoleController {
+class ProfileController {
     public function __construct(private readonly View $view) {}
 
     public function execute(Request $request): Response {
