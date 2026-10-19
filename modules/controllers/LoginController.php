@@ -54,7 +54,7 @@ class LoginController
                         $request->setSession('role', $connection->role);
                         return Response::redirect('index.php');
                     } else {
-                        $error = 'Email, username ou mot de passe incorrect';
+                        $error = 'Email, pseudo ou mot de passe incorrect';
                     }
                 }
             }

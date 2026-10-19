@@ -41,13 +41,11 @@ class LoginModel
         );
 
         if (!$statement->execute([':login' => $_login])) {
-            //throw new Exception('Le login est incorrect');
             return null;
         }
 
         $connection = $statement->fetch(PDO::FETCH_OBJ);
         if (!$connection || !password_verify($Password, $connection->password)) {
-            //throw new Exception('Le mot de passe est incorrect');
             return null;
         }
 
