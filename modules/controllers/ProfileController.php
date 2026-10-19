@@ -6,12 +6,13 @@ use _assets\includes\DatabaseConnection;
 use modules\core\Response;
 use modules\core\Request;
 use modules\core\View;
+use modules\models\ClassModel;
 use modules\models\SignupModel;
 use includes\ExceptionDatabaseController;
 use PDOException;
 use Exception;
 
-class RoleController {
+class ProfileController {
     public function __construct(private readonly View $view) {}
 
     public function execute(Request $request): Response {
@@ -24,6 +25,16 @@ class RoleController {
 
             for ($i = 0; $i < 9; $i++) {
                 $codeClasse .= $character[rand(0, $characterLen - 1)];
+            }
+
+            try {
+                $ClassModel = new ClassModel(DatabaseConnection::getInstance());
+                $teacherId = $ClassModel->getTeacherId();
+                $UpdateCode = $ClassModel->updateTeacherClassCode($teacherId, $codeClasse);
+                $request->setSession('codeClasse', $codeClasse);
+                return Response::redirect('index.php?page=TeacherDashboard');
+            } catch (ExceptionDatabaseController | PDOException | Exception $e) {
+                $error = 'Error : Code class cannot be created';
             }
 
             // On affiche la page de l'enseignant
