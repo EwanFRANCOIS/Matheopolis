@@ -31,7 +31,7 @@ class RoleController {
         else {
             // On affiche la page anonyme
             $vue = (new \modules\views\UnknownProfileView())->show();
-            return $this->view->render('unknow', $vue);
+            return $this->view->render('unknown', $vue);
         }
     }
 }
