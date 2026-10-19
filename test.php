@@ -5,6 +5,7 @@ require_once __DIR__ . '/modules/views/StoryView.php';
 
 // Utilisation du namespace
 use modules\views\StoryView;
+use modules\views\components\Typewriter;
 
 // Instanciation et affichage du contenu retourné par la méthode show()
 $view = new StoryView();
