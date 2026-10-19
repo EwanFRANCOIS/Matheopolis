@@ -2,6 +2,8 @@
 
 namespace modules\views;
 
+use modules\views\components\Typewriter;
+
 class StoryView
 {
     public function show(): string
@@ -21,7 +23,5 @@ class StoryView
         <script src="_assets/includes/scripts/story.js"></script>
         <?php
         return ob_get_clean();
-        
     }
 }
-
