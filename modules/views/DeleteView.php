@@ -18,7 +18,7 @@ class DeleteView
 
         $form = new Form('index.php?action=delete', [
             new Input('password', 'Votre Mot de Passe :', 'password', 'Mot de passe', '', true),
-            new Button('Envoyer', 'submit', 'action', 'deleteUser'),
+            new Button('Envoyer', 'submit', 'action', 'deleteUser', 'red'),
         ]);
 
         $alert = $error !== null && $error !== '' ? new Alert([$error]) : new Alert([]);

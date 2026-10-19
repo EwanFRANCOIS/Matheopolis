@@ -44,8 +44,10 @@ class LoginController
                     $connectionModel = new LoginModel(DatabaseConnection::getInstance());
                     $connection = $connectionModel->getConnection($_login, $_password);
 
-                    if (!empty($connection)) {
-                        $request->setSession('email', $_login);
+                    if ($connection !== null) {
+                        session_regenerate_id(true);
+                        $request->setSession('email', $connection->email);
+                        $request->setSession('role', $connection->role);
                         return Response::redirect('index.php');
                     } else {
                         $error = 'Email ou mot de passe incorrect';

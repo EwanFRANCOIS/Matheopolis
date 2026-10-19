@@ -11,4 +11,5 @@ return [
     'forgot_pwd' => \modules\controllers\ForgotPasswordController::class,
     'delete' => \modules\controllers\DeleteController::class,
     'logout' => \modules\controllers\LogoutController::class,
+    'role' => \modules\controllers\StudentController::class
 ];
