@@ -29,7 +29,7 @@ class ProfileController {
 
             try {
                 $ClassModel = new ClassModel(DatabaseConnection::getInstance());
-                $teacherId = $ClassModel->getTeacherId();
+                $teacherId = $request->session('teacherId');
                 $UpdateCode = $ClassModel->updateTeacherClassCode($teacherId, $codeClasse);
                 $request->setSession('codeClasse', $codeClasse);
                 return Response::redirect('index.php?page=TeacherDashboard');
