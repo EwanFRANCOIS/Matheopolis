@@ -209,6 +209,7 @@ h2 {
 }
 
 .btn {
+    font-size: 15px;
     display: inline-block;
     background: none;
     border: 1px solid var(--gold);
@@ -222,6 +223,15 @@ h2 {
 .btn:hover {
     background: var(--gold);
     color: var(--bg);
+}
+
+.btn.red {
+    background: var(--red-parchment);
+    color: var(--font-light);
+}
+.btn.red:hover {
+    background: var(--font-light);
+    color: var(--red-parchment);
 }
 
 footer {

@@ -8,16 +8,21 @@ final class Button extends Component
         private readonly string $label,
         private readonly string $type = 'submit',
         private readonly ?string $name = null,
-        private readonly ?string $value = null
+        private readonly ?string $value = null,
+        private readonly ?string $class = null
     ) {
     }
 
     public function render(): string
     {
-        $html = '<button type="' . $this->e($this->type) . '" class="btn"';
+        $html = '<button type="' . $this->e($this->type) . '" class="btn';
+        
+        if ($this->class !== null) {
+            $html .= ' ' . $this->e($this->class);
+        }
 
         if ($this->name !== null) {
-            $html .= ' name="' . $this->e($this->name) . '"';
+            $html .= '" name="' . $this->e($this->name) . '"';
         }
 
         if ($this->value !== null) {
