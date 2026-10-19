@@ -3,8 +3,12 @@
 namespace modules\views;
 
 use modules\views\components\Paragraph;
+use modules\views\components\Form;
+use modules\views\components\Input;
+use modules\views\components\Select;
+use modules\views\components\Button;
 
-class UnknownProfileView
+class ProfileView
 {
     public function show(?string $role, ?string $error = null): string
     {

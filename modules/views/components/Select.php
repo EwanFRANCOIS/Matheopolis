@@ -5,6 +5,8 @@ namespace modules\views\components;
 final class Select extends Component
 {
     public function __construct(
+        private readonly string $name,
+        private readonly string $label,
         private readonly array $children
     ) {
     }
