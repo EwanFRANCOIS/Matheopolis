@@ -14,7 +14,7 @@ class ActivityController
 
     public function execute(Request $request): Response
     {
-        if ($request->session('email') !== null) {
+        if ($request->session('email') !== null || $request->session('username') !== null) {
                 $op = 0;
 
             if ($request->post('operation')) {

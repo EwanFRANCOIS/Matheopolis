@@ -37,27 +37,28 @@ class LoginController
             $_action = $request->post('action');
 
             if ($_action === 'logUser') {
-                $_login = $request->post('email');
+                $_login = trim((string)$request->post('login'));
                 $_password = $request->post('password');
 
-                if ($_login && $_password) {
+                if (empty($_login) || empty($_password)) {
+                    $error = 'Veuillez remplir tout les champs';
+                } else {
+                    $isEmail = filter_var($_login, FILTER_VALIDATE_EMAIL) !== false;
                     $connectionModel = new LoginModel(DatabaseConnection::getInstance());
-                    $connection = $connectionModel->getConnection($_login, $_password);
+                    $connection = $connectionModel->getConnection($_login, $_password, $isEmail);
 
                     if ($connection !== null) {
                         session_regenerate_id(true);
                         $request->setSession('email', $connection->email);
+                        $request->setSession('username', $connection->username);
                         $request->setSession('role', $connection->role);
                         return Response::redirect('index.php');
                     } else {
-                        $error = 'Email ou mot de passe incorrect';
+                        $error = 'Email, username ou mot de passe incorrect';
                     }
-                } else {
-                    $error = 'Veuillez remplir tous les champs';
                 }
             }
         }
-
         $vue = (new \modules\views\LoginView())->show($error);
         return $this->view->render('Connexion', $vue);
     }
