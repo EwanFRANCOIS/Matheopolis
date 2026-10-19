@@ -9,12 +9,12 @@ class StoryView
         ob_start();
         ?>
         <header>
-            <h1>Bienvenue, plongez au coeur de l'histoire de Matheopolis !</h1>
+            <h1>Bienvenue, plongez au coeur de Matheopolis !</h1>
         </header>
 
         <div class="card">
-            <!-- balise vide pour les caractères -->
-            <p id="story-text"></p>
+            <!-- balise de test pour l'animation -->
+            <?= (new Typewriter("Bienvenue sur Matheopolis !", 40))->render(); ?>
             <br>
             <button type="button" id="next-story-btn" class="btn">Continuer</button>
         </div>
