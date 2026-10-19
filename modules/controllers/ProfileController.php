@@ -17,8 +17,17 @@ class RoleController {
     public function execute(Request $request): Response {
         // On check si le role est enseignant
         if ($request->session('role') === 'enseignant') {
+            // On genere le code class qui sera aleatoire et securise
+            $character = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            $characterLen = strlen($character);
+            $codeClasse = '';
+
+            for ($i = 0; $i < 9; $i++) {
+                $codeClasse .= $character[rand(0, $characterLen - 1)];
+            }
+
             // On affiche la page de l'enseignant
-            $vue = (new \modules\views\TeacherProfileView())->show();
+            $vue = (new \modules\views\TeacherProfileView())->show($codeClasse);
             return $this->view->render('teacher', $vue);
         }
         // Si c'est pas un prof alors on check si c'est un eleve
