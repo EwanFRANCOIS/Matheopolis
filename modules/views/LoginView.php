@@ -31,7 +31,7 @@ class LoginView
             new Link('index.php?action=forgot_pwd', 'Mot de passe oublié ?')
         ]);
         $linkSignup = new Paragraph([
-            new Link('index.php?action=signup', 's\'inscrire')
+            new Link('index.php?action=signup', 'S\'inscrire')
         ]);
 
         ob_start();

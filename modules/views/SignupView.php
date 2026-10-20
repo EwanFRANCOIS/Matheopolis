@@ -21,14 +21,19 @@ class SignupView
             new Input('email', 'Votre adresse email :', 'email', 'exemple@domaine.fr', '', true),
             new Input('password', 'Votre Mot de Passe :', 'password', 'Mot de passe', '', true),
             new Input('verif', 'Vérification de votre Mot de Passe :', 'password', 'Verification', '', true),
+            new Input('type', 'Je suis Enseignant :', 'checkbox', '', '', false, 'checkbox'),
             new Paragraph([
                 new Button('Envoyer', 'submit', 'action', 'inscription'),
                 new Button('Réinitialiser', 'reset'),
             ]),
         ]);
 
+        $infoStudent = new Paragraph([
+            'Vous pouvez rejoindre une classe existante en utilisant le code de la classe fourni par votre enseignant.'
+        ]);
+
         $alert = $error !== null && $error !== '' ? new Alert([$error]) : new Alert([]);
-        $link = new Link('index.php?action=login', 'S\'inscrire');
+        $link = new Link('index.php?action=login', 'Se connecter');
 
         ob_start();
         ?>
@@ -45,6 +50,11 @@ class SignupView
     <?= $form ?>
     <?= $alert ?>
     <?= $link ?>
+</div>
+
+<div class="card">
+    <h2>Vous êtes un étudiant ?</h2>
+    <?= $infoStudent ?>
 </div>
 
         <?php
