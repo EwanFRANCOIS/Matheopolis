@@ -27,7 +27,7 @@ class StoryView
             <form method="GET" action="index.php">
                 <input type="hidden" name="action" value="activity">
                 <input type="hidden" name="step" value="game">
-                <?= (new \modules\views\components\Button('Continuer'))->render(); ?>
+                <?= (new Button('Continuer'))->render(); ?>
             </form>
 
         </div>

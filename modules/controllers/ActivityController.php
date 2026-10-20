@@ -16,13 +16,20 @@ class ActivityController
 
     public function execute(Request $request): Response
     {
-        if ($request->session('email') !== null) {
-                $op = 0;
+        if ($request->session('email') === null) {
+            return Response::redirect("index.php?action=login");
+        }
 
-            if ($request->post('operation')) {
-                $action = $request->post('operation');
-                $op1 = (float) $request->post('op1');
-                $op2 = (float) $request->post('op2');
+        if (!$request->post('operation') && $request->get('step') !== 'game') {
+            $storyVue = (new StoryView())->show();
+            return $this->view->render('Introduction - Activités', $storyVue);
+        }
+
+        $op = 0;
+        if ($request->post('operation')) {
+            $action = $request->post('operation');
+            $op1 = (float) $request->post('op1');
+            $op2 = (float) $request->post('op2');
 
             if ($action === '+') {
                 $op = $op1 + $op2;
