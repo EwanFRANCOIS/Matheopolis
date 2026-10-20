@@ -22,7 +22,12 @@ final class Input extends Component
         $placeholder = $this->e($this->placeholder);
         $value = $this->e($this->value);
 
-        $html = '<div class="field"><label for="' . $name . '">' . $label . '</label>';
+
+        $html = '<div';
+        if ($this->type === 'checkbox') {
+            $html .= ' class="checkbox-container"';
+        }
+        $html .= '><label for="' . $name . '">' . $label . '</label>';
         $html .= '<input type="' . $type . '" id="' . $name . '" name="' . $name . '"';
 
         if ($this->placeholder !== '') {

@@ -14,7 +14,7 @@ class BookController
 
     public function execute(Request $request): Response
     {
-        if ($request->session('email') !== null) {
+        if ($request->session('email') !== null || $request->session('username') !== null) {
             $vue = (new \modules\views\BookView())->show();
             return $this->view->render('Les livres', $vue);
         } else {

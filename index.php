@@ -16,7 +16,7 @@ try {
     $request = Request::fromGlobals();
 
     $routes = require __DIR__ . '/config/routes.php';
-    $view = new View($request->session('email'));
+    $view = new View($request->session('email') ?? $request->session('username'));
     $factories = [];
     foreach ($routes as $classe) {
         $factories[$classe] = fn() => new $classe($view);

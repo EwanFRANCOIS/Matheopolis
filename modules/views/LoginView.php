@@ -18,7 +18,7 @@ class LoginView
         ]);
 
         $form = new Form('index.php?action=login', [
-            new Input('email', 'Votre adresse email :', 'email', 'exemple@domaine.fr', '', true),
+            new Input('login', 'Votre adresse email / Pseudonyme élève :', 'text', 'exemple@domaine.fr / Pseudo', '', true),
             new Input('password', 'Votre Mot de Passe :', 'password', 'Mot de passe', '', true),
             new Paragraph([
                 new Button('Envoyer', 'submit', 'action', 'logUser'),
@@ -31,7 +31,7 @@ class LoginView
             new Link('index.php?action=forgot_pwd', 'Mot de passe oublié ?')
         ]);
         $linkSignup = new Paragraph([
-            new Link('index.php?action=signup', 'Se connecter')
+            new Link('index.php?action=signup', 'S\'inscrire')
         ]);
 
         ob_start();

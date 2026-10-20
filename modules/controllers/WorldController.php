@@ -14,7 +14,7 @@ class WorldController
 
     public function execute(Request $request): Response
     {
-        if ($request->session('email') !== null) {
+        if ($request->session('email') !== null || $request->session('username') !== null) {
             $activites = [
                 "Voici l'introduction de Mathéopolis, une série de livres créées par l'association Maths pour tous avec
                 le soutien des Instituts de recherche sur l'enseignement des mathématiques de Lyon et Aix Marseille...",
