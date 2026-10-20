@@ -59,7 +59,6 @@ class Layout
                 <a href="index.php?action=login">Connexion</a>
                 <?php } else { ?>
                 <a href="index.php?action=logout">Déconnexion</a>
-                <a href="index.php?action=delete">Suppression</a>
                 <?php }?>
             </div>
         </div>
