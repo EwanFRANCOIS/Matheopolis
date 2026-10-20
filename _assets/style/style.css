@@ -311,3 +311,21 @@ input, select {
     color: var(--font-dark);
     font-size: 14px;
 }
+
+.dialog_wrapper {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.5rem;
+}
+
+.dialog_profile {
+    margin-top: 0.1%;
+    flex-shrink: 0;
+    max-width: 120px;
+    max-height: 120px;
+    object-fit: cover;
+}
+
+.dialog_content {
+    flex: 1;
+}
