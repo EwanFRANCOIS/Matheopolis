@@ -6,7 +6,7 @@ final class Typewriter extends Component
 {
     public function __construct(
         private readonly string $text,
-        private readonly int $speed = 50 // délai en ms par caractère
+        private readonly int $speed = 50 //ms
     ) {
     }
 

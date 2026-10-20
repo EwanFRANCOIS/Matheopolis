@@ -1,12 +1,18 @@
 <?php
 
-// Inclusion de la classe de vue
-require_once __DIR__ . '/modules/views/StoryView.php';
+require_once __DIR__ . '/_assets/includes/autoloader.php';
 
-// Utilisation du namespace
 use modules\views\StoryView;
-use modules\views\components\Typewriter;
+use modules\views\Layout;
 
-// Instanciation et affichage du contenu retourné par la méthode show()
-$view = new StoryView();
-echo $view->show();
+$storyView = new StoryView();
+$content = $storyView->show();
+
+$layout = new Layout(
+    title: 'Test Story',
+    content: $content,
+    userEmail: null
+);
+
+$response = $layout->show();
+$response->send();

@@ -20,9 +20,11 @@ class StoryView
             <!-- balise de test pour l'animation -->
             <?= (new Typewriter("Bienvenue sur Matheopolis !", 40))->render(); ?>
             <br>
+            <!-- autre balise de test pour l'animation -->
+            <?= (new Typewriter("Je m'affiche après la fin de l'animation !", 40))->render(); ?>
+            <br>
             <button type="button" id="next-story-btn" class="btn">Continuer</button>
         </div>
-        <script src="_assets/includes/scripts/story.js"></script>
         <?php
         return ob_get_clean();
     }

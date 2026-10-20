@@ -85,7 +85,7 @@ class Layout
     </footer>
 
     <script>
-    document.addEventListener("DOMContentLoaded", async () => {
+    const runTypewriters = async () => {
         const elements = document.querySelectorAll(".typewriter");
 
         function animateTypewriter(el) {
@@ -111,7 +111,13 @@ class Layout
         for (const el of elements) {
             await animateTypewriter(el);
         }
-    });
+    };
+
+    if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", runTypewriters);
+    } else {
+        runTypewriters();
+    }
     </script>
     </body>
     </html>
