@@ -4,7 +4,11 @@ Situation d’Apprentissage et d’Évaluation de deuxième année de BUT Inform
 <img src="_assets/Images/favicon.png" alt="Logo du site">
 
 ## 🤖 Commandes 
-**aucune pour le moment**
+
+```sh
+php -S 0.0.0.0:8000
+```
+
 
 ## 💻 Liste des développeurs 
 - Ewan François [![GitHub](https://img.shields.io/badge/GitHub-181717?style=flat-square&logo=github&logoColor=white)](https://github.com/EwanFRANCOIS)

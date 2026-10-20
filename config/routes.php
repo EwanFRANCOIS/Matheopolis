@@ -1,15 +1,15 @@
 <?php
 
 return [
-    'home' => \modules\controllers\HomepageController::class,
-    'login' => \modules\controllers\LoginController::class,
-    'signup' => \modules\controllers\SignupController::class,
-    'account' => \modules\controllers\AccountController::class,
-    'book' => \modules\controllers\BookController::class,
-    'world' => \modules\controllers\WorldController::class,
-    'activity' => \modules\controllers\ActivityController::class,
-    'forgot_pwd' => \modules\controllers\ForgotPasswordController::class,
-    'delete' => \modules\controllers\DeleteController::class,
-    'logout' => \modules\controllers\LogoutController::class,
-    'profile' => \modules\controllers\ProfileController::class
+    'home' => \src\controllers\HomepageController::class,
+    'login' => \src\controllers\LoginController::class,
+    'signup' => \src\controllers\SignupController::class,
+    'account' => \src\controllers\AccountController::class,
+    'book' => \src\controllers\BookController::class,
+    'world' => \src\controllers\WorldController::class,
+    'activity' => \src\controllers\ActivityController::class,
+    'forgot_pwd' => \src\controllers\ForgotPasswordController::class,
+    'delete' => \src\controllers\DeleteController::class,
+    'logout' => \src\controllers\LogoutController::class,
+    'profile' => \src\controllers\ProfileController::class
 ];
