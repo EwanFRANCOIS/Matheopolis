@@ -17,20 +17,21 @@ class StoryView
         </header>
 
         <div class="card">
-            <!-- balise de test pour l'animation -->
-            <?= (new Typewriter("Bienvenue sur Matheopolis !", 40))->render(); ?>
-            <br>
-            <!-- autre balise de test pour l'animation -->
-            <?= (new Typewriter("Je m'affiche après la fin de l'animation !", 40))->render(); ?>
-            <br>
-
-            <form method="GET" action="index.php">
-                <input type="hidden" name="action" value="activity">
-                <input type="hidden" name="step" value="game">
-                <?= (new Button('Continuer'))->render(); ?>
-            </form>
-
+            <div class="dialog_wrapper">
+                <img src="_assets/Images/verity.png" alt="image de test" class="dialog_profile">
+                
+                <div class="dialog_content">
+                    <?= (new Typewriter("Dans cet univers, à la fois imaginaire et réel, Laurence côtoie l’esprit des savants de tous les temps et les notions mathématiques qui prennent corps.", 30))->render(); ?>
+                    <br>
+                    <?= (new Typewriter("Pensez à appuyer sur le bouton [>>] lorsque vous avez terminé de lire un dialogue !", 10))->render(); ?>
+                </div>
+            </div>
         </div>
+        <form method="GET" action="index.php">
+            <input type="hidden" name="action" value="activity">
+            <input type="hidden" name="step" value="game">
+            <?= (new Button('>>'))->render(); ?>
+            </form>
         <?php
         return ob_get_clean();
     }
