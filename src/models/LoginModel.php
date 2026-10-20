@@ -4,7 +4,7 @@ namespace src\models;
 
 use Exception;
 use PDO;
-use _assets\includes\DatabaseConnection;
+use src\core\DatabaseConnection;
 
 /**
  * Modèle de gestion de la connexion utilisateur.

@@ -4,8 +4,8 @@ namespace src\models;
 
 use Exception;
 use PDO;
-use _assets\includes\DatabaseConnection;
-use includes\ExceptionDatabaseController;
+use src\core\DatabaseConnection;
+use src\core\ExceptionDatabaseController;
 
 /**
  * Modèle de gestion de la suppression des comptes des utilisateurs.

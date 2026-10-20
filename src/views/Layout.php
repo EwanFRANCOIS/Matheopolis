@@ -16,7 +16,7 @@ class Layout
 
     public function show(int $status = 200): Response
 {
-            $_Image = 'https://ninamc.alwaysdata.net/_assets/Images/FubukiRef.jpg';
+            $_Image = '/Images/FubukiRef.jpg';
             $_description = 'Liens vers notre super site \'MATHEOPOLIS\'. 
             Suivez une aventure folle et accomplissez les énigmes tout au long de votre parcours.';
             $_titreRef = 'Matheopolis';
@@ -36,8 +36,8 @@ class Layout
         <meta name="keywords" content="Math, Matheopolis, Mathematique, Livre,
         Egypte, histoire, fubuki, bau bau, opération, calcul, Nevot, enigmes">
         <title><?= htmlspecialchars($this->title); ?></title>
-        <link rel="icon" href="/public/Images/favicon.png">
-        <link rel="stylesheet" href="/public/style/style.css">
+        <link rel="icon" href="/Images/favicon.png">
+        <link rel="stylesheet" href="/style/style.css">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">

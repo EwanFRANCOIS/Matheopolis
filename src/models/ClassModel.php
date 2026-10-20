@@ -3,7 +3,7 @@
 namespace src\models;
 
 use PDO;
-use _assets\includes\DatabaseConnection;
+use src\core\DatabaseConnection;
 
 
 /**

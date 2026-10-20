@@ -4,9 +4,9 @@
 
 namespace src\models;
 
-use _assets\includes\DatabaseConnection;
+use src\core\DatabaseConnection;
 use Exception;
-use includes\ExceptionDatabaseController;
+use src\core\ExceptionDatabaseController;
 
 /**
  * Modèle gérant la persistance des données d'inscription en base de données.

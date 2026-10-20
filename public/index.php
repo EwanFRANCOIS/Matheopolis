@@ -1,6 +1,6 @@
 <?php
 
-require_once 'src/core/autoloader.php';
+require_once __DIR__ . '/../src/core/autoloader.php';
 
 use src\core\Request;
 use src\core\Response;
