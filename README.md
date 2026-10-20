@@ -5,6 +5,7 @@ Situation d’Apprentissage et d’Évaluation de deuxième année de BUT Inform
 
 ## 🤖 Commandes 
 **aucune pour le moment**
+ceci est un test
 
 ## 💻 Liste des développeurs 
 - Ewan François [![GitHub](https://img.shields.io/badge/GitHub-181717?style=flat-square&logo=github&logoColor=white)](https://github.com/EwanFRANCOIS)
