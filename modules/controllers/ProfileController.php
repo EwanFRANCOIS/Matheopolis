@@ -17,7 +17,10 @@ class ProfileController {
     public function __construct(private readonly View $view) {}
 
     public function execute(Request $request): Response {
-        if ($request->session('role') === 'enseignant') {
+        $error = null;
+        $currentCode = null;
+        $students = [];
+        if ($request->session('role') === 'teacher') {
 
             $classModel = new ClassModel(DatabaseConnection::getInstance());
             $teacherId = (int)$request->session('teacherId');
