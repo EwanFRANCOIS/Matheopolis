@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/../src/core/autoloader.php';
+require_once 'src/core/autoloader.php';
 
 use src\core\Request;
 use src\core\Response;
@@ -15,8 +15,16 @@ try {
     // On fabrique la requete global
     $request = Request::fromGlobals();
 
-    $routes = require __DIR__ . '/../config/routes.php';
+    $routes = [];
+
+    foreach (glob(__DIR__ . '/../src/controllers/*Controller.php') ?: [] as $file) {
+        $controller = basename($file, '.php');
+        $action = strtolower(preg_replace('/Controller$/', '', $controller));
+
+        $routes[$action] = 'src\\controllers\\' . $controller;
+    }
     $view = new View($request->session('email') ?? $request->session('username'));
+
     $factories = [];
     foreach ($routes as $classe) {
         $factories[$classe] = fn() => new $classe($view);

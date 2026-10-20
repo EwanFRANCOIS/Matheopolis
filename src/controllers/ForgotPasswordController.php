@@ -78,7 +78,7 @@ class ForgotPasswordController
 
                     if (!empty($email)) {
                         $model->sendMail($email);
-                        return Response::redirect('index.php?action=forgot_pwd&mail=sent');
+                        return Response::redirect('index.php?action=forgotpassword&mail=sent');
                     } else {
                         $messageError = "Veuillez saisir votre adresse email.";
                     }

@@ -28,7 +28,7 @@ class LoginView
 
         $alert = $error !== null && $error !== '' ? new Alert([$error]) : new Alert([]);
         $linkForgot = new Paragraph([
-            new Link('index.php?action=forgot_pwd', 'Mot de passe oublié ?')
+            new Link('index.php?action=forgotpassword', 'Mot de passe oublié ?')
         ]);
         $linkSignup = new Paragraph([
             new Link('index.php?action=signup', 'S\'inscrire')

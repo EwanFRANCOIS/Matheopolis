@@ -3,9 +3,9 @@
 namespace src\models;
 
 use Exception;
-use includes\ExceptionDatabaseController;
 use PDO;
-use _assets\includes\DatabaseConnection;
+use src\core\DatabaseConnection;
+use src\core\ExceptionDatabaseController;
 
 /**
  * Gestion du processus de réinitialisation de mot de passe en base de données.
@@ -65,7 +65,7 @@ class ForgotPasswordModel
 
 
     // Attention, le lien va peut-etre devoir etre changé, le but est de créer un lien unique pour changer de mdp
-        $link = 'https://ninamc.alwaysdata.net/index.php?action=forgot_pwd&token=' . $token;
+        $link = 'https://ninamc.alwaysdata.net/index.php?action=forgotpassword&token=' . $token;
         $message = "Bonjour,\n\n voici votre lien de récupération de mot de passe : \n" . $link;
 
     // En-têtes obligatoires / recommandés

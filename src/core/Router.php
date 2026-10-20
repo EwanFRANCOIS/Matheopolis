@@ -15,7 +15,7 @@ final class Router
 
     public function dispatch(Request $request): Response
     {
-        $action = $request->get('action', 'home');
+        $action = $request->get('action', 'homepage');
         if (!is_string($action) || !isset($this->routes[$action])) {
             throw new Exception('La page que vous recherchez n\'existe pas');
         }
