@@ -17,13 +17,13 @@ class ProfileView
             'Bienvenue sur votre profil'
         ]);
 
-        $formClass = new Form('index.php?action=createClass', [
+        $formClass = new Form('/index.php?action=createClass', [
             new Input('className', 'Nom de la classe :', 'text', 'Nom de la classe (ex: Seconde B)', '', true),
             new Select('level', 'Niveau de la classe :', ['Cycle Collège', 'Lycée : Seconde', 'Lycée : Première', 'Lycée : Terminale']),
             new Button('Créer une classe', 'submit'),
         ]);
 
-        $formJoin = new Form('index.php?action=joinClass', [
+        $formJoin = new Form('/index.php?action=joinClass', [
             new Input('classCode', 'Code d\'une classe :', 'text', 'XXXXXX', '', true),
             new Button('Rejoindre', 'submit'),
         ]);
@@ -31,7 +31,7 @@ class ProfileView
         $deleteInfo = new Paragraph([
             'Si vous supprimez votre profil, toutes vos données seront définitivement perdues.'
         ]);
-        $deleteForm = new Form('index.php?action=delete', [
+        $deleteForm = new Form('/index.php?action=delete', [
             new Button('Supprimer mon profil', 'submit', 'action', 'delete', 'red'),
         ]);
 

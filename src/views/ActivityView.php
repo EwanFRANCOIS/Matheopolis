@@ -11,7 +11,7 @@ class ActivityView
 {
     public function show(string|float|null $result = null): string
     {
-        $form = new Form('index.php?action=activity', [
+        $form = new Form('/index.php?action=activity', [
             new Input('op1', 'Opérande 1 :', 'text', '', '', true),
             new Input('op2', 'Opérande 2 :', 'text', '', '', true),
             new Paragraph([

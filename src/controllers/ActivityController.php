@@ -39,7 +39,7 @@ class ActivityController
             $vue = (new \src\views\ActivityView())->show($result);
             return $this->view->render('Activités', $vue);
         } else {
-            return Response::redirect("index.php?action=login");
+            return Response::redirect("/index.php?action=login");
         }
     }
 }

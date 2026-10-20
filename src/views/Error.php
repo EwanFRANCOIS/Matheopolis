@@ -15,7 +15,7 @@ class Error
     public function show(): string
     {
         $alert = new Alert([$this->message]);
-        $link = new Link('index.php', 'Retour à l\'accueil');
+        $link = new Link('/index.php', 'Retour à l\'accueil');
 
         ob_start();
         ?>

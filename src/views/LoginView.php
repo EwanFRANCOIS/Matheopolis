@@ -17,7 +17,7 @@ class LoginView
             'Vous avez déjà vendu votre âme ? Connectez vous pour accéder à l\'ensemble du site.'
         ]);
 
-        $form = new Form('index.php?action=login', [
+        $form = new Form('/index.php?action=login', [
             new Input('login', 'Votre adresse email / Pseudonyme élève :', 'text', 'exemple@domaine.fr / Pseudo', '', true),
             new Input('password', 'Votre Mot de Passe :', 'password', 'Mot de passe', '', true),
             new Paragraph([
@@ -28,10 +28,10 @@ class LoginView
 
         $alert = $error !== null && $error !== '' ? new Alert([$error]) : new Alert([]);
         $linkForgot = new Paragraph([
-            new Link('index.php?action=forgotpassword', 'Mot de passe oublié ?')
+            new Link('/index.php?action=forgotpassword', 'Mot de passe oublié ?')
         ]);
         $linkSignup = new Paragraph([
-            new Link('index.php?action=signup', 'S\'inscrire')
+            new Link('/index.php?action=signup', 'S\'inscrire')
         ]);
 
         ob_start();

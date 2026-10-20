@@ -10,10 +10,10 @@ class AccountView
     public function show(): string
     {
         $free = new Paragraph(['Vous ne possédez pas de compte, créez en un :']);
-        $signup = new Link('index.php?action=signup', 'Inscrivez-vous');
+        $signup = new Link('/index.php?action=signup', 'Inscrivez-vous');
 
         $already = new Paragraph(['Vous avez déjà un compte, connectez vous :']);
-        $login = new Link('index.php?action=login', 'Connectez-vous');
+        $login = new Link('/index.php?action=login', 'Connectez-vous');
 
         ob_start();
         ?>

@@ -38,7 +38,7 @@ class TeacherDashboardView
         ? 'Générer un nouveau code' 
         : 'Créer ma classe (Générer un code)';
 
-        $form = new Form('index.php?action=teacher&subaction=generate_code', [
+        $form = new Form('/index.php?action=profile&subaction=generate_code', [
             new Button($buttonLabel, 'submit')
         ]);
         ob_start();
@@ -61,7 +61,7 @@ class TeacherDashboardView
     <?php if ($codeClasse) : ?>
         <div class="form-area" style="margin-top: 30px; background: #f9f9f9; padding: 15px; border-radius: 5px;">
             <h3>Créer un compte pour un élève</h3>
-            <form action="index.php?action=teacher" method="post">
+            <form action="/index.php?action=profile" method="post">
                 <input type="hidden" name="action_type" value="create_student">
                 
                 <div style="margin-bottom: 10px;">

@@ -11,6 +11,6 @@ class LogoutController
     {
         $request->destroySession();
 
-        return Response::redirect('index.php?action=homepage');
+        return Response::redirect('/index.php?action=homepage');
     }
 }

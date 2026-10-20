@@ -1,9 +1,11 @@
 # 🌵 Matheopolis 
 Situation d’Apprentissage et d’Évaluation de deuxième année de BUT Informatique. Le projet consiste en la création d'un site web éducatif et ludique dans le cadre des ouvrages Mathéopolis.
 
-<img src="_assets/Images/favicon.png" alt="Logo du site">
+<img src="public/Images/favicon.png" alt="Logo du site">
 
 ## 🤖 Commandes 
+
+Depuis la racine du projet :
 
 ```sh
 php -S 0.0.0.0:8000

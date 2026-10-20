@@ -52,7 +52,7 @@ class LoginController
                         $request->setSession('email', $connection->email);
                         $request->setSession('username', $connection->username);
                         $request->setSession('role', $connection->role);
-                        return Response::redirect('index.php');
+                        return Response::redirect('/index.php');
                     } else {
                         $error = 'Email, pseudo ou mot de passe incorrect';
                     }

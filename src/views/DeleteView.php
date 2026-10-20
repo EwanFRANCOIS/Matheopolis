@@ -16,7 +16,7 @@ class DeleteView
             'Voulez vous vraiment supprimer votre compte ? Veuillez écrire votre mot de passe pour confirmer sa suppression.'
         ]);
 
-        $form = new Form('index.php?action=delete', [
+        $form = new Form('/index.php?action=delete', [
             new Input('password', 'Votre Mot de Passe :', 'password', 'Mot de passe', '', true),
             new Button('Envoyer', 'submit', 'action', 'deleteUser', 'red'),
         ]);

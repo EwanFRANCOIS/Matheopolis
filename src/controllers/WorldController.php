@@ -32,7 +32,7 @@ class WorldController
             $vue = (new \src\views\WorldView())->show($activites, $page, $nombrePages);
             return $this->view->render('L\'univers', $vue);
         } else {
-            return Response::redirect('index.php?action=login');
+            return Response::redirect('/index.php?action=login');
         }
     }
 }

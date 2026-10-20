@@ -16,7 +16,9 @@ class Layout
 
     public function show(int $status = 200): Response
 {
-            $_Image = '/Images/FubukiRef.jpg';
+            $documentRoot = rtrim($_SERVER['DOCUMENT_ROOT'] ?? '', '/');
+            $assetBasePath = is_file($documentRoot . '/public/style/style.css') ? '/public' : '';
+            $_Image = $assetBasePath . '/Images/FubukiRef.jpg';
             $_description = 'Liens vers notre super site \'MATHEOPOLIS\'. 
             Suivez une aventure folle et accomplissez les énigmes tout au long de votre parcours.';
             $_titreRef = 'Matheopolis';
@@ -36,8 +38,8 @@ class Layout
         <meta name="keywords" content="Math, Matheopolis, Mathematique, Livre,
         Egypte, histoire, fubuki, bau bau, opération, calcul, Nevot, enigmes">
         <title><?= htmlspecialchars($this->title); ?></title>
-        <link rel="icon" href="/Images/favicon.png">
-        <link rel="stylesheet" href="/style/style.css">
+        <link rel="icon" href="<?= $assetBasePath ?>/Images/favicon.png">
+        <link rel="stylesheet" href="<?= $assetBasePath ?>/style/style.css">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
@@ -46,20 +48,20 @@ class Layout
 
     <nav>
         <ul>
-            <li><a href="index.php">Accueil</a></li>
-            <li><a href="index.php?action=book">Les livres</a></li>
-            <li><a href="index.php?action=world">L'univers</a></li>
-            <li><a href="index.php?action=activity">Activités</a></li>
+            <li><a href="/index.php">Accueil</a></li>
+            <li><a href="/index.php?action=book">Les livres</a></li>
+            <li><a href="/index.php?action=world">L'univers</a></li>
+            <li><a href="/index.php?action=activity">Activités</a></li>
         </ul>
         <div class="dropdown">
             <button type="button">Menu ▾</button>
             <div class="menu">
                 <?php if ($this->userEmail === null) { ?>
-                <a href="index.php?action=signup">Inscription</a>
-                <a href="index.php?action=login">Connexion</a>
+                <a href="/index.php?action=signup">Inscription</a>
+                <a href="/index.php?action=login">Connexion</a>
                 <?php } else { ?>
-                <a href="index.php?action=profile">Profil</a>
-                <a href="index.php?action=logout">Déconnexion</a>
+                <a href="/index.php?action=profile">Profil</a>
+                <a href="/index.php?action=logout">Déconnexion</a>
                 <?php }?>
             </div>
         </div>
@@ -81,7 +83,7 @@ class Layout
             bien acheter les livres, rejoignez leur site web ci-dessous.
         </p>
         <a href="https://www.matheopolis.org/">Site officiel Matheopolis</a>
-        <a href="sitemap.xml">Plan du site.</a>
+        <a href="/sitemap.xml">Plan du site.</a>
     </footer>
 
     </body>

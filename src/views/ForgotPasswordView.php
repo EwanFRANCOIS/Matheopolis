@@ -51,14 +51,14 @@ class ForgotPasswordView
         Un e-mail de réinitialisation vous a été envoyé si votre adresse existe dans notre base.
     </p>
     <p>
-        <a href="index.php?action=login" class="btn">Retour à la connexion</a>
+        <a href="/index.php?action=login" class="btn">Retour à la connexion</a>
     </p>
         <?php else : ?>
     <!-- Formulaires s'affiche uniquement si mail n'est pas encore envoyé -->
     <div class="form-area">
             <?php if ($token) : ?>
             <!-- Formulaire : Nouveau mdp -->
-            <form action="index.php?action=forgotpassword" method="post">
+            <form action="/index.php?action=forgotpassword" method="post">
                 <input type="hidden" name="action_type" value="reset_password">
                 <input type="hidden" name="token" value="<?= htmlspecialchars($token) ?>">
 
@@ -71,7 +71,7 @@ class ForgotPasswordView
             </form>
             <?php else : ?>
             <!-- Formulaire : Demande email -->
-            <form action="index.php?action=forgotpassword" method="post">
+            <form action="/index.php?action=forgotpassword" method="post">
                 <input type="hidden" name="action_type" value="request_reset" >
 
                 <label for="email">Votre adresse email :</label>

@@ -2,13 +2,13 @@
 
 namespace src\controllers;
 
-use _assets\includes\DatabaseConnection;
+use src\core\DatabaseConnection;
 use src\core\Response;
 use src\core\Request;
 use src\core\View;
 use src\models\ClassModel;
 use src\models\SignupModel;
-use includes\ExceptionDatabaseController;
+use src\core\ExceptionDatabaseController;
 use src\views\TeacherDashboardView;
 use PDOException;
 use Exception;
@@ -35,7 +35,7 @@ class ProfileController {
             try {
                 $classModel->updateTeacherClassCode($teacherId, $codeClasse);
                 $request->setSession('codeClasse', $codeClasse);
-                return Response::redirect('index.php?page=TeacherDashboard');
+                return Response::redirect('/index.php?action=profile');
             } catch (ExceptionDatabaseController | PDOException | Exception $e) {
                 $error = 'Error : Code class cannot be created';
             }

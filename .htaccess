@@ -5,5 +5,8 @@
 <IfModule mod_rewrite.c>
     RewriteEngine On
     RewriteRule ^public/ - [L]
+    RewriteCond %{REQUEST_FILENAME} -f [OR]
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^ - [L]
     RewriteRule ^(.*)$ public/$1 [L]
 </IfModule>

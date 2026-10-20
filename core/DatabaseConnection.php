@@ -15,7 +15,7 @@ class DatabaseConnection
 
     private function __construct()
     {
-        Env::charger(__DIR__ . '/../../.env');
+        Env::charger(dirname(__DIR__) . '/.env');
 
         try { # ça c comme dans le cours, hesitez pas a vous co avec les id pour voir la bdd
             $host = Env::get('DB_HOST');

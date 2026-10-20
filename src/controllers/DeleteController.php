@@ -44,7 +44,7 @@ class DeleteController
 
                         if ($delete) {
                             $request->destroySession();
-                            return Response::redirect('index.php');
+                            return Response::redirect('/index.php');
                         } else {
                             $error = 'Mot de passe incorrect';
                         }
@@ -56,7 +56,7 @@ class DeleteController
             $vue = (new \src\views\DeleteView())->show($error);
             return $this->view->render('Suppression', $vue);
         } else {
-            return Response::redirect("index.php?action=account");
+            return Response::redirect("/index.php?action=account");
         }
     }
 }

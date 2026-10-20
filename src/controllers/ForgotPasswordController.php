@@ -57,7 +57,7 @@ class ForgotPasswordController
                         $success = $model->verifyTokenAndChangePassword($token, $newPassword);
 
                         if ($success) {
-                            return Response::redirect('index.php?action=login&reset=success');
+                            return Response::redirect('/index.php?action=login&reset=success');
                         } else {
                             $messageError = "Lien invalide ou expiré.";
                         }
@@ -78,7 +78,7 @@ class ForgotPasswordController
 
                     if (!empty($email)) {
                         $model->sendMail($email);
-                        return Response::redirect('index.php?action=forgotpassword&mail=sent');
+                        return Response::redirect('/index.php?action=forgotpassword&mail=sent');
                     } else {
                         $messageError = "Veuillez saisir votre adresse email.";
                     }

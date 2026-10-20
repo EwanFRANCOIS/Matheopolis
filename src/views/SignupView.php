@@ -17,7 +17,7 @@ class SignupView
             'Si vous voulez accedez à l\'ensemble du site blah blah blah vendez votre âme et inscrivez vous :)'
         ]);
 
-        $form = new Form('index.php?action=signup', [
+        $form = new Form('/index.php?action=signup', [
             new Input('email', 'Votre adresse email :', 'email', 'exemple@domaine.fr', '', true),
             new Input('password', 'Votre Mot de Passe :', 'password', 'Mot de passe', '', true),
             new Input('verif', 'Vérification de votre Mot de Passe :', 'password', 'Verification', '', true),
@@ -33,7 +33,7 @@ class SignupView
         ]);
 
         $alert = $error !== null && $error !== '' ? new Alert([$error]) : new Alert([]);
-        $link = new Link('index.php?action=login', 'Se connecter');
+        $link = new Link('/index.php?action=login', 'Se connecter');
 
         ob_start();
         ?>

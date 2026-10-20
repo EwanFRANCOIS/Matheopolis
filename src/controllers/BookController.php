@@ -18,7 +18,7 @@ class BookController
             $vue = (new \src\views\BookView())->show();
             return $this->view->render('Les livres', $vue);
         } else {
-            return Response::redirect('index.php?action=login');
+            return Response::redirect('/index.php?action=login');
         }
     }
 }
