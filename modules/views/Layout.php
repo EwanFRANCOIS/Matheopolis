@@ -58,6 +58,7 @@ class Layout
                 <a href="index.php?action=signup">Inscription</a>
                 <a href="index.php?action=login">Connexion</a>
                 <?php } else { ?>
+                <a href="index.php?action=profile">Profil</a>
                 <a href="index.php?action=logout">Déconnexion</a>
                 <?php }?>
             </div>

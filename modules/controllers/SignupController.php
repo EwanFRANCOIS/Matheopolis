@@ -34,18 +34,19 @@ class SignupController
         if (($request->post('action')) && !empty($request->post('action'))) {
             if ($request->method === 'POST') {
                 $_login = $request->post('email');
-                $Password = $request->post('password');
+                $_password = $request->post('password');
                 $_verifPassword = $request->post('verif');
+                $_isTeacher = $request->post('type') !== null;
                 $_action = $request->post('action');
 
-                if (empty($_login) || empty($Password) || empty($_verifPassword)) {
+                if (empty($_login) || empty($_password) || empty($_verifPassword)) {
                     $error = 'Veuillez remplir le formulaire';
-                } elseif ($_verifPassword !== $Password) {
+                } elseif ($_verifPassword !== $_password) {
                     $error = 'Les mots de passe ne correspondent pas';
                 } elseif ($_action === 'inscription') {
                     try {
                         $signupModel = new SignupModel(DatabaseConnection::getInstance());
-                        $signup = $signupModel->getSignup($_login, $Password);
+                        $signup = $signupModel->getSignup($_login, $_password, $_isTeacher);
                         $request->setSession('email', $_login);
                         return Response::redirect('index.php?success=true');
 

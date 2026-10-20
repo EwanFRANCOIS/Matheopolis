@@ -30,18 +30,24 @@ class SignupModel
      * Crée un nouvel utilisateur en BDD après hachage de son mot de passe.
      *
      * @param string $_login Adresse email ou identifiant de l'utilisateur.
-     * @param string $Password Mot de passe en clair à hacher.
+     * @param string $_password Mot de passe en clair à hacher.
+     * @param bool $_isTeacher Indique si l'utilisateur est un enseignant.
      *
      * @throws ExceptionDatabaseController Si la requête d'insertion échoue.
      * @return bool Retourne true si l'inscription a réussi, false sinon.
      */
-    public function getSignup(string $_login, string $Password): bool
+    public function getSignup(string $_login, string $_password, bool $_isTeacher): bool
     {
-        $passwordHash = password_hash($Password, PASSWORD_DEFAULT);
+        $passwordHash = password_hash($_password, PASSWORD_DEFAULT);
+        $role = $_isTeacher ? 'teacher' : 'unknown';
         $statement = $this->connection->getConnection()->prepare(
-            "INSERT INTO users (email, password, reset_code, expiration_date) VALUES (:login, :password, NULL, NULL);"
+            "INSERT INTO users (email, password, role, reset_code, expiration_date) VALUES (:login, :password, :role, NULL, NULL);"
         );
-        if (!$statement->execute([':login' => $_login, ':password' => $passwordHash])) {
+        if (!$statement->execute([
+            ':login' => $_login,
+            ':password' => $passwordHash,
+            ':role' => $role
+        ])) {
             throw new ExceptionDatabaseController('Le mot de passe ou le login est incorrect');
         }
 

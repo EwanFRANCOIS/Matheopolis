@@ -31,21 +31,21 @@ class LoginModel
      *
      * @return object|null Retourne l'objet de l'utilisateur si l'authentification réussit, null sinon.
      */
-    public function getConnection(string $_login, string $Password): ?object
+    public function getConnection(string $_login, string $Password, bool $isEmail = true): ?object
     {
 
+        $choiceLogin = $isEmail ? 'email' : 'username';
+
         $statement = $this->connection->getConnection()->prepare(
-            'SELECT id, email, password, role FROM users WHERE email = :login LIMIT 1;'
+            "SELECT id, email, username, password, role FROM users WHERE $choiceLogin = :login LIMIT 1;"
         );
 
         if (!$statement->execute([':login' => $_login])) {
-            //throw new Exception('Le login est incorrect');
             return null;
         }
 
         $connection = $statement->fetch(PDO::FETCH_OBJ);
         if (!$connection || !password_verify($Password, $connection->password)) {
-            //throw new Exception('Le mot de passe est incorrect');
             return null;
         }
 
