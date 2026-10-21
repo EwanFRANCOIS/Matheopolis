@@ -29,7 +29,7 @@ class ClassModel{
      */
     public function updateTeacherClassCode(int $teacherId, string $codeClasse): bool
     {
-        $sql = "UPDATE users SET code_classe = :code WHERE id = :id AND role = 'enseignant'";
+        $sql = "UPDATE users SET code_classe = :code WHERE id = :id AND role = 'teacher'";
         $statement = $this->connection->getConnection()->prepare($sql);
 
         return $statement->execute([
@@ -45,7 +45,7 @@ class ClassModel{
      */
     public function getStudentsByTeacher(int $teacherId): array
     {
-        $sql = "SELECT id, pseudo, code_classe FROM users WHERE prof_id = :prof_id AND role = 'eleve'";
+        $sql = "SELECT id, username, code_classe FROM users WHERE prof_id = :prof_id AND role = 'student'";
         $statement = $this->connection->getConnection()->prepare($sql);
 
         $statement->execute([':prof_id' => $teacherId]);
@@ -64,11 +64,11 @@ class ClassModel{
         
     public function createStudent(int $teacherId, string $pseudo, string $password, string $codeClasse): bool
     {
-        $sql = "INSERT INTO users (pseudo, password, role, prof_id, code_classe) VALUES (:pseudo, :password, 'eleve', :prof_id, :code_classe)";
+        $sql = "INSERT INTO users (username, password, role, prof_id, code_classe) VALUES (:username, :password, 'student', :prof_id, :code_classe)";
         $statement = $this->connection->getConnection()->prepare($sql);
 
         return $statement->execute([
-            ':pseudo' => $pseudo,
+            ':username' => $pseudo,
             ':password' => password_hash($password, PASSWORD_DEFAULT),
             ':prof_id' => $teacherId,
             ':code_classe' => $codeClasse
