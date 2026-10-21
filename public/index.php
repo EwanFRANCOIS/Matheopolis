@@ -20,7 +20,6 @@ try {
     foreach (glob(__DIR__ . '/../src/controllers/*Controller.php') ?: [] as $file) {
         $controller = basename($file, '.php');
         $action = strtolower(preg_replace('/Controller$/', '', $controller));
-
         $routes[$action] = 'src\\controllers\\' . $controller;
     }
     $view = new View($request->session('email') ?? $request->session('username'));
