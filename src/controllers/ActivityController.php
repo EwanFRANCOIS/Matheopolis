@@ -16,7 +16,7 @@ class ActivityController
 
     public function execute(Request $request): Response
     {
-        if ($request->session('email') === null) {
+        if ($request->session('email') === null && $request->session('pseudonym')) {
             return Response::redirect("index.php?action=login");
         }
 
@@ -31,24 +31,24 @@ class ActivityController
             $op1 = (float) $request->post('op1');
             $op2 = (float) $request->post('op2');
 
-                if ($action == '+') {
-                    $op = $op1 + $op2;
-                } elseif ($action == '-') {
-                    $op = $op1 - $op2;
-                } elseif ($action == '*') {
-                    $op = $op1 * $op2;
-                } elseif ($action == '/') {
-
-                    $op = $op1 / $op2;
-                }
-            } else {
-                $result = "L'action n'a pas été enregistrée";
+            if ($action == '+') {
+                $op = $op1 + $op2;
+            } elseif ($action == '-') {
+                $op = $op1 - $op2;
+            } elseif ($action == '*') {
+                $op = $op1 * $op2;
+            } elseif ($action == '/') {
+                $op = $op1 / $op2;
             }
-                $result = $op;
-            $vue = (new \modules\views\ActivityView())->show($result);
-            return $this->view->render('Activités', $vue);
         } else {
-            return Response::redirect("index.php?action=login");
+            $result = "L'action n'a pas été enregistrée";
         }
+
+        if ($request->post('operation')) {
+            $result = $op;
+        }
+
+        $vue = (new ActivityView())->show($result);
+        return $this->view->render('Activités', $vue);
     }
 }

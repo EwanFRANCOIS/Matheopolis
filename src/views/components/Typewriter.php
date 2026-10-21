@@ -1,6 +1,6 @@
 <?php
 
-namespace modules\views\components;
+namespace src\views\components;
 
 final class Typewriter extends Component
 {

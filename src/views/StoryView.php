@@ -1,6 +1,6 @@
 <?php
 
-namespace modules\views;
+namespace src\views;
 
 use src\views\components\Typewriter;
 use src\views\components\Button;
@@ -18,7 +18,7 @@ class StoryView
 
         <div class="card">
             <div class="dialog_wrapper">
-                <img src="_assets/Images/verity.png" alt="image de test" class="dialog_profile">
+                <img src="/Images/verity.png" alt="image de test" class="dialog_profile">
                 
                 <div class="dialog_content">
                     <?= (new Typewriter("Dans cet univers, à la fois imaginaire et réel, Laurence côtoie l’esprit des savants de tous les temps et les notions mathématiques qui prennent corps.", 30))->render(); ?>

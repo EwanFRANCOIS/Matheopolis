@@ -36,14 +36,11 @@ class ProfileView
             ? 'Générer un nouveau code' 
             : 'Créer ma classe (Générer un code)';
 
-        $formGenerateCode = new Form('index.php?action=profile&subaction=generate_code', [
-            new Button($buttonLabel, 'submit')
-        ]);
 
-        $formClass = new Form('index.php?action=createClass', [
+        $formClass = new Form('index.php?action=profile&subaction=generate_code', [
             new Input('className', 'Nom de la classe :', 'text', 'Nom de la classe (ex: Seconde B)', '', true),
             new Select('level', 'Niveau de la classe :', ['Cycle Collège', 'Lycée : Seconde', 'Lycée : Première', 'Lycée : Terminale']),
-            new Button('Créer une classe', 'submit'),
+            new Button($buttonLabel, 'submit'),
         ]);
 
         // Formulaire de création de compte élève par l'enseignant
@@ -62,7 +59,7 @@ class ProfileView
         $deleteInfo = new Paragraph([
             'Si vous supprimez votre profil, toutes vos données seront définitivement perdues.'
         ]);
-        $deleteForm = new Form('/index.php?action=delete', [
+        $deleteForm = new Form('index.php?action=delete', [
             new Button('Supprimer mon profil', 'submit', 'action', 'delete', 'red'),
         ]);
 
@@ -95,9 +92,6 @@ if ($role === 'teacher') {
         <h2>Code d'invitation</h2>
         <div style="margin-bottom: 15px;">
             <?= $alertCode ?>
-        </div>
-        <div class="form-area">
-            <?= $formGenerateCode ?>
         </div>
     </div>
 
