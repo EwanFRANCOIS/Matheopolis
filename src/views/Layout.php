@@ -86,6 +86,41 @@ class Layout
         <a href="/sitemap.xml">Plan du site.</a>
     </footer>
 
+    <script>
+    const runTypewriters = async () => {
+        const elements = document.querySelectorAll(".typewriter");
+
+        function animateTypewriter(el) {
+            return new Promise((resolve) => {
+                const text = el.dataset.text || "";
+                const speed = parseInt(el.dataset.speed, 10) || 50;
+                let index = 0;
+
+                function type() {
+                    if (index < text.length) {
+                        el.textContent += text.charAt(index);
+                        index++;
+                        setTimeout(type, speed);
+                    } else {
+                        resolve();
+                    }
+                }
+
+                type();
+            });
+        }
+
+        for (const el of elements) {
+            await animateTypewriter(el);
+        }
+    };
+
+    if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", runTypewriters);
+    } else {
+        runTypewriters();
+    }
+    </script>
     </body>
     </html>
         <?php
