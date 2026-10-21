@@ -111,7 +111,7 @@ class ClassModel{
         $checkStmt = $pdo->prepare('SELECT COUNT(*) FROM users WHERE username = ?');
         $insertStmt = $pdo->prepare('INSERT INTO users (username, password, role, prof_id, code_classe) VALUES (?, ?, "student", ?, ?)');
 
-        $password = password_hash('Eleve123!', PASSWORD_DEFAULT);
+        $password = password_hash($codeClasse, PASSWORD_DEFAULT);
         $count = 0;
 
         fgetcsv($handle, 100, ';');
