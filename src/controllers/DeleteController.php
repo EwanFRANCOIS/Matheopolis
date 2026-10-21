@@ -30,9 +30,14 @@ class DeleteController
      */
     public function execute(Request $request): Response
     {
-        if ($request->session('email') !== null) {
+        if ($request->session('email') !== null || $request->session('username') !== null) {
             $error = null;
-            $_login = $request->session('email');
+            if ($request->session('email') !== null) {
+                $_login = $request->session('email');
+                }
+            elseif($request->session('username') !== null) {
+                $_login = $request->session('username');
+            }
             if ($request->method === 'POST') {
                 $_action = $request->post('action');
 

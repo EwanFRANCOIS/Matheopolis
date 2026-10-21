@@ -33,7 +33,7 @@ class DeleteModel
     {
 
         $statement = $this->connection->getConnection()->
-        prepare('SELECT password FROM users WHERE email = :login LIMIT 1;');
+        prepare('SELECT password FROM users WHERE email = :login OR username = :login LIMIT 1;');
         if (!$statement->execute([':login' => $_login])) {
             throw new ExceptionDatabaseController('Le mot de passe est incorrect');
         }
@@ -42,7 +42,7 @@ class DeleteModel
             return false;
         }
 
-        $deleteStatement = $this->connection->getConnection()->prepare('DELETE FROM users WHERE email = :login;');
+        $deleteStatement = $this->connection->getConnection()->prepare('DELETE FROM users WHERE email = :login OR username = :login;');
         return $deleteStatement->execute([':login' => $_login]);
     }
 }
