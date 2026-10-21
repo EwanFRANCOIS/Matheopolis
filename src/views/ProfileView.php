@@ -37,21 +37,21 @@ class ProfileView
             : 'Créer ma classe (Générer un code)';
 
 
-        $formClass = new Form('index.php?action=profile&subaction=generate_code', [
+        $formClass = new Form('/index.php?action=profile&subaction=generate_code', [
             new Input('className', 'Nom de la classe :', 'text', 'Nom de la classe (ex: Seconde B)', '', true),
             new Select('level', 'Niveau de la classe :', ['Cycle Collège', 'Lycée : Seconde', 'Lycée : Première', 'Lycée : Terminale']),
             new Button($buttonLabel, 'submit'),
         ]);
 
         // Formulaire de création de compte élève par l'enseignant
-        $formCreateStudent = new Form('index.php?action=profile', [
+        $formCreateStudent = new Form('/index.php?action=profile', [
             new Input('action_type', '', 'hidden', '', 'create_student'),
             new Input('pseudo', 'Pseudo de l\'élève :', 'text', 'Entrez le pseudo', '', true),
             new Input('password', 'Mot de passe temporaire :', 'password', 'Mot de passe', '', true),
             new Button('Créer l\'élève', 'submit')
         ]);
 
-        $formJoin = new Form('index.php?action=joinClass', [
+        $formJoin = new Form('/index.php?action=joinClass', [
             new Input('classCode', 'Code d\'une classe :', 'text', 'XXXXXX', '', true),
             new Button('Rejoindre', 'submit'),
         ]);
@@ -59,7 +59,7 @@ class ProfileView
         $deleteInfo = new Paragraph([
             'Si vous supprimez votre profil, toutes vos données seront définitivement perdues.'
         ]);
-        $deleteForm = new Form('index.php?action=delete', [
+        $deleteForm = new Form('/index.php?action=delete', [
             new Button('Supprimer mon profil', 'submit', 'action', 'delete', 'red'),
         ]);
 

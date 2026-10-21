@@ -38,7 +38,7 @@ class ProfileController {
             try {
                 $classModel->updateTeacherClassCode($teacherId, $codeClasse);
                 $request->setSession('codeClasse', $codeClasse);
-                return Response::redirect('index.php?action=profile');
+                return Response::redirect('/index.php?action=profile');
             } catch (ExceptionDatabaseController | PDOException | Exception $e) {
                 $error = 'Error : Code class cannot be created';
             }
@@ -52,7 +52,7 @@ class ProfileController {
                 try {
                     if ($codeClasse && $pseudo && $password) {
                         $classModel->createStudent($teacherId, $pseudo, $password, $codeClasse);
-                        return Response::redirect('index.php?action=profile');
+                        return Response::redirect('/index.php?action=profile');
                     } else {
                         $error = 'Veuillez remplir tous les champs et générer un code de classe.';
                     }

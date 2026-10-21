@@ -17,7 +17,7 @@ class ActivityController
     public function execute(Request $request): Response
     {
         if ($request->session('email') === null || $request->session('pseudonym')) {
-            return Response::redirect("index.php?action=login");
+            return Response::redirect("/index.php?action=login");
         }
 
         if (!$request->post('operation') && $request->get('step') !== 'game') {
