@@ -16,14 +16,14 @@ class WorldController
     {
         if ($request->session('email') !== null || $request->session('username') !== null) {
             $activites = [
-                "Voici l'introduction de Mathéopolis, une série de livres créées par l'association Maths pour tous avec
-                le soutien des Instituts de recherche sur l'enseignement des mathématiques de Lyon et Aix Marseille...",
-                "Laurence est une jeune fille ayant es difficultés a comprendre l'utilité des maths qu'elle apprend au
-                lycées tout les jours. En effet, malgré la profession de son père mathématicien, elle ne l'a jamais 
-                compris avant qu'il disparaisse sans laisser de trace...",
-                "Toutefois, lors d'une session particulièrement intriguante sur 
-                ses exercices de maths avec son grand père,
-                elle apprendra qu'il y aurait quelque chose de plus grand que des symboles écrits sur son cahier..."
+                "Voici l'introduction de Mathéopolis, une série de livres créée par l'association Maths pour tous avec
+                le soutien des Instituts de recherche sur l'enseignement des mathématiques de Lyon et Aix-Marseille...",
+                "Laurence est une jeune fille ayant des difficultés à comprendre l'utilité des maths qu'elle apprend au
+                lycée tous les jours. En effet, malgré la profession de son père mathématicien, elle ne l'a jamais 
+                comprise avant qu'il ne disparaisse sans laisser de trace...",
+                "Toutefois, lors d'une session particulièrement intrigante sur 
+                ses exercices de maths avec son grand-père,
+                elle apprendra qu'il y a quelque chose de bien plus grand que des symboles écrits sur son cahier..."
             ];
 
             $page = (int) $request->get('page', 1);
