@@ -1,11 +1,15 @@
 # 🌵 Matheopolis 
 Situation d’Apprentissage et d’Évaluation de deuxième année de BUT Informatique. Le projet consiste en la création d'un site web éducatif et ludique dans le cadre des ouvrages Mathéopolis.
 
-<img src="_assets/Images/favicon.png" alt="Logo du site">
+<img src="public/Images/favicon.png" alt="Logo du site">
 
 ## 🤖 Commandes 
-**aucune pour le moment**
-ceci est un test
+
+Depuis la racine du projet :
+
+```sh
+php -S 0.0.0.0:8000
+```
 
 ## 💻 Liste des développeurs 
 - Ewan François [![GitHub](https://img.shields.io/badge/GitHub-181717?style=flat-square&logo=github&logoColor=white)](https://github.com/EwanFRANCOIS)

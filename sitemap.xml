@@ -23,7 +23,7 @@
        <priority>0.8000</priority>
   </url>
   <url>
-       <loc>https://ninamc.alwaysdata.net/index.php?action=forgot_pwd</loc>
+       <loc>https://ninamc.alwaysdata.net/index.php?action=forgotpassword</loc>
        <lastmod>2026-10-01T13:14:22+00:00</lastmod>
        <priority>0.6400</priority>
   </url>
