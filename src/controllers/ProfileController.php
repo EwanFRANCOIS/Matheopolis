@@ -48,7 +48,6 @@ class ProfileController {
                 $pseudo = $request->post('pseudo');
                 $password = $request->post('password');
                 $codeClasse = $request->session('codeClasse');
-
                 try {
                     if ($codeClasse && $pseudo && $password) {
                         $classModel->createStudent($teacherId, $pseudo, $password, $codeClasse);

@@ -49,6 +49,7 @@ class LoginController
 
                     if ($connection !== null) {
                         session_regenerate_id(true);
+                        $request->setSession('teacherId', $connection->id);
                         $request->setSession('email', $connection->email);
                         $request->setSession('username', $connection->username);
                         $request->setSession('role', $connection->role);
