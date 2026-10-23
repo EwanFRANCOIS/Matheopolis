@@ -239,6 +239,14 @@ h2 {
     border: 1px solid var(--red-parchment);
     background: rgba(122, 21, 21, 0.2);
     color: #f2caca;
+    margin: 10px;
+}
+
+.alert.note {
+    border: 1px solid var(--gold);
+    background: rgba(124, 110, 63, 0.459);
+    color: #dfd3c3;
+    font-size: 20px;
 }
 
 .alert ul {

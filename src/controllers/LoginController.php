@@ -49,10 +49,15 @@ class LoginController
 
                     if ($connection !== null) {
                         session_regenerate_id(true);
-                        $request->setSession('teacherId', $connection->id);
+                        if ($connection->role === 'teacher') {
+                            $request->setSession('teacherId', $connection->id);
+                        } elseif ($connection->role === 'student') {
+                            $request->setSession('studentId', $connection->id);
+                        }
                         $request->setSession('email', $connection->email);
                         $request->setSession('username', $connection->username);
                         $request->setSession('role', $connection->role);
+                        $request->setSession('codeClasse', $connection->code_classe);
                         return Response::redirect('/index.php');
                     } else {
                         $error = 'Email, pseudo ou mot de passe incorrect';

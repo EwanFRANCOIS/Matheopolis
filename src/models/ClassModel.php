@@ -53,6 +53,20 @@ class ClassModel{
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function getTeacherClassCode(int $studentId): ?string
+    {
+        $sql = "SELECT teacher.code_classe
+                FROM users AS student
+                INNER JOIN users AS teacher ON teacher.id = student.prof_id
+                WHERE student.id = :student_id";
+        $statement = $this->connection->getConnection()->prepare($sql);
+
+        $statement->execute([':student_id' => $studentId]);
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+
+        return $result['code_classe'] ?? null;
+    }
+
     /**
     * Permet à l'enseignant de créer directement un compte élève rattaché à sa classe.
     * @param int $teacherId Identifiant associé au professeur
@@ -77,6 +91,10 @@ class ClassModel{
 
     /**
      * Nettoie et formate un identifiant unique sous la forme nom.prenom.
+     * 
+     * @param string $nom Nom de l'élève
+     * @param string $prenom Prénom de l'élève
+     * @return string Pseudonyme formaté
      */
     public function formatPseudo(string $nom, string $prenom): string
     {
@@ -99,13 +117,12 @@ class ClassModel{
         return preg_replace('/[^a-z0-9\.\-]/', '', $chaine);
     }
 
-    public function importStudentsCsv(int $teacherId, string $codeClasse, string $csvFilePath)
+    public function importStudentsCsv(int $teacherId, string $codeClasse, string $csvFilePath): int
     {
         if (($handle = fopen($csvFilePath, 'r')) === false) {
             throw new Exception("Impossible d'ouvrir le fichier CSV.");
         }
 
-        $handle = fopen($csvFilePath, 'r');
         $pdo = $this->connection->getConnection();
         
         $checkStmt = $pdo->prepare('SELECT COUNT(*) FROM users WHERE username = ?');
@@ -114,9 +131,22 @@ class ClassModel{
         $password = password_hash($codeClasse, PASSWORD_DEFAULT);
         $count = 0;
 
-        fgetcsv($handle, 100, ';');
+        $header = fgets($handle);
+        if ($header === false) {
+            fclose($handle);
+            throw new Exception("Le fichier CSV est vide.");
+        }
 
-        while (($row = fgetcsv($handle, 1000, ';')) !== false) {
+        $commaColumns = str_getcsv($header, ',');
+        $semicolonColumns = str_getcsv($header, ';');
+        $delimiter = count($commaColumns) >= 2 ? ',' : ';';
+
+        if (count($commaColumns) < 2 && count($semicolonColumns) < 2) {
+            fclose($handle);
+            throw new Exception("Le fichier CSV doit contenir les colonnes nom et prenom.");
+        }
+
+        while (($row = fgetcsv($handle, 1000, $delimiter)) !== false) {
             $nom = trim($row[0] ?? '');
             $prenom = trim($row[1] ?? '');
 
