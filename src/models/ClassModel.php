@@ -74,4 +74,69 @@ class ClassModel{
             ':code_classe' => $codeClasse
         ]);
     }
+
+    /**
+     * Nettoie et formate un identifiant unique sous la forme nom.prenom.
+     */
+    public function formatPseudo(string $nom, string $prenom): string
+    {
+        $chaine = mb_strtolower(trim($nom) . '.' . trim($prenom), 'UTF-8');
+
+        $accents = [
+            'é'=>'e','è'=>'e','ê'=>'e','ë'=>'e',
+            'à'=>'a','â'=>'a','ä'=>'a',
+            'î'=>'i','ï'=>'i',
+            'ô'=>'o','ö'=>'o',
+            'ù'=>'u','û'=>'u','ü'=>'u',
+            'ç'=>'c'
+        ];
+        $chaine = strtr($chaine, $accents);
+
+        //Remplace les caractères spéciaux par des '-'
+        $chaine = preg_replace('/[\s\'\-]+/', '-', $chaine);
+
+        //Garde les autres caractères restants
+        return preg_replace('/[^a-z0-9\.\-]/', '', $chaine);
+    }
+
+    public function importStudentsCsv(int $teacherId, string $codeClasse, string $csvFilePath)
+    {
+        if (($handle = fopen($csvFilePath, 'r')) === false) {
+            throw new Exception("Impossible d'ouvrir le fichier CSV.");
+        }
+
+        $handle = fopen($csvFilePath, 'r');
+        $pdo = $this->connection->getConnection();
+        
+        $checkStmt = $pdo->prepare('SELECT COUNT(*) FROM users WHERE username = ?');
+        $insertStmt = $pdo->prepare('INSERT INTO users (username, password, role, prof_id, code_classe) VALUES (?, ?, "student", ?, ?)');
+
+        $password = password_hash($codeClasse, PASSWORD_DEFAULT);
+        $count = 0;
+
+        fgetcsv($handle, 100, ';');
+
+        while (($row = fgetcsv($handle, 1000, ';')) !== false) {
+            $nom = trim($row[0] ?? '');
+            $prenom = trim($row[1] ?? '');
+
+            if ($nom !== '' && $prenom !== '') {
+                $basePseudo = $this->formatPseudo($nom, $prenom);
+                $pseudo = $basePseudo;
+                $i = 1;
+
+                // ajoute -$i si doublon
+                while ($checkStmt->execute([$pseudo]) && $checkStmt->fetchColumn() > 0) {
+                    $i++;
+                    $pseudo = "$basePseudo-$i";
+                }
+
+                $insertStmt->execute([$pseudo, $password, $teacherId, $codeClasse]);
+                $count++;
+            }
+        }
+
+        fclose($handle);
+        return $count;
+    }
 }

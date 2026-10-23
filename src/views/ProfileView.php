@@ -51,6 +51,17 @@ class ProfileView
             new Button('Créer l\'élève', 'submit')
         ]);
 
+        $formImportClass = new Form(
+            'index.php?action=profile',
+            [
+                new Input('action_type', '', 'hidden', '', 'import_csv'),
+                new Input('fichier_eleves', 'Sélectionner le fichier CSV :', 'file', '', '', true),
+                new Button('Importer les élèves', 'submit')
+            ],
+            'post',
+            hasFiles: true
+        );
+
         $formJoin = new Form('index.php?action=joinClass', [
             new Input('classCode', 'Code d\'une classe :', 'text', 'XXXXXX', '', true),
             new Button('Rejoindre', 'submit'),
@@ -72,6 +83,12 @@ class ProfileView
         <?= $role === 'teacher' ? 'Enseignant' : ($role === 'student' ? 'Etudiant' : '') ?>
     </h1>
 </header>
+
+<?php if ($error): ?>
+    <div style="margin-bottom: 20px;">
+        <?= $alertError ?>
+    </div>
+<?php endif; ?>
 
 <div class="card">
     <?= $info ?>
@@ -101,6 +118,15 @@ if ($role === 'teacher') {
         <span class="small">INSCRIPTION</span>
         <h2>Créer un compte pour un élève</h2>
         <?= $formCreateStudent ?>
+    </div>
+    <?php endif; ?>
+
+    <!-- importation d'une classe entière avec fichier .csv-->
+     <?php if ($codeClasse) : ?>
+        <div class="card notebook" style="margin-bottom: 20px;">
+            <span class="small">INSCRIPTION</span>
+            <h2>Importez votre classe</h2>
+        <?= $formImportClass ?>
     </div>
     <?php endif; ?>
 

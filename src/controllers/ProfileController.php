@@ -70,7 +70,25 @@ class ProfileController {
             }
         }
 
-        $vue = (new \src\views\ProfileView())->show(
+        if ($request->method === 'POST' && $request->post('action_type') === 'import_csv') {
+                $codeClasse = $request->session('codeClasse');
+                $fichier = $_FILES['fichier_eleves'] ?? null;
+
+                if (!$codeClasse) {
+                    $error = 'Veuillez remplir tous les champs et générer un code de classe.';
+                } elseif (!$fichier || $fichier['error'] !== UPLOAD_ERR_OK) {
+                    $error = 'Veuillez sélectionner un fichier CSV valide.';
+                } else {
+                    try {
+                        $classModel->importStudentsCsv($teacherId, $codeClasse, $fichier['tmp_name']);
+                        return Response::redirect('index.php?action=profile');
+                    } catch (ExceptionDatabaseController | PDOException | Exception $e) {
+                        $error = 'Erreur lors de l\'importation : ' . $e->getMessage();
+                    }
+                }
+            }
+
+        $vue = (new \modules\views\ProfileView())->show(
             $request->session('role'), 
             $error, 
             $currentCode, 
