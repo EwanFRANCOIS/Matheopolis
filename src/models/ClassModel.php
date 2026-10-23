@@ -53,6 +53,11 @@ class ClassModel{
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    /**
+     * Récupère le code de la classe d'un élève.
+     * @param int $studentId Identifiant associé à l'élève
+     * @return string|null Renvoie le code de la classe de l'élève, ou null si non trouvé
+     **/
     public function getTeacherClassCode(int $studentId): ?string
     {
         $sql = "SELECT teacher.code_classe
