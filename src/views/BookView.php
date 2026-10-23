@@ -10,7 +10,7 @@ class BookView
     public function show(): string
     {
         $text = new Paragraph([
-            'Si vous souhaitez acheter les livres pour suivre l\'histoire et l\'aventure de Laurence Guerney, vous pouvez acheter les livres. sur le site officiel de Matheopolis en cliquant sur le lien ci-dessous.'
+            'Si vous souhaitez acheter les livres pour suivre l\'histoire et l\'aventure de Laurence Guerney, vous pouvez acheter les livres sur le site officiel de Matheopolis en cliquant sur le lien ci-dessous.'
         ]);
         $link = new Link('https://www.matheopolis.org/les-livres', 'Lien vers les livres');
 
