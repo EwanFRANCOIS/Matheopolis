@@ -5,7 +5,8 @@ namespace src\views\components;
 final class Alert extends Component
 {
     public function __construct(
-        private readonly array $messages
+        private readonly array $messages,
+        private readonly bool $note = false
     ) {
     }
 
@@ -20,6 +21,12 @@ final class Alert extends Component
             $items .= '<li>' . $this->e((string) $message) . '</li>';
         }
 
-        return '<div class="alert"><ul>' . $items . '</ul></div>';
+        $alertClass = '';
+
+        if ($this->note) {
+            $alertClass .= ' note';
+        }
+
+        return '<div class="alert' . $alertClass . '"><ul>' . $items . '</ul></div>';
     }
 }

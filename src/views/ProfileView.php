@@ -27,9 +27,8 @@ class ProfileView
         $alertError = new Alert($messages);
 
         $codeMessage = $codeClasse 
-            ? "Votre code d'invitation de classe à partager à vos élèves : " . $codeClasse 
-            : "Vous n'avez pas encore généré de code pour votre classe.";
-        $alertCode = new Alert([$codeMessage]);
+            ? $alertCode = new Alert(["Code de classe : " . $codeClasse], true)
+            : $alertCode = new Alert(["Vous n'avez pas encore généré de code pour votre classe."]);
 
         // Bouton pour générer ou régénérer le code de classe
         $buttonLabel = $codeClasse 
@@ -51,6 +50,8 @@ class ProfileView
             new Button('Créer l\'élève', 'submit')
         ]);
 
+        $alertCSV = new Alert(["Le fichier CSV doit contenir les colonnes suivantes : nom, prenom"], true);
+
         $formImportClass = new Form(
             'index.php?action=profile',
             [
@@ -61,11 +62,6 @@ class ProfileView
             'post',
             hasFiles: true
         );
-
-        $formJoin = new Form('index.php?action=joinClass', [
-            new Input('classCode', 'Code d\'une classe :', 'text', 'XXXXXX', '', true),
-            new Button('Rejoindre', 'submit'),
-        ]);
 
         $deleteInfo = new Paragraph([
             'Si vous supprimez votre profil, toutes vos données seront définitivement perdues.'
@@ -85,7 +81,7 @@ class ProfileView
 </header>
 
 <?php if ($error): ?>
-    <div style="margin-bottom: 20px;">
+    <div>
         <?= $alertError ?>
     </div>
 <?php endif; ?>
@@ -97,41 +93,29 @@ class ProfileView
 <?php
 if ($role === 'teacher') {
     ?>
-    <div class="card notebook" style="margin-bottom: 20px;">
+    <div class="card notebook">
         <span class="small">CLASSES</span>
         <h2>Creer une nouvelle Classe</h2>
         <?= $formClass ?>
-    </div>
-
-    <!-- Gestion + generation code de classe (F2)-->
-    <div class="card notebook" style="margin-bottom: 20px;">
-        <span class="small">GESTION DU CODE</span>
-        <h2>Code d'invitation</h2>
-        <div style="margin-bottom: 15px;">
+        <div>
             <?= $alertCode ?>
         </div>
     </div>
 
     <!-- création de compte pour élève (si code classe existe)-->
     <?php if ($codeClasse) : ?>
-    <div class="card notebook" style="margin-bottom: 20px;">
+    <div class="card notebook">
         <span class="small">INSCRIPTION</span>
         <h2>Créer un compte pour un élève</h2>
         <?= $formCreateStudent ?>
-    </div>
-    <?php endif; ?>
-
-    <!-- importation d'une classe entière avec fichier .csv-->
-     <?php if ($codeClasse) : ?>
-        <div class="card notebook" style="margin-bottom: 20px;">
-            <span class="small">INSCRIPTION</span>
-            <h2>Importez votre classe</h2>
+        <h2>Importez votre classe</h2>
+        <?= $alertCSV ?>
         <?= $formImportClass ?>
     </div>
     <?php endif; ?>
 
     <!-- Liste eleves associés au prof -->
-    <div class="card notebook" style="margin-bottom: 20px;">
+    <div class="card notebook">
         <span class="small">SUIVI</span>
         <h2>Liste de vos élèves inscrits :</h2>
 
@@ -156,9 +140,9 @@ if ($role === 'teacher') {
     ?>
     <div class="card notebook">
         <span class="small">CARNET D'APPRENTISSAGE</span>
+        <h2>Informations sur votre classe</h2>
         <div>
-            <h2>Code d'une classe :</h2>
-            <?= $formJoin ?>
+            <h2>Votre code de classe : <?= $codeClasse ?></h2>
         </div>
     </div>
     <?php

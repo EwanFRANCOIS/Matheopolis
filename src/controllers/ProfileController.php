@@ -27,24 +27,25 @@ class ProfileController {
 
             if ($request->method === 'POST' && $request->get('subaction') === 'generate_code') {
             // On genere le code class qui sera aleatoire et securise
+                $nomClasse = $request->post('className');
                 $character = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
                 $characterLen = strlen($character);
                 $codeClasse = '';
 
-            for ($i = 0; $i < 9; $i++) {
-                $codeClasse .= $character[rand(0, $characterLen - 1)];
+                for ($i = 0; $i < 9; $i++) {
+                    $codeClasse .= $character[rand(0, $characterLen - 1)];
+                }
+
+                try {
+                    $classModel->updateTeacherClassCode($teacherId, $codeClasse);
+                    $request->setSession('codeClasse', $codeClasse);
+                    return Response::redirect('index.php?action=profile');
+                } catch (ExceptionDatabaseController | PDOException | Exception $e) {
+                    $error = 'Error : Code class cannot be created';
+                }
             }
 
-            try {
-                $classModel->updateTeacherClassCode($teacherId, $codeClasse);
-                $request->setSession('codeClasse', $codeClasse);
-                return Response::redirect('index.php?action=profile');
-            } catch (ExceptionDatabaseController | PDOException | Exception $e) {
-                $error = 'Error : Code class cannot be created';
-            }
-        }
-
-        if ($request->method === 'POST' && $request->post('action_type') === 'create_student') {
+            if ($request->method === 'POST' && $request->post('action_type') === 'create_student') {
                 $pseudo = $request->post('pseudo');
                 $password = $request->post('password');
                 $codeClasse = $request->session('codeClasse');
@@ -68,9 +69,8 @@ class ProfileController {
             } catch (Exception $e) {
                 $error = 'Impossible de charger les élèves.';
             }
-        }
 
-        if ($request->method === 'POST' && $request->post('action_type') === 'import_csv') {
+            if ($request->method === 'POST' && $request->post('action_type') === 'import_csv') {
                 $codeClasse = $request->session('codeClasse');
                 $fichier = $_FILES['fichier_eleves'] ?? null;
 
@@ -87,8 +87,18 @@ class ProfileController {
                     }
                 }
             }
+        } else if ($request->session('role') === 'student') {
+            $classModel = new ClassModel(DatabaseConnection::getInstance());
+            $studentId = (int)$request->session('studentId');
 
-        $vue = (new \modules\views\ProfileView())->show(
+            try {
+                $currentCode = $classModel->getTeacherClassCode($studentId);
+            } catch (ExceptionDatabaseController | PDOException | Exception $e) {
+                $error = 'Impossible de récupérer le code de la classe.';
+            }
+        }
+
+        $vue = (new \src\views\ProfileView())->show(
             $request->session('role'), 
             $error, 
             $currentCode, 
