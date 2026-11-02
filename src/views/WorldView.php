@@ -3,6 +3,7 @@
 namespace src\views;
 
 use src\views\components\Paragraph;
+use src\views\components\Link;
 
 class WorldView
 {
@@ -14,6 +15,11 @@ class WorldView
         $content = new Paragraph([
             $activites[$page - 1],
         ]);
+
+
+        $worldFirstPage = new Link('href="?action=world&page=<?= $page - 1 ?>"', '←');
+        $worldPageChange = new Link('?action=world&page=<?= $i ?>" style="<?= $i === $page ?', 'style="<?= $i === $page ? "font-weight: bold;" : "" ?>');
+        $worldLastPage = new Link('?action=world&page=<?= $page + 1 ?>', '→');
 
         ob_start();
         ?>
@@ -29,17 +35,15 @@ class WorldView
     </div>
 
         <?php if ($page > 1) : ?>
-        <a href="?action=world&page=<?= $page - 1 ?>">←</a>
+        <?= $worldFirstPage ?>
         <?php endif; ?>
 
         <?php for ($i = 1; $i <= $nombrePages; $i++) : ?>
-        <a href="?action=world&page=<?= $i ?>" style="<?= $i === $page ? 'font-weight: bold;' : '' ?>">
-            <?= $i ?>
-        </a>
+        <?= $worldPageChange ?>
         <?php endfor; ?>
 
         <?php if ($page < $nombrePages) : ?>
-        <a href="?action=world&page=<?= $page + 1 ?>">→</a>
+        <?= $worldLastPage ?>
         <?php endif; ?>
 
 </div>

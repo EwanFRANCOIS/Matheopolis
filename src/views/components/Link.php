@@ -7,7 +7,7 @@ final class Link extends Component
     public function __construct(
         private readonly string $href,
         private readonly string $text,
-        private readonly string $class
+        private readonly ?string $class = null
     ) {
     }
 

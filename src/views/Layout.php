@@ -3,6 +3,7 @@
 namespace src\views;
 
 use src\core\Response;
+use src\views\components\Link;
 
 class Layout
 {
@@ -21,6 +22,19 @@ class Layout
             $_description = 'Liens vers notre super site \'MATHEOPOLIS\'. 
             Suivez une aventure folle et accomplissez les énigmes tout au long de votre parcours.';
             $_titreRef = 'Matheopolis';
+
+            $acceuil = new Link('/index.php', 'Acceuil');
+            $livres = new Link('/index.php?action=book', 'Les livres');
+            $world = new Link('/index.php?action=world', 'L\'univers');
+            $activity = new Link('/index.php?action=activity', 'Activités');
+
+            $signup = new Link('/index.php?action=signup', 'Inscription');
+            $login = new Link('/index.php?action=login', 'Connexion');
+            $profile = new Link('/index.php?action=profile', 'Profil');
+            $logout = new Link('/index.php?action=logout', 'Déconnexion');
+
+            $matheopolis = new Link('https://www.matheopolis.org/', 'Site officiel Matheopolis');
+            $sitemap = new Link('/sitemap.xml', 'Plan du site.');
 
             ob_start();
             ?><!DOCTYPE html>
@@ -47,20 +61,20 @@ class Layout
 
     <nav>
         <ul>
-            <li><a href="/index.php">Accueil</a></li>
-            <li><a href="/index.php?action=book">Les livres</a></li>
-            <li><a href="/index.php?action=world">L'univers</a></li>
-            <li><a href="/index.php?action=activity">Activités</a></li>
+            <li><?= $acceuil ?></li>
+            <li><?= $livres ?></li>
+            <li><?= $world ?></li>
+            <li><?= $activity ?></li>
         </ul>
         <div class="dropdown">
             <button type="button">Menu ▾</button>
             <div class="menu">
                 <?php if ($this->userEmail === null) { ?>
-                <a href="/index.php?action=signup">Inscription</a>
-                <a href="/index.php?action=login">Connexion</a>
+                <?= $signup ?>
+                <?= $login ?>
                 <?php } else { ?>
-                <a href="/index.php?action=profile">Profil</a>
-                <a href="/index.php?action=logout">Déconnexion</a>
+                <?= $profile ?>
+                <?= $logout ?>
                 <?php }?>
             </div>
         </div>
@@ -81,8 +95,8 @@ class Layout
             <br>Si vous souhaitez en savoir plus sur Matheopolis ou
             bien acheter les livres, rejoignez leur site web ci-dessous.
         </p>
-        <a href="https://www.matheopolis.org/">Site officiel Matheopolis</a>
-        <a href="/sitemap.xml">Plan du site.</a>
+        <?= $matheopolis ?>
+        <?= $sitemap ?>
     </footer>
 
     <script>
