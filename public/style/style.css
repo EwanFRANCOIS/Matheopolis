@@ -230,12 +230,19 @@ h2 {
     transform: scale(1.1);
 }
 
+.activity-container {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
 .btn.jeu {
     display: flex;
     margin-top: 10px;
     color: var(--gold);
-    font-size: 80px;
+    font-size: 55px;
     justify-content: center;
+    text-align: center;
     width: 300px;
     height: 300px;
     background-color: var(--gold-soft);

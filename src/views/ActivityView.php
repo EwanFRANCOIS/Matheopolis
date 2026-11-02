@@ -6,6 +6,7 @@ use src\views\components\Button;
 use src\views\components\Form;
 use src\views\components\Input;
 use src\views\components\Paragraph;
+use src\views\components\Link;
 
 class ActivityView
 {
@@ -15,8 +16,11 @@ class ActivityView
         $buttonCalculator = new Button(
             label: 'Calculatrice', 
             type: 'submit', 
-            id: 'CalculatorId'
+            id: 'CalculatorId',
+            class: 'btn jeu'
             );
+        
+        $linkQuiz = new link('/index.php?action=quiz', 'quiz', 'btn jeu');
 
         $form = new Form('/index.php?action=activity', [
             new Input('op1', 'Opérande 1 :', 'text', '', '', true),
@@ -39,10 +43,8 @@ class ActivityView
     <h1>Activités</h1>
 </header>
 
-<a class="btn jeu" href="/index.php?action=quiz">Quiz</a>
-
-<div class="card parchment">
-    <h2>Calculatrice</h2>
+<div class="activity-container">
+    <?= $linkQuiz->render() ?>
     <?= $buttonCalculator->render() ?>
 </div>
 
@@ -54,11 +56,6 @@ class ActivityView
             <?= $resultBlock ?>
         </div>
     <?php endif; ?>
-</div>
-
-<div id="d2" class="card activity-panel" hidden>
-    <h2>FUWAWA</h2>
-    <p> fuwawa fuwawa mococo mococo fuwa + moco wa fuwamoco </p>
 </div>
 
 <script>
