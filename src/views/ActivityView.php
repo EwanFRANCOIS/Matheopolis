@@ -20,8 +20,9 @@ class ActivityView
             class: 'btn jeu'
             );
         
-        $linkQuiz = new link('/index.php?action=quiz', 'quiz', 'btn jeu');
-
+        $linkQuiz = new link('/index.php?action=quiz', 'Quiz', 'btn jeu');
+        $jeu2 = new link('/index.php?action=', 'jeu 2', 'btn jeu');
+        $jeu3 = new link('/index.php?action=', 'jeu 3', 'btn jeu');
         $form = new Form('/index.php?action=activity', [
             new Input('op1', 'Opérande 1 :', 'text', '', '', true),
             new Input('op2', 'Opérande 2 :', 'text', '', '', true),
@@ -46,6 +47,8 @@ class ActivityView
 <div class="activity-container">
     <?= $linkQuiz->render() ?>
     <?= $buttonCalculator->render() ?>
+    <?= $jeu2->render() ?>
+    <?= $jeu3->render() ?>
 </div>
 
 <div id="d1" class="card form-area activity-panel" hidden>
