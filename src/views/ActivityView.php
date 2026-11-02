@@ -11,8 +11,12 @@ class ActivityView
 {
     public function show(string|float|null $result = null): string
     {
-        $buttonQuiz = new Button('Quiz', 'submit', 'QuizButton', 'Quiz');
-        $buttonCalculator = new Button('Calculator', 'submit', 'CalculatorButton', 'Calculator');
+
+        $buttonCalculator = new Button(
+            label: 'Calculatrice', 
+            type: 'submit', 
+            id: 'CalculatorId'
+            );
 
         $form = new Form('/index.php?action=activity', [
             new Input('op1', 'Opérande 1 :', 'text', '', '', true),
@@ -35,12 +39,14 @@ class ActivityView
     <h1>Activités</h1>
 </header>
 
+<a class="btn jeu" href="/index.php?action=quiz">Quiz</a>
+
 <div class="card parchment">
-    <h2>Quiz</h2>
-    <?= $buttonQuiz->render() ?>
+    <h2>Calculatrice</h2>
+    <?= $buttonCalculator->render() ?>
 </div>
 
-<div class="card form-area">
+<div id="d1" class="card form-area activity-panel" hidden>
     <h2>Calculatrice</h2>
     <?= $form ?>
     <?php if ($resultBlock !== null) : ?>
@@ -49,6 +55,20 @@ class ActivityView
         </div>
     <?php endif; ?>
 </div>
+
+<div id="d2" class="card activity-panel" hidden>
+    <h2>FUWAWA</h2>
+    <p> fuwawa fuwawa mococo mococo fuwa + moco wa fuwamoco </p>
+</div>
+
+<script>
+    const btnCalculator = document.getElementById('CalculatorId');
+    const calculator = document.getElementById('d1');
+
+    btnCalculator.addEventListener('click', () => {
+        calculator.hidden = !calculator.hidden;
+    });
+</script>
 
         <?php
         return ob_get_clean();
