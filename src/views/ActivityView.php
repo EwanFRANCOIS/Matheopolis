@@ -11,6 +11,9 @@ class ActivityView
 {
     public function show(string|float|null $result = null): string
     {
+        $buttonQuiz = new Button('Quiz', 'submit', 'QuizButton', 'Quiz');
+        $buttonCalculator = new Button('Calculator', 'submit', 'CalculatorButton', 'Calculator');
+
         $form = new Form('/index.php?action=activity', [
             new Input('op1', 'Opérande 1 :', 'text', '', '', true),
             new Input('op2', 'Opérande 2 :', 'text', '', '', true),
@@ -31,6 +34,11 @@ class ActivityView
 <header>
     <h1>Activités</h1>
 </header>
+
+<div class="card parchment">
+    <h2>Quiz</h2>
+    <?= $buttonQuiz->render() ?>
+</div>
 
 <div class="card form-area">
     <h2>Calculatrice</h2>
