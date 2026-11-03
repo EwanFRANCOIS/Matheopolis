@@ -18,6 +18,7 @@ class ProfileController {
         $error = null;
         $currentCode = null;
         $currentClass = null;
+        $classes = [];
         $students = [];
         if ($request->session('role') === 'teacher') {
 
@@ -60,7 +61,7 @@ class ProfileController {
                 // Récupération du code actuel et des élèves pour affichage normal de la page
                 $currentCode = $request->session('codeClasse')
                     ?: $classModel->getClassCodeByTeacher($teacherId);
-                $students = $classModel->getStudentsByTeacher($teacherId);
+                $classes = $classModel->getClassesByTeacher($teacherId);
             } catch (Exception $e) {
                 $error = 'Impossible de charger les informations de la classe.';
             }
@@ -87,18 +88,19 @@ class ProfileController {
             $studentId = (int)$request->session('studentId');
 
             try {
-                $currentClass = $classModel->getClassName($studentId);
+                $currentClass = $classModel->getClassInfo($studentId);
             } catch (ExceptionDatabaseController | PDOException | Exception $e) {
                 $error = 'Impossible de récupérer le nom de la classe.';
             }
         }
 
-        $vue = (new \src\views\ProfileView())->show(
+        $vue = (new \src\views\ProfileView(
             $request->session('role'), 
             $error, 
             $currentClass ?? $currentCode,
-            $students
-        );
+            $students,
+            $classes
+        ))->show();
         return $this->view->render('profile', $vue);
     }
 }

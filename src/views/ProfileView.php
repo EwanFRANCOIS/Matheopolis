@@ -143,11 +143,9 @@ if ($role === 'teacher') {
             <ul class="classes">
                 <?php foreach ($classes as $class) : ?>
                     <li>
-                        <strong><?= $class['name'] ?></strong>
-                        (<?= $class['cycle'] ?>)
-                        <p>Code : <strong><?= $class['code'] ?></strong></p>
+                        <h3><?= $class['name'] ?></h3>
+                        <p class="small"> <?= $class['cycle'] ?> - <?= $class['code'] ?></p>
                         <?php if (!empty($class['students'])) : ?>
-                            <p>Élèves :</p>
                             <?= new ListComponent($class['students']) ?>
                         <?php else : ?>
                             <p><em>Aucun élève inscrit.</em></p>
@@ -167,9 +165,9 @@ if ($role === 'teacher') {
         <span class="small">CARNET D'APPRENTISSAGE</span>
         <h2>Informations sur votre classe</h2>
         <div>
-            <h2>Votre classe : <?= htmlspecialchars($classInfo['name'] ?? '', ENT_QUOTES, 'UTF-8') ?></h2>
-            <p>Cycle : <?= htmlspecialchars($classInfo['cycle'] ?? '', ENT_QUOTES, 'UTF-8') ?></p>
-            <p>Code : <strong><?= htmlspecialchars($classInfo['classCode'] ?? '', ENT_QUOTES, 'UTF-8') ?></strong></p>
+            <h2>Votre classe : <?= $classInfo['name'] ?? '' ?></h2>
+            <p>Cycle : <?= $classInfo['cycle'] ?? '' ?></p>
+            <p>Code : <strong><?= $classInfo['classCode'] ?? '' ?></strong></p>
         </div>
     </div>
     <?php

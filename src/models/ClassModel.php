@@ -58,21 +58,38 @@ class ClassModel{
     }
 
     /**
-     * Récupère tous les élèves rattachés à un professeur spécifique. Les infos de l'élèves sont stockés dans un tableau
+     * Récupère les classes d'un enseignant avec leurs élèves.
      * @param int $teacherId Identifiant associé au professeur
-     * @return array Renvoie un tableau contenant les élèves associés a un professeur
+     * @return array Renvoie un tableau contenant les classes et leurs élèves
      */
-    public function getStudentsByTeacher(int $teacherId): array
+    public function getClassesByTeacher(int $teacherId): array
     {
-        $sql = "SELECT u.username, c.name AS Classe FROM users u
-                JOIN classes c ON u.code_classe = c.classCode
-                WHERE c.teacher_id = :teacher_id AND u.role = 'student'
-                ORDER BY u.username";
+        $sql = "SELECT c.classCode, c.name, c.cycle, u.username
+                FROM classes c
+                LEFT JOIN users u
+                    ON u.code_classe = c.classCode AND u.role = 'student'
+                WHERE c.teacher_id = :teacher_id
+                ORDER BY c.name, u.username";
         $statement = $this->connection->getConnection()->prepare($sql);
-
         $statement->execute([':teacher_id' => $teacherId]);
-        //Permet de dire en gros "Transforme chaque ligne renvoyé par curseur (fetch) en tableau associatif"
-        return $statement->fetchAll(PDO::FETCH_ASSOC);
+
+        $classes = [];
+        foreach ($statement->fetchAll(PDO::FETCH_ASSOC) as $row) {
+            $classCode = $row['classCode'];
+            if (!isset($classes[$classCode])) {
+                $classes[$classCode] = [
+                    'code' => $classCode,
+                    'name' => $row['name'],
+                    'cycle' => $row['cycle'],
+                    'students' => []
+                ];
+            }
+            if ($row['username'] !== null) {
+                $classes[$classCode]['students'][] = $row['username'];
+            }
+        }
+
+        return array_values($classes);
     }
 
     /**
@@ -80,9 +97,9 @@ class ClassModel{
      * @param int $studentId Identifiant associé à l'élève
      * @return string|null Renvoie le nom de la classe si trouvé, sinon null
      **/
-    public function getClassName(int $studentId): ?string
+    public function getClassInfo(int $studentId): ?array
     {
-        $sql = "SELECT c.name
+        $sql = "SELECT c.name, c.cycle, c.classCode
                 FROM classes c JOIN users u ON c.classCode = u.code_classe
                 WHERE u.id = :student_id";
         $statement = $this->connection->getConnection()->prepare($sql);
@@ -90,7 +107,7 @@ class ClassModel{
         $statement->execute([':student_id' => $studentId]);
         $result = $statement->fetch(PDO::FETCH_ASSOC);
 
-        return $result['name'] ?? null;
+        return $result ?: null;
     }
 
     /**
