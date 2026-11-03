@@ -8,12 +8,26 @@ use src\views\components\Input;
 use src\views\components\Select;
 use src\views\components\Button;
 use src\views\components\Alert;
+use src\views\components\ListComponent;
 
 
 class ProfileView
 {
-    public function show(?string $role, ?string $error = null, ?string $classInfo = null, ?array $students = []): string
+    public function __construct(
+        private readonly ?string $role,
+        private readonly ?string $error = null,
+        private readonly string|array|null $classInfo = null,
+        private readonly ?array $students = [],
+        private readonly ?array $classes = []
+    ) {}
+
+    public function show(): string
     {
+        $role = $this->role;
+        $error = $this->error;
+        $classInfo = $this->classInfo;
+        $students = $this->students;
+        $classes = $this->classes;
 
         $info = new Paragraph([
             'Bienvenue sur votre profil'
@@ -26,12 +40,13 @@ class ProfileView
         }
         $alertError = new Alert($messages);
 
-        $codeMessage = $classInfo
-            ? $alertCode = new Alert(["Code de classe : " . $classInfo], true)
+        $classCode = is_array($classInfo) ? ($classInfo['classCode'] ?? null) : $classInfo;
+        $codeMessage = $classCode
+            ? $alertCode = new Alert(["Code de classe : " . $classCode], true)
             : $alertCode = new Alert(["Vous n'avez pas encore généré de code pour votre classe."]);
 
         // Bouton pour générer ou régénérer le code de classe
-        $buttonLabel = $classInfo
+        $buttonLabel = $classCode
             ? 'Générer un nouveau code' 
             : 'Créer ma classe (Générer un code)';
 
@@ -108,7 +123,7 @@ if ($role === 'teacher') {
     </div>
 
     <!-- création de compte pour élève (si code classe existe)-->
-    <?php if ($classInfo) : ?>
+    <?php if ($classCode) : ?>
     <div class="card notebook">
         <span class="small">INSCRIPTION</span>
         <h2>Créer un compte pour un élève</h2>
@@ -119,26 +134,31 @@ if ($role === 'teacher') {
     </div>
     <?php endif; ?>
 
-    <!-- Liste eleves associés au prof -->
+    <!-- Liste des classes et de leurs élèves -->
     <div class="card notebook">
         <span class="small">SUIVI</span>
-        <h2>Liste de vos élèves inscrits :</h2>
+        <h2>Vos classes</h2>
 
-        <?php if (empty($students)) : ?>
-            <p><em>Aucun élève n'a rejoint votre classe pour l'instant.</em></p>
-        <?php else : ?>
-            <ul style="list-style-type: disc; padding-left: 20px;">
-                <?php foreach ($students as $student) : ?>
-                     <!-- ENT_QUOTES permet de convertir les guillemets en chaine de caractere (htmlspecialchars ne le fait pas par défaut apparemment) -->
-                    <li>Élève : 
-                        <strong><?=htmlspecialchars($student['username'], ENT_QUOTES, 'UTF-8') ?></strong>
+        <?php if (!empty($classes)) : ?>
+            <ul class="classes">
+                <?php foreach ($classes as $class) : ?>
+                    <li>
+                        <strong><?= $class['name'] ?></strong>
+                        (<?= $class['cycle'] ?>)
+                        <p>Code : <strong><?= $class['code'] ?></strong></p>
+                        <?php if (!empty($class['students'])) : ?>
+                            <p>Élèves :</p>
+                            <?= new ListComponent($class['students']) ?>
+                        <?php else : ?>
+                            <p><em>Aucun élève inscrit.</em></p>
+                        <?php endif; ?>
                     </li>
                 <?php endforeach; ?>
             </ul>
+        <?php else : ?>
+            <p>Aucune classe n'a été créée pour le moment.</p>
         <?php endif; ?>
     </div>
-
-
 
     <?php
 } else if ($role === 'student') {
@@ -147,7 +167,9 @@ if ($role === 'teacher') {
         <span class="small">CARNET D'APPRENTISSAGE</span>
         <h2>Informations sur votre classe</h2>
         <div>
-            <h2>Votre classe : <?= htmlspecialchars($classInfo, ENT_QUOTES, 'UTF-8') ?></h2>
+            <h2>Votre classe : <?= htmlspecialchars($classInfo['name'] ?? '', ENT_QUOTES, 'UTF-8') ?></h2>
+            <p>Cycle : <?= htmlspecialchars($classInfo['cycle'] ?? '', ENT_QUOTES, 'UTF-8') ?></p>
+            <p>Code : <strong><?= htmlspecialchars($classInfo['classCode'] ?? '', ENT_QUOTES, 'UTF-8') ?></strong></p>
         </div>
     </div>
     <?php

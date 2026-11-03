@@ -65,7 +65,7 @@ class LoginController
                 }
             }
         }
-        $vue = (new \src\views\LoginView())->show($error);
+        $vue = (new \src\views\LoginView($error))->show();
         return $this->view->render('Connexion', $vue);
     }
 }

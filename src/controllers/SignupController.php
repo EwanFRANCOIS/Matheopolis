@@ -61,7 +61,7 @@ class SignupController
             }
         }
 
-        $vue = (new \src\views\SignupView())->show($error);
+        $vue = (new \src\views\SignupView($error))->show();
         return $this->view->render('Inscription', $vue);
     }
 }

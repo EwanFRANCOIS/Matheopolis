@@ -58,7 +58,7 @@ class DeleteController
                     }
                 }
             }
-            $vue = (new \src\views\DeleteView())->show($error);
+            $vue = (new \src\views\DeleteView($error))->show();
             return $this->view->render('Suppression', $vue);
         } else {
             return Response::redirect("/index.php?action=account");
