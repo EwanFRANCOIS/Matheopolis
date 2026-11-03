@@ -16,8 +16,8 @@ class ProfileController {
 
     public function execute(Request $request): Response {
         $error = null;
-        $currentCode = null;
         $currentClass = null;
+        $createdCode = null;
         $classes = [];
         $students = [];
         if ($request->session('role') === 'teacher') {
@@ -33,8 +33,7 @@ class ProfileController {
                 if ($nomClasse === '' || $cycle === '') {
                     $error = 'Veuillez indiquer un nom et un cycle de classe.';
                 } else try {
-                    $codeClasse = $classModel->addClass($teacherId, $nomClasse, $cycle);
-                    $request->setSession('codeClasse', $codeClasse);
+                    $createdCode = $classModel->addClass($teacherId, $nomClasse, $cycle);
                     return Response::redirect('index.php?action=profile');
                 } catch (ExceptionDatabaseController | PDOException | Exception $e) {
                     $error = 'Error : Code class cannot be created';
@@ -44,7 +43,7 @@ class ProfileController {
             if ($request->method === 'POST' && $request->post('action_type') === 'create_student') {
                 $pseudo = $request->post('pseudo');
                 $password = $request->post('password');
-                $codeClasse = $request->session('codeClasse');
+                $codeClasse = $request->post('code');
                 try {
                     if ($codeClasse && $pseudo && $password) {
                         $classModel->createStudent($teacherId, $pseudo, $password, $codeClasse);
@@ -59,15 +58,13 @@ class ProfileController {
 
             try {
                 // Récupération du code actuel et des élèves pour affichage normal de la page
-                $currentCode = $request->session('codeClasse')
-                    ?: $classModel->getClassCodeByTeacher($teacherId);
                 $classes = $classModel->getClassesByTeacher($teacherId);
             } catch (Exception $e) {
                 $error = 'Impossible de charger les informations de la classe.';
             }
 
             if ($request->method === 'POST' && $request->post('action_type') === 'import_csv') {
-                $codeClasse = $request->session('codeClasse');
+                $codeClasse = $request->post('code');
                 $fichier = $_FILES['fichier_eleves'] ?? null;
 
                 if (!$codeClasse) {
@@ -97,9 +94,10 @@ class ProfileController {
         $vue = (new \src\views\ProfileView(
             $request->session('role'), 
             $error, 
-            $currentClass ?? $currentCode,
+            $currentClass,
             $students,
-            $classes
+            $classes,
+            $createdCode
         ))->show();
         return $this->view->render('profile', $vue);
     }

@@ -18,7 +18,8 @@ class ProfileView
         private readonly ?string $error = null,
         private readonly string|array|null $classInfo = null,
         private readonly ?array $students = [],
-        private readonly ?array $classes = []
+        private readonly ?array $classes = [],
+        private readonly ?string $createdCode = null
     ) {}
 
     public function show(): string
@@ -41,14 +42,19 @@ class ProfileView
         $alertError = new Alert($messages);
 
         $classCode = is_array($classInfo) ? ($classInfo['classCode'] ?? null) : $classInfo;
-        $codeMessage = $classCode
-            ? $alertCode = new Alert(["Code de classe : " . $classCode], true)
+        $codeMessage = $this->createdCode
+            ? $alertCode = new Alert(["Code de classe : " . $this->createdCode], true)
             : $alertCode = new Alert(["Vous n'avez pas encore généré de code pour votre classe."]);
 
         // Bouton pour générer ou régénérer le code de classe
-        $buttonLabel = $classCode
+        $buttonLabel = !empty($classes)
             ? 'Générer un nouveau code' 
             : 'Créer ma classe (Générer un code)';
+
+        $classOptions = [];
+        foreach ($classes as $class) {
+            $classOptions[$class['code']] = $class['name'] . ' (' . $class['cycle'] . ')';
+        }
 
 
         $formClass = new Form('index.php?action=profile&subaction=generate_code', [
@@ -67,6 +73,7 @@ class ProfileView
             new Input('action_type', '', 'hidden', '', 'create_student'),
             new Input('pseudo', 'Pseudo de l\'élève :', 'text', 'Entrez le pseudo', '', true),
             new Input('password', 'Mot de passe temporaire :', 'password', 'Mot de passe', '', true),
+            new Select('code', 'Classe :', $classOptions),
             new Button('Créer l\'élève', 'submit')
         ]);
 
@@ -76,6 +83,7 @@ class ProfileView
             'index.php?action=profile',
             [
                 new Input('action_type', '', 'hidden', '', 'import_csv'),
+                new Select('code', 'Classe :', $classOptions),
                 new Input('fichier_eleves', 'Sélectionner le fichier CSV :', 'file', '', '', true),
                 new Button('Importer les élèves', 'submit')
             ],
@@ -123,7 +131,7 @@ if ($role === 'teacher') {
     </div>
 
     <!-- création de compte pour élève (si code classe existe)-->
-    <?php if ($classCode) : ?>
+    <?php if (!empty($classes)) : ?>
     <div class="card notebook">
         <span class="small">INSCRIPTION</span>
         <h2>Créer un compte pour un élève</h2>
