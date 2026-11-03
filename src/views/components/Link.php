@@ -6,26 +6,25 @@ final class Link extends Component
 {
     public function __construct(
         private readonly string $href,
-        private readonly string $text,
-        private readonly ?string $class = null
+        private readonly ?string $text,
+        private readonly ?string $class = null,
+        private readonly ?string $style = null
     ) {
     }
 
     public function render(): string
     {   
-        $html = '<a ';
+        $html = '<a';
 
         if ($this->class !== null) {
-            $html .= 'class="' . $this->e($this->class) . '"';
+            $html .= ' class="' . $this->e($this->class) . '"';
         }
 
-        if ($this->href !== null) {
-            $html .= ' href="' . $this->e($this->href) . '"';
+        if ($this->style !== null) {
+            $html .= ' style="' . $this->e($this->style) . '"';
         }
 
-        if ($this->text !== null) {
-            $html .= $this->e($this->text);
-        }
+        $html .= ' href="' . $this->e($this->href) . '"';
 
         $html .= '>' . $this->e($this->text) . '</a>';
 

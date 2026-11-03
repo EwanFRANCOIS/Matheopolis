@@ -11,15 +11,29 @@ class QuizView
 {
     public function show(string|float|null $result = null): string
     {
-        $test = new Paragraph([
-            'Coucou, nina'
+        $Quiz = new Form('/index.php?action=quiz', [
+            new Input('question1', '5 + 5 :', 'text', '', '', false),
+            new Input('question2', '10 / 5 * 5 / 2 :', 'text', '', '', false),
+            new Input('question3', '10x - 5 = 3 :', 'text', '', '', false),
+            new Paragraph([
+                new Button('Soumettre', 'submit'),
+            ]),
         ]);
+
+        $resultParagraph = '';
+        if ($result !== null) {
+            $resultParagraph = new Paragraph([
+                "Votre score est : " . htmlspecialchars((string)$result) . "/3"
+            ]);
+        }
 
         ob_start();
         ?>
         
-        <h2>coucou</h2>
-        <?= $test ?>
+        <h2>Quiz Example</h2>
+        <?= $Quiz ?>
+
+        <?= $resultParagraph ?>
 
         <?php
         return ob_get_clean();
