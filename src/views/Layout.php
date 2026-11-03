@@ -71,7 +71,7 @@ class Layout
     </main>
 
     <footer>
-        <h2>Mention légales</h2>
+        <h2><a href="/index.php?action=mentions">Mentions légales</a></h2>
         <p>
             Le présent du site à été réalisé par FRANCOIS Ewan, JAMBERT Aurele, KHADISSOVA Lezina,
             MATIC CHARBIT Nina et MOYENIN Nicolas.
