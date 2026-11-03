@@ -7,9 +7,7 @@ use src\core\Response;
 use src\core\Request;
 use src\core\View;
 use src\models\ClassModel;
-use src\models\SignupModel;
 use src\core\ExceptionDatabaseController;
-use src\views\TeacherDashboardView;
 use PDOException;
 use Exception;
 
@@ -19,6 +17,7 @@ class ProfileController {
     public function execute(Request $request): Response {
         $error = null;
         $currentCode = null;
+        $currentClass = null;
         $students = [];
         if ($request->session('role') === 'teacher') {
 
@@ -27,17 +26,13 @@ class ProfileController {
 
             if ($request->method === 'POST' && $request->get('subaction') === 'generate_code') {
             // On genere le code class qui sera aleatoire et securise
-                $nomClasse = $request->post('className');
-                $character = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-                $characterLen = strlen($character);
-                $codeClasse = '';
+                $nomClasse = trim((string)$request->post('className'));
+                $cycle = trim((string)$request->post('level'));
 
-                for ($i = 0; $i < 9; $i++) {
-                    $codeClasse .= $character[rand(0, $characterLen - 1)];
-                }
-
-                try {
-                    $classModel->updateTeacherClassCode($teacherId, $codeClasse);
+                if ($nomClasse === '' || $cycle === '') {
+                    $error = 'Veuillez indiquer un nom et un cycle de classe.';
+                } else try {
+                    $codeClasse = $classModel->addClass($teacherId, $nomClasse, $cycle);
                     $request->setSession('codeClasse', $codeClasse);
                     return Response::redirect('index.php?action=profile');
                 } catch (ExceptionDatabaseController | PDOException | Exception $e) {
@@ -61,13 +56,13 @@ class ProfileController {
                 }
             }
 
-            // Récupération du code actuel et des élèves pour affichage normal de la page
-            $currentCode = $request->session('codeClasse');
-            $students = []; //Tableau de tableau contenant les élèves (+ leurs infos) associés a leurs professeurs
             try {
+                // Récupération du code actuel et des élèves pour affichage normal de la page
+                $currentCode = $request->session('codeClasse')
+                    ?: $classModel->getClassCodeByTeacher($teacherId);
                 $students = $classModel->getStudentsByTeacher($teacherId);
             } catch (Exception $e) {
-                $error = 'Impossible de charger les élèves.';
+                $error = 'Impossible de charger les informations de la classe.';
             }
 
             if ($request->method === 'POST' && $request->post('action_type') === 'import_csv') {
@@ -92,16 +87,16 @@ class ProfileController {
             $studentId = (int)$request->session('studentId');
 
             try {
-                $currentCode = $classModel->getTeacherClassCode($studentId);
+                $currentClass = $classModel->getClassName($studentId);
             } catch (ExceptionDatabaseController | PDOException | Exception $e) {
-                $error = 'Impossible de récupérer le code de la classe.';
+                $error = 'Impossible de récupérer le nom de la classe.';
             }
         }
 
         $vue = (new \src\views\ProfileView())->show(
             $request->session('role'), 
             $error, 
-            $currentCode, 
+            $currentClass ?? $currentCode,
             $students
         );
         return $this->view->render('profile', $vue);

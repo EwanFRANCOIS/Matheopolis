@@ -12,7 +12,7 @@ use src\views\components\Alert;
 
 class ProfileView
 {
-    public function show(?string $role, ?string $error = null, ?string $codeClasse = null, ?array $students = []): string
+    public function show(?string $role, ?string $error = null, ?string $classInfo = null, ?array $students = []): string
     {
 
         $info = new Paragraph([
@@ -26,19 +26,24 @@ class ProfileView
         }
         $alertError = new Alert($messages);
 
-        $codeMessage = $codeClasse 
-            ? $alertCode = new Alert(["Code de classe : " . $codeClasse], true)
+        $codeMessage = $classInfo
+            ? $alertCode = new Alert(["Code de classe : " . $classInfo], true)
             : $alertCode = new Alert(["Vous n'avez pas encore généré de code pour votre classe."]);
 
         // Bouton pour générer ou régénérer le code de classe
-        $buttonLabel = $codeClasse 
+        $buttonLabel = $classInfo
             ? 'Générer un nouveau code' 
             : 'Créer ma classe (Générer un code)';
 
 
         $formClass = new Form('index.php?action=profile&subaction=generate_code', [
             new Input('className', 'Nom de la classe :', 'text', 'Nom de la classe (ex: Seconde B)', '', true),
-            new Select('level', 'Niveau de la classe :', ['Cycle Collège', 'Lycée : Seconde', 'Lycée : Première', 'Lycée : Terminale']),
+            new Select('level', 'Niveau de la classe :', [
+                'college' => 'Cycle Collège',
+                'seconde' => 'Lycée : Seconde',
+                'premiere' => 'Lycée : Première',
+                'terminale' => 'Lycée : Terminale',
+            ]),
             new Button($buttonLabel, 'submit'),
         ]);
 
@@ -103,7 +108,7 @@ if ($role === 'teacher') {
     </div>
 
     <!-- création de compte pour élève (si code classe existe)-->
-    <?php if ($codeClasse) : ?>
+    <?php if ($classInfo) : ?>
     <div class="card notebook">
         <span class="small">INSCRIPTION</span>
         <h2>Créer un compte pour un élève</h2>
@@ -142,7 +147,7 @@ if ($role === 'teacher') {
         <span class="small">CARNET D'APPRENTISSAGE</span>
         <h2>Informations sur votre classe</h2>
         <div>
-            <h2>Votre code de classe : <?= $codeClasse ?></h2>
+            <h2>Votre classe : <?= htmlspecialchars($classInfo, ENT_QUOTES, 'UTF-8') ?></h2>
         </div>
     </div>
     <?php

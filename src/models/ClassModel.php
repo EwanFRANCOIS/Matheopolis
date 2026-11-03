@@ -24,18 +24,37 @@ class ClassModel{
     /**
      * Permet à l'enseignant de mettre à jour son code de classe.
      * @param int $teacherId Identifiant associé au professeur
-     * @param string $codeClasse Code permettant la connexion à la bonne classe
-     * @return bool True si la mise à jour a modifié au moins une ligne, false sinon
+     * @param string $nomClasse Nom de la classe
+     * @param string $cycle Cycle de la classe
+     * @return string Le code de la classe créé
      */
-    public function updateTeacherClassCode(int $teacherId, string $codeClasse): bool
+    public function addClass(int $teacherId, string $nomClasse, string $cycle): string
     {
-        $sql = "UPDATE users SET code_classe = :code WHERE id = :id AND role = 'teacher'";
+        $character = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $characterLen = strlen($character);
+        do {
+            $classCode = '';
+            for ($i = 0; $i < 9; $i++) {
+                $classCode .= $character[random_int(0, $characterLen - 1)];
+            }
+            $check = $this->connection->getConnection()->prepare(
+                'SELECT 1 FROM classes WHERE classCode = :code LIMIT 1'
+            );
+            $check->execute([':code' => $classCode]);
+        } while ($check->fetchColumn() !== false);
+
+        $sql = "INSERT INTO classes (classCode, name, cycle, teacher_id)
+                VALUES (:code, :name, :cycle, :id)";
         $statement = $this->connection->getConnection()->prepare($sql);
 
-        return $statement->execute([
-            ':code' => $codeClasse,
+        $statement->execute([
+            ':code' => $classCode,
+            ':name' => $nomClasse,
+            ':cycle' => $cycle,
             ':id' => $teacherId
         ]);
+
+        return $classCode;
     }
 
     /**
@@ -45,31 +64,47 @@ class ClassModel{
      */
     public function getStudentsByTeacher(int $teacherId): array
     {
-        $sql = "SELECT id, username, code_classe FROM users WHERE prof_id = :prof_id AND role = 'student'";
+        $sql = "SELECT u.username, c.name AS Classe FROM users u
+                JOIN classes c ON u.code_classe = c.classCode
+                WHERE c.teacher_id = :teacher_id AND u.role = 'student'
+                ORDER BY u.username";
         $statement = $this->connection->getConnection()->prepare($sql);
 
-        $statement->execute([':prof_id' => $teacherId]);
+        $statement->execute([':teacher_id' => $teacherId]);
         //Permet de dire en gros "Transforme chaque ligne renvoyé par curseur (fetch) en tableau associatif"
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 
     /**
-     * Récupère le code de la classe d'un élève.
+     * Récupère le nom de la classe d'un élève.
      * @param int $studentId Identifiant associé à l'élève
-     * @return string|null Renvoie le code de la classe de l'élève, ou null si non trouvé
+     * @return string|null Renvoie le nom de la classe si trouvé, sinon null
      **/
-    public function getTeacherClassCode(int $studentId): ?string
+    public function getClassName(int $studentId): ?string
     {
-        $sql = "SELECT teacher.code_classe
-                FROM users AS student
-                INNER JOIN users AS teacher ON teacher.id = student.prof_id
-                WHERE student.id = :student_id";
+        $sql = "SELECT c.name
+                FROM classes c JOIN users u ON c.classCode = u.code_classe
+                WHERE u.id = :student_id";
         $statement = $this->connection->getConnection()->prepare($sql);
 
         $statement->execute([':student_id' => $studentId]);
         $result = $statement->fetch(PDO::FETCH_ASSOC);
 
-        return $result['code_classe'] ?? null;
+        return $result['name'] ?? null;
+    }
+
+    /**
+     * Récupère le code de la classe d'un enseignant.
+     */
+    public function getClassCodeByTeacher(int $teacherId): ?string
+    {
+        $statement = $this->connection->getConnection()->prepare(
+            'SELECT classCode FROM classes WHERE teacher_id = :teacher_id LIMIT 1'
+        );
+        $statement->execute([':teacher_id' => $teacherId]);
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+
+        return $result['classCode'] ?? null;
     }
 
     /**
@@ -78,18 +113,28 @@ class ClassModel{
     * @param string $pseudo Pseudonyme de l'élève
     * @param string $password Mot de passe de l'élève
     * @param string $codeClasse Code pour rejoindre la classe
-
+    * @return bool True si l'élève a été créé, false sinon
     */
         
     public function createStudent(int $teacherId, string $pseudo, string $password, string $codeClasse): bool
     {
-        $sql = "INSERT INTO users (username, password, role, prof_id, code_classe) VALUES (:username, :password, 'student', :prof_id, :code_classe)";
+        $classStatement = $this->connection->getConnection()->prepare(
+            'SELECT 1 FROM classes WHERE classCode = :code AND teacher_id = :teacher_id LIMIT 1'
+        );
+        $classStatement->execute([
+            ':code' => $codeClasse,
+            ':teacher_id' => $teacherId
+        ]);
+        if ($classStatement->fetchColumn() === false) {
+            throw new \RuntimeException('Le code de classe ne correspond pas à cet enseignant.');
+        }
+
+        $sql = "INSERT INTO users (username, password, role, code_classe) VALUES (:username, :password, 'student', :code_classe)";
         $statement = $this->connection->getConnection()->prepare($sql);
 
         return $statement->execute([
             ':username' => $pseudo,
             ':password' => password_hash($password, PASSWORD_DEFAULT),
-            ':prof_id' => $teacherId,
             ':code_classe' => $codeClasse
         ]);
     }
@@ -122,6 +167,13 @@ class ClassModel{
         return preg_replace('/[^a-z0-9\.\-]/', '', $chaine);
     }
 
+    /**
+     * Importe des élèves à partir d'un fichier CSV et les crée dans la base de données.
+     * @param int $teacherId Identifiant associé au professeur
+     * @param string $codeClasse Code pour rejoindre la classe
+     * @param string $csvFilePath Chemin vers le fichier CSV
+     * @return int Nombre d'élèves créés
+     */
     public function importStudentsCsv(int $teacherId, string $codeClasse, string $csvFilePath): int
     {
         if (($handle = fopen($csvFilePath, 'r')) === false) {
@@ -129,9 +181,21 @@ class ClassModel{
         }
 
         $pdo = $this->connection->getConnection();
+
+        $classStatement = $pdo->prepare(
+            'SELECT 1 FROM classes WHERE classCode = :code AND teacher_id = :teacher_id LIMIT 1'
+        );
+        $classStatement->execute([
+            ':code' => $codeClasse,
+            ':teacher_id' => $teacherId
+        ]);
+        if ($classStatement->fetchColumn() === false) {
+            fclose($handle);
+            throw new \RuntimeException('Le code de classe ne correspond pas à cet enseignant.');
+        }
         
         $checkStmt = $pdo->prepare('SELECT COUNT(*) FROM users WHERE username = ?');
-        $insertStmt = $pdo->prepare('INSERT INTO users (username, password, role, prof_id, code_classe) VALUES (?, ?, "student", ?, ?)');
+        $insertStmt = $pdo->prepare('INSERT INTO users (username, password, role, code_classe) VALUES (?, ?, "student", ?)');
 
         $password = password_hash($codeClasse, PASSWORD_DEFAULT);
         $count = 0;
@@ -166,7 +230,7 @@ class ClassModel{
                     $pseudo = "$basePseudo-$i";
                 }
 
-                $insertStmt->execute([$pseudo, $password, $teacherId, $codeClasse]);
+                $insertStmt->execute([$pseudo, $password, $codeClasse]);
                 $count++;
             }
         }
