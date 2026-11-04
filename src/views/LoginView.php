@@ -11,8 +11,13 @@ use src\views\components\Paragraph;
 
 class LoginView
 {
-    public function show(?string $error = null): string
+    public function __construct(private readonly ?string $error = null)
     {
+    }
+
+    public function show(): string
+    {
+        $error = $this->error;
         $info = new Paragraph([
             'Vous avez déjà vendu votre âme ? Connectez vous pour accéder à l\'ensemble du site.'
         ]);

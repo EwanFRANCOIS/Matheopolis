@@ -11,8 +11,13 @@ use src\views\components\Paragraph;
 
 class SignupView
 {
-    public function show(?string $error = null): string
+    public function __construct(private readonly ?string $error = null)
     {
+    }
+
+    public function show(): string
+    {
+        $error = $this->error;
         $info = new Paragraph([
             'Si vous voulez accedez à l\'ensemble du site blah blah blah vendez votre âme et inscrivez vous :)'
         ]);

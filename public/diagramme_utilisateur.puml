@@ -1,0 +1,76 @@
+@startuml
+left to right direction
+skinparam packageStyle rectangle
+skinparam nodesep 25
+skinparam ranksep 35
+
+' --- ACTEURS ---
+actor "Visiteur" as Guest
+actor "Utilisateur Connecté" as User
+actor "Élève" as Student
+actor "Enseignant" as Teacher
+
+' Hiérarchie des acteurs (Héritage)
+User <|-- Student
+User <|-- Teacher
+
+' --- SYSTÈME ---
+rectangle "Plateforme Mathéopolis" {
+
+    package "Authentification & Compte" {
+        usecase "Consulter l'accueil" as UC_Home
+        usecase "S'inscrire (créer un compte)" as UC_Signup
+        usecase "Se connecter" as UC_Login
+        usecase "Demander la réinitialisation du mot de passe" as UC_AskToken
+        usecase "Réinitialiser son mot de passe" as UC_ResetPassword
+        usecase "Consulter / Gérer son profil" as UC_Profile
+        usecase "Supprimer son compte" as UC_DeleteAccount
+        usecase "Se déconnecter" as UC_Logout
+    }
+
+    package "Univers & Pédagogie" {
+        usecase "Découvrir l'histoire / l'univers" as UC_Story
+        usecase "Consulter les livres Mathéopolis" as UC_Books
+        usecase "Participer aux activités mathématiques" as UC_Activities
+        usecase "Résoudre une opération arithmétique" as UC_Solve
+    }
+
+    package "Espace Pédagogique (Gestion de classe)" {
+        usecase "Consulter son code de classe" as UC_StudentClassCode
+        usecase "Générer un code de classe" as UC_GenerateCode
+        usecase "Consulter la liste de ses élèves" as UC_ViewStudents
+        usecase "Créer manuellement un compte élève" as UC_CreateStudent
+        usecase "Importer des élèves via fichier CSV" as UC_ImportCSV
+    }
+}
+
+' --- INTERACTIONS : VISITEUR ---
+Guest --> UC_Home
+Guest --> UC_Signup
+Guest --> UC_Login
+Guest --> UC_AskToken
+Guest --> UC_ResetPassword
+
+' --- INTERACTIONS : UTILISATEUR CONNECTÉ (COMMUNES) ---
+User --> UC_Home
+User --> UC_Profile
+User --> UC_DeleteAccount
+User --> UC_Logout
+User --> UC_Story
+User --> UC_Books
+User --> UC_Activities
+
+' Relations d'inclusion (include)
+UC_Activities ..> UC_Solve : <<include>>
+UC_ResetPassword ..> UC_AskToken : <<include>>
+
+' --- INTERACTIONS SPÉCIFIQUES : ÉLÈVE ---
+Student --> UC_StudentClassCode
+
+' --- INTERACTIONS SPÉCIFIQUES : ENSEIGNANT ---
+Teacher --> UC_GenerateCode
+Teacher --> UC_ViewStudents
+Teacher --> UC_CreateStudent
+Teacher --> UC_ImportCSV
+
+@enduml
