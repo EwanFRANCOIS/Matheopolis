@@ -63,9 +63,10 @@ class MentionsView
         <?= $editionIntro ?>
         <ul>
             <li><?= new Strong('Ewan François') ?></li>
-            <li><?= new Strong('Nicolas Moyenin') ?></li>
-            <li><?= new Strong('Nina Matcha') ?></li>
             <li><?= new Strong('Aurèle Jambert') ?></li>
+            <li><?= new Strong('Lezina Khadissova') ?></li>
+            <li><?= new Strong('Nina Matic-Charbit') ?></li>
+            <li><?= new Strong('Nicolas Moyenin') ?></li>
         </ul>
         <?= $directeurPublication ?>
     </article>
