@@ -5,8 +5,8 @@
 namespace src\models;
 
 use src\core\DatabaseConnection;
-use Exception;
 use src\core\ExceptionDatabaseController;
+use PDO;
 
 /**
  * Modèle gérant la persistance des données d'inscription en base de données.
@@ -34,14 +34,14 @@ class SignupModel
      * @param bool $_isTeacher Indique si l'utilisateur est un enseignant.
      *
      * @throws ExceptionDatabaseController Si la requête d'insertion échoue.
-     * @return bool Retourne true si l'inscription a réussi, false sinon.
+     * @return object Utilisateur créé.
      */
-    public function getSignup(string $_login, string $_password, bool $_isTeacher): bool
+    public function getSignup(string $_login, string $_password, bool $_isTeacher): object
     {
         $passwordHash = password_hash($_password, PASSWORD_DEFAULT);
         $role = $_isTeacher ? 'teacher' : 'unknown';
         $statement = $this->connection->getConnection()->prepare(
-            "INSERT INTO users (email, password, role, reset_code, expiration_date) VALUES (:login, :password, :role, NULL, NULL);"
+            "INSERT INTO users (email, password, role) VALUES (:login, :password, :role);"
         );
         if (!$statement->execute([
             ':login' => $_login,
@@ -51,6 +51,21 @@ class SignupModel
             throw new ExceptionDatabaseController('Le mot de passe ou le login est incorrect');
         }
 
-        return true;
+        $statementConnexion = $this->connection->getConnection()->prepare(
+            'SELECT id, email, role FROM users WHERE id = :id LIMIT 1'
+        );
+
+        if (!$statementConnexion->execute([
+            ':id' => $this->connection->getConnection()->lastInsertId()
+        ])) {
+            throw new ExceptionDatabaseController('Le compte n’a pas pu être récupéré après sa création.');
+        }
+
+        $signup = $statementConnexion->fetch(PDO::FETCH_OBJ);
+        if (!$signup) {
+            throw new ExceptionDatabaseController('Le compte n’a pas pu être récupéré après sa création.');
+        }
+
+        return $signup;
     }
 }

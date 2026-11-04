@@ -7,6 +7,8 @@ use src\core\Response;
 use src\core\Request;
 use src\core\View;
 use src\models\DeleteModel;
+use PDOException;
+use Exception;
 
 /**
  * Contrôleur de la page de suppression.
@@ -30,28 +32,27 @@ class DeleteController
      */
     public function execute(Request $request): Response
     {
-        if ($request->session('email') !== null || $request->session('username') !== null) {
+        if ($request->session('userId') !== null) {
             $error = null;
-            if ($request->session('email') !== null) {
-                $_login = $request->session('email');
-                }
-            elseif($request->session('username') !== null) {
-                $_login = $request->session('username');
-            }
+            $id = $request->session('userId');
             if ($request->method === 'POST') {
                 $_action = $request->post('action');
 
                 if ($_action === 'deleteUser') {
-                    $Password = $request->post('password');
-                    if ($Password) {
-                        $deleteModel = new DeleteModel(DatabaseConnection::getInstance());
-                        $delete = $deleteModel->getDelete($_login, $Password);
+                    $password = $request->post('password');
+                    if ($password) {
+                        try {
+                            $deleteModel = new DeleteModel(DatabaseConnection::getInstance());
+                            $delete = $deleteModel->getDelete((int) $id, $password);
 
-                        if ($delete) {
-                            $request->destroySession();
-                            return Response::redirect('/index.php');
-                        } else {
+                            if ($delete) {
+                                $request->destroySession();
+                                return Response::redirect('/index.php');
+                            }
                             $error = 'Mot de passe incorrect';
+                        } catch (PDOException | Exception $e) {
+                            error_log('Suppression du compte impossible : ' . $e->getMessage());
+                            $error = 'La suppression du compte est impossible pour le moment.';
                         }
                     } else {
                         $error = 'Veuillez remplir tous les champs';

@@ -48,8 +48,8 @@ class SignupController
                         $signupModel = new SignupModel(DatabaseConnection::getInstance());
                         $signup = $signupModel->getSignup($_login, $_password, $_isTeacher);
                         $request->setSession('userId', $signup->id);
-                        $request->setSession('email', $_login);
-                        $request->setSession('role', $_isTeacher ? 'teacher' : 'unknown');
+                        $request->setSession('email', $signup->email);
+                        $request->setSession('role', $signup->role);
                         return Response::redirect('index.php?success=true');
 
                         # Les | permettent juste de reunnir 3 catch en 1 seul pour eviter d'en avoir 3
