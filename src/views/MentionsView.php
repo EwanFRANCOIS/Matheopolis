@@ -18,11 +18,6 @@ class MentionsView
             'Le site est développé et édité par :'
         ]);
 
-        $directeurPublication = new Paragraph([
-            new Strong('Directeur de publication : '),
-            'Mickael Martin - Nevot'
-        ]);
-
         $universite = new Paragraph([
             'IUT d\'Aix (Département Informatique)',
             '<br>',
@@ -51,13 +46,13 @@ class MentionsView
 <header>
     <h1>Mentions légales</h1>
 </header>
-
+<br>
 <section class="mentions-legales">
     <article class="card">
         <h2>I - Cadre du projet</h2>
         <?= $cadreProjet ?>
     </article>
-
+    <br>
     <article class="card">
         <h2>II - Édition du site</h2>
         <?= $editionIntro ?>
@@ -70,17 +65,17 @@ class MentionsView
         </ul>
         <?= $directeurPublication ?>
     </article>
-
+    <br>
     <article class="card">
         <h2>III - Université</h2>
         <?= $universite ?>
     </article>
-
+    <br>
     <article class="card">
         <h2>IV - Hébergement</h2>
         <?= $hebergement ?>
     </article>
-
+    <br>
     <article class="card">
         <h2>V - Données personnelles et cookies</h2>
         <?= $donneesPersonnelles ?>
