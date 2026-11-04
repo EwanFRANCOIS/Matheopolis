@@ -47,6 +47,7 @@ class SignupController
                     try {
                         $signupModel = new SignupModel(DatabaseConnection::getInstance());
                         $signup = $signupModel->getSignup($_login, $_password, $_isTeacher);
+                        $request->setSession('userId', $signup->id);
                         $request->setSession('email', $_login);
                         $request->setSession('role', $_isTeacher ? 'teacher' : 'unknown');
                         return Response::redirect('index.php?success=true');
