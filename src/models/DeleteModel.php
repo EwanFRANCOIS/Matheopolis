@@ -29,20 +29,22 @@ class DeleteModel
      *
      * @return bool Retourne true si la suppression a réussi, false sinon.
      */
-    public function getDelete(string $_login, string $Password): ?bool
+    public function getDelete(int $id, string $password): bool
     {
-
-        $statement = $this->connection->getConnection()->
-        prepare('SELECT password FROM users WHERE email = :login OR username = :login LIMIT 1;');
-        if (!$statement->execute([':login' => $_login])) {
+        $statement = $this->connection->getConnection()->prepare(
+            'SELECT password FROM users WHERE id = :id LIMIT 1'
+        );
+        if (!$statement->execute([':id' => $id])) {
             throw new ExceptionDatabaseController('Le mot de passe est incorrect');
         }
         $connection = $statement->fetch(PDO::FETCH_OBJ);
-        if (!$connection || !password_verify($Password, $connection->password)) {
+        if (!$connection || !password_verify($password, $connection->password)) {
             return false;
         }
 
-        $deleteStatement = $this->connection->getConnection()->prepare('DELETE FROM users WHERE email = :login OR username = :login;');
-        return $deleteStatement->execute([':login' => $_login]);
+        $deleteStatement = $this->connection->getConnection()->prepare(
+            'DELETE FROM users WHERE id = :id'
+        );
+        return $deleteStatement->execute([':id' => $id]);
     }
 }

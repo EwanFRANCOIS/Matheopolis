@@ -29,7 +29,7 @@ class WorldController
             $page = (int) $request->get('page', 1);
             $nombrePages = 3;
 
-            $vue = (new \src\views\WorldView())->show($activites, $page, $nombrePages);
+            $vue = (new \src\views\WorldView($activites, $page, $nombrePages))->show();
             return $this->view->render('L\'univers', $vue);
         } else {
             return Response::redirect('/index.php?action=login');

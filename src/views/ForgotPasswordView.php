@@ -21,8 +21,18 @@ class ForgotPasswordView
      * @return void
      */
 
-    public function show($token = null, $messageError = null, bool $mailSent = false): string
+    public function __construct(
+        private readonly ?string $token = null,
+        private readonly ?string $messageError = null,
+        private readonly bool $mailSent = false
+    ) {
+    }
+
+    public function show(): string
     {
+        $token = $this->token;
+        $messageError = $this->messageError;
+        $mailSent = $this->mailSent;
 
         $verifmail = new Paragraph([
             "Vérifiez votre boîte de réception."
@@ -77,7 +87,6 @@ class ForgotPasswordView
             ),
             new Button('Envoyer le lien', 'submit', 'action', 'request_reset'),
         ]);
-
         ob_start();
         ?>
 

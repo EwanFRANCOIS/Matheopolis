@@ -10,8 +10,13 @@ use src\views\components\Link;
 
 class ActivityView
 {
-    public function show(string|float|null $result = null): string
+    public function __construct(private readonly string|float|null $result = null)
     {
+    }
+
+    public function show(): string
+    {
+        $result = $this->result;
 
         $buttonCalculator = new Button(
             label: 'Calculatrice', 
@@ -23,6 +28,7 @@ class ActivityView
         $linkQuiz = new link('/index.php?action=quiz', 'Quiz', 'btn jeu');
         $jeu2 = new link('/index.php?action=', 'jeu 2', 'btn jeu');
         $jeu3 = new link('/index.php?action=', 'jeu 3', 'btn jeu');
+
         $form = new Form('/index.php?action=activity', [
             new Input('op1', 'Opérande 1 :', 'text', '', '', true),
             new Input('op2', 'Opérande 2 :', 'text', '', '', true),

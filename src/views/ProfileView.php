@@ -8,12 +8,27 @@ use src\views\components\Input;
 use src\views\components\Select;
 use src\views\components\Button;
 use src\views\components\Alert;
+use src\views\components\ListComponent;
 
 
 class ProfileView
 {
-    public function show(?string $role, ?string $error = null, ?string $codeClasse = null, ?array $students = []): string
+    public function __construct(
+        private readonly ?string $role,
+        private readonly ?string $error = null,
+        private readonly string|array|null $classInfo = null,
+        private readonly ?array $students = [],
+        private readonly ?array $classes = [],
+        private readonly ?string $createdCode = null
+    ) {}
+
+    public function show(): string
     {
+        $role = $this->role;
+        $error = $this->error;
+        $classInfo = $this->classInfo;
+        $students = $this->students;
+        $classes = $this->classes;
 
         $info = new Paragraph([
             'Bienvenue sur votre profil'
@@ -26,19 +41,29 @@ class ProfileView
         }
         $alertError = new Alert($messages);
 
-        $codeMessage = $codeClasse 
-            ? $alertCode = new Alert(["Code de classe : " . $codeClasse], true)
-            : $alertCode = new Alert(["Vous n'avez pas encore généré de code pour votre classe."]);
+        $alertCode = $this->createdCode
+            ? new Alert(["Code de classe : " . $this->createdCode], true)
+            : new Alert(["Vous n'avez pas encore généré de code pour votre classe."]);
 
         // Bouton pour générer ou régénérer le code de classe
-        $buttonLabel = $codeClasse 
+        $buttonLabel = !empty($classes)
             ? 'Générer un nouveau code' 
             : 'Créer ma classe (Générer un code)';
+
+        $classOptions = [];
+        foreach ($classes as $class) {
+            $classOptions[$class['code']] = $class['name'] . ' (' . $class['cycle'] . ')';
+        }
 
 
         $formClass = new Form('index.php?action=profile&subaction=generate_code', [
             new Input('className', 'Nom de la classe :', 'text', 'Nom de la classe (ex: Seconde B)', '', true),
-            new Select('level', 'Niveau de la classe :', ['Cycle Collège', 'Lycée : Seconde', 'Lycée : Première', 'Lycée : Terminale']),
+            new Select('level', 'Niveau de la classe :', [
+                'college' => 'Cycle Collège',
+                'seconde' => 'Lycée : Seconde',
+                'premiere' => 'Lycée : Première',
+                'terminale' => 'Lycée : Terminale',
+            ]),
             new Button($buttonLabel, 'submit'),
         ]);
 
@@ -47,6 +72,7 @@ class ProfileView
             new Input('action_type', '', 'hidden', '', 'create_student'),
             new Input('pseudo', 'Pseudo de l\'élève :', 'text', 'Entrez le pseudo', '', true),
             new Input('password', 'Mot de passe temporaire :', 'password', 'Mot de passe', '', true),
+            new Select('code', 'Classe :', $classOptions),
             new Button('Créer l\'élève', 'submit')
         ]);
 
@@ -56,6 +82,7 @@ class ProfileView
             'index.php?action=profile',
             [
                 new Input('action_type', '', 'hidden', '', 'import_csv'),
+                new Select('code', 'Classe :', $classOptions),
                 new Input('fichier_eleves', 'Sélectionner le fichier CSV :', 'file', '', '', true),
                 new Button('Importer les élèves', 'submit')
             ],
@@ -103,7 +130,7 @@ if ($role === 'teacher') {
     </div>
 
     <!-- création de compte pour élève (si code classe existe)-->
-    <?php if ($codeClasse) : ?>
+    <?php if (!empty($classes)) : ?>
     <div class="card notebook">
         <span class="small">INSCRIPTION</span>
         <h2>Créer un compte pour un élève</h2>
@@ -114,26 +141,29 @@ if ($role === 'teacher') {
     </div>
     <?php endif; ?>
 
-    <!-- Liste eleves associés au prof -->
+    <!-- Liste des classes et de leurs élèves -->
     <div class="card notebook">
         <span class="small">SUIVI</span>
-        <h2>Liste de vos élèves inscrits :</h2>
+        <h2>Vos classes</h2>
 
-        <?php if (empty($students)) : ?>
-            <p><em>Aucun élève n'a rejoint votre classe pour l'instant.</em></p>
-        <?php else : ?>
-            <ul style="list-style-type: disc; padding-left: 20px;">
-                <?php foreach ($students as $student) : ?>
-                     <!-- ENT_QUOTES permet de convertir les guillemets en chaine de caractere (htmlspecialchars ne le fait pas par défaut apparemment) -->
-                    <li>Élève : 
-                        <strong><?=htmlspecialchars($student['username'], ENT_QUOTES, 'UTF-8') ?></strong>
+        <?php if (!empty($classes)) : ?>
+            <ul class="classes">
+                <?php foreach ($classes as $class) : ?>
+                    <li>
+                        <h3><?= $class['name'] ?></h3>
+                        <p class="small"> <?= $class['cycle'] ?> - <?= $class['code'] ?></p>
+                        <?php if (!empty($class['students'])) : ?>
+                            <?= new ListComponent($class['students']) ?>
+                        <?php else : ?>
+                            <p><em>Aucun élève inscrit.</em></p>
+                        <?php endif; ?>
                     </li>
                 <?php endforeach; ?>
             </ul>
+        <?php else : ?>
+            <p>Aucune classe n'a été créée pour le moment.</p>
         <?php endif; ?>
     </div>
-
-
 
     <?php
 } else if ($role === 'student') {
@@ -142,7 +172,9 @@ if ($role === 'teacher') {
         <span class="small">CARNET D'APPRENTISSAGE</span>
         <h2>Informations sur votre classe</h2>
         <div>
-            <h2>Votre code de classe : <?= $codeClasse ?></h2>
+            <h2>Votre classe : <?= $classInfo['name'] ?? '' ?></h2>
+            <p>Cycle : <?= $classInfo['cycle'] ?? '' ?></p>
+            <p>Code : <strong><?= $classInfo['classCode'] ?? '' ?></strong></p>
         </div>
     </div>
     <?php
