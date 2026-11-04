@@ -7,11 +7,17 @@ use src\views\components\Link;
 
 class WorldView
 {
-    public function show(
-        array $activites,
-        int $page,
-        int $nombrePages
-    ): string {
+    public function __construct(
+        private readonly array $activites,
+        private readonly int $page,
+        private readonly int $nombrePages
+    ) {
+    }
+
+    public function show(): string {
+        $activites = $this->activites;
+        $page = $this->page;
+        $nombrePages = $this->nombrePages;
         $content = new Paragraph([
             $activites[$page - 1] ?? '',
         ]);

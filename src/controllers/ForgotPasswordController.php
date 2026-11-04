@@ -98,7 +98,7 @@ class ForgotPasswordController
 
         //Appel de vue
         $mailSent = $request->get('mail') === 'sent';
-        $vue = (new ForgotPasswordView())->show($token, $messageError, $mailSent);
+        $vue = (new ForgotPasswordView($token, $messageError, $mailSent))->show();
         return $this->view->render('Mot de passe oublié', $vue);
     }
 }

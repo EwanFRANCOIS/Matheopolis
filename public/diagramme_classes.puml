@@ -1,0 +1,282 @@
+@startuml
+top to bottom direction
+skinparam nodesep 15
+skinparam ranksep 35
+skinparam packageStyle rectangle
+skinparam linetype polyline
+
+' --- 1. MODÈLES (EN HAUT) ---
+package "Modèles (Models)" as PkgModels {
+    class ClassModel {
+        -$db: PDO
+        -$connection: DatabaseConnection
+        +__construct($connection: DatabaseConnection)
+        +updateTeacherClassCode($teacherId: int, $codeClasse: string): bool
+        +getStudentsByTeacher($teacherId: int): array
+        +createStudent($teacherId: int, $pseudos: string, $password: string, $codeClasse: string): bool
+    }
+    class DeleteModel {
+        -$connection: DatabaseConnection
+        +__construct($connection: DatabaseConnection)
+        +getDelete($_login: string, $password: string): ?bool
+    }
+    class ForgotPasswordModel {
+        -$connection: DatabaseConnection
+        +__construct($connection: DatabaseConnection)
+        +saveTokenInDatabase($email: string, $token: string): bool
+        +verifyTokenAndChangePassword($token: string, $newPassword: string): bool
+    }
+    class LoginModel {
+        -$connection: DatabaseConnection
+        +__construct($connection: DatabaseConnection)
+        +getConnection($_login: string, $_password: string): ?object
+    }
+    class SignupModel {
+        -$connection: DatabaseConnection
+        +__construct($connection: DatabaseConnection)
+        +getSignup($_login: string, $_password: string, $_isTeacher: bool): bool
+        +getUserByEmail($email: string): ?array
+    }
+}
+
+' --- 2. CONTRÔLEURS (AU MILIEU) ---
+package "Contrôleurs (Controllers)" as PkgControllers {
+    class AccountController {
+        -$view: View
+        +__construct($view: View)
+        +execute($request: Request): Response
+    }
+    class ActivityController {
+        -$view: View
+        +__construct($view: View)
+        +execute($request: Request): Response
+    }
+    class BookController {
+        -$view: View
+        +__construct($view: View)
+        +execute($request: Request): Response
+    }
+    class DeleteController {
+        -$view: View
+        +__construct($view: View)
+        +execute($request: Request): Response
+    }
+    class ForgotPasswordController {
+        -$view: View
+        +__construct($view: View)
+        +execute($request: Request): Response
+    }
+    class HomepageController {
+        -$view: View
+        +__construct($view: View)
+        +execute($request: Request): Response
+    }
+    class LoginController {
+        -$view: View
+        +__construct($view: View)
+        +execute($request: Request): Response
+    }
+    class LogoutController {
+        +execute($request: Request): Response
+    }
+    class ProfileController {
+        -$view: View
+        +__construct($view: View)
+        +execute($request: Request): Response
+    }
+    class SignupController {
+        -$view: View
+        +__construct($view: View)
+        +execute($request: Request): Response
+    }
+    class WorldController {
+        -$view: View
+        +__construct($view: View)
+        +execute($request: Request): Response
+    }
+}
+
+' --- 3. VUES (EN BAS) ---
+package "Vues (Views)" as PkgViews {
+    class AccountView {
+        +show(): string
+    }
+    class ActivityView {
+        +show($result: string|float|null): string
+    }
+    class BookView {
+        +show(): string
+    }
+    class DeleteView {
+        +show($error: ?string): string
+    }
+    class ErrorView {
+        -$message: string
+        +show(): string
+    }
+    class ForgotPasswordView {
+        +show(...): string
+    }
+    class HomepageView {
+        +show(): string
+    }
+    class LoginView {
+        +show($error: ?string): string
+    }
+    class ProfileView {
+        +show(...): string
+    }
+    class SignupView {
+        +show($error: ?string): string
+    }
+    class StoryView {
+        +show($activites: array): string
+    }
+    class WorldView {
+        +show(...): string
+    }
+}
+
+' --- CONTRAINTES D'ALIGNEMENT DES COUCHES MVC ---
+PkgModels -[hidden]down-> PkgControllers
+PkgControllers -[hidden]down-> PkgViews
+
+' --- NOYAU & CONFIGURATION ---
+package "Core / Entrée" {
+    class Index <<Entry Point>> {}
+    class Autoloader {
+        +register(): void
+    }
+    class Env {
+        +charger($chemin: string): void
+        +get($cle: string, $defaut: ?string): ?string
+    }
+    class DatabaseConnection {
+        -$connection: ?PDO
+        -$instance: ?DatabaseConnection
+        -__construct()
+        +{static} getInstance(): DatabaseConnection
+        +getConnection(): PDO
+    }
+    class Request {
+        +$method: string
+        +$path: string
+        +$get: array
+        +$post: array
+        +$headers: array
+        +__construct(...)
+        +{static} fromGlobals(): self
+        +get($key: string, $default)
+        +post($key: string, $default)
+        +setSession($key: string, $value: mixed): void
+        +destroySession(): void
+    }
+    class Response {
+        -$content: string
+        -$statusCode: int
+        -$headers: array
+        +__construct($content: string, $statusCode: int, $headers: array)
+        +{static} redirect($url: string): self
+        +send(): void
+    }
+    class Router {
+        -$routes: array
+        -$factories: array
+        +__construct($routes: array, $factories: array)
+        +dispatch($request: Request): Response
+    }
+    class View {
+        -$userEmail: ?string
+        +__construct($userEmail: ?string)
+        +render($title: string, $content: string, $status: int): Response
+    }
+    class Layout {
+        -$title: string
+        -$content: string
+        -$userEmail: ?string
+        +__construct($title: string, $content: string, $userEmail: ?string)
+        +show($status: int): Response
+    }
+}
+
+' --- COMPOSANTS UI ---
+package "Composants UI" {
+    class Component {
+        +render(): string
+    }
+    class Link {
+        +render(): string
+    }
+    class Paragraph {
+        +render(): string
+    }
+    class Select {
+        +render(): string
+    }
+    class Strong {
+        +render(): string
+    }
+    class Typewriter {
+        +render(): string
+    }
+    class Button {
+        +render(): string
+    }
+    class Form {
+        +render(): string
+    }
+    class Input {}
+    class Alert {
+        +render(): string
+    }
+}
+
+' --- EXCEPTIONS ---
+package "Exceptions" {
+    class Exception {}
+    class ExceptionDatabaseController {}
+    Exception <|-- ExceptionDatabaseController
+}
+
+' --- RELATIONS NOYAU & COMPOSANTS ---
+PDO <|-- DatabaseConnection
+View --> Layout : utilise >
+Component <|-- Link
+Component <|-- Paragraph
+Component <|-- Select
+Component <|-- Strong
+Component <|-- Typewriter
+Component <|-- Input
+Component <|-- Button
+Component <|-- Form
+Component <|-- Alert
+
+
+' --- LIAISONS BASE DE DONNÉES -> MODÈLES ---
+DatabaseConnection --> ClassModel
+DatabaseConnection --> DeleteModel
+DatabaseConnection --> ForgotPasswordModel
+DatabaseConnection --> LoginModel
+DatabaseConnection --> SignupModel
+
+' --- LIAISONS CONTRÔLEURS -> MODÈLES (VERS LE HAUT) ---
+DeleteController -up-> DeleteModel
+ForgotPasswordController -up-> ForgotPasswordModel
+LoginController -up-> LoginModel
+ProfileController -up-> ClassModel
+SignupController -up-> SignupModel
+
+' --- LIAISONS CONTRÔLEURS -> VUES (VERS LE BAS) ---
+AccountController -down-> AccountView
+ActivityController -down-> ActivityView
+BookController -down-> BookView
+BookController -down-> StoryView
+DeleteController -down-> DeleteView
+ForgotPasswordController -down-> ForgotPasswordView
+HomepageController -down-> HomepageView
+LoginController -down-> LoginView
+ProfileController -down-> ProfileView
+SignupController -down-> SignupView
+WorldController -down-> WorldView
+
+@enduml

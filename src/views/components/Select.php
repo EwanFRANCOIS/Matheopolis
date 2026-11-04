@@ -13,9 +13,13 @@ final class Select extends Component
 
     public function render(): string
     {
-        $select = '<select>';
-        foreach ($this->children as $child) {
-            $select .= '<option value="' . $this->e($child) . '">' . $this->e($child) . '</option>';
+        $select = '<label for="' . $this->e($this->name) . '">' . $this->e($this->label) . '</label>';
+        $select .= '<select id="' . $this->e($this->name) . '" name="' . $this->e($this->name) . '">';
+        foreach ($this->children as $value => $label) {
+            if (is_int($value)) {
+                $value = $label;
+            }
+            $select .= '<option value="' . $this->e((string)$value) . '">' . $this->e((string)$label) . '</option>';
         }
         $select .= '</select>';
         return $select;

@@ -48,7 +48,7 @@ class ActivityController
             $result = $op;
         }
 
-        $vue = (new ActivityView())->show($result);
+        $vue = (new ActivityView($result))->show();
         return $this->view->render('Activités', $vue);
     }
 }

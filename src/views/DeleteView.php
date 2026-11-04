@@ -10,8 +10,13 @@ use src\views\components\Paragraph;
 
 class DeleteView
 {
-    public function show(?string $error = null): string
+    public function __construct(private readonly ?string $error = null)
     {
+    }
+
+    public function show(): string
+    {
+        $error = $this->error;
         $info = new Paragraph([
             'Voulez vous vraiment supprimer votre compte ? Veuillez écrire votre mot de passe pour confirmer sa suppression.'
         ]);
