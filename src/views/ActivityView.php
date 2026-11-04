@@ -9,8 +9,13 @@ use src\views\components\Paragraph;
 
 class ActivityView
 {
-    public function show(string|float|null $result = null): string
+    public function __construct(private readonly string|float|null $result = null)
     {
+    }
+
+    public function show(): string
+    {
+        $result = $this->result;
         $form = new Form('/index.php?action=activity', [
             new Input('op1', 'Opérande 1 :', 'text', '', '', true),
             new Input('op2', 'Opérande 2 :', 'text', '', '', true),
