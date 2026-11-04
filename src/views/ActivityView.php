@@ -17,11 +17,11 @@ class ActivityView
             label: 'Calculatrice', 
             type: 'submit', 
             id: 'CalculatorId',
-            class: 'btn jeu'
+            class: 'btn jeu calculator'
             );
         
-        $linkQuiz = new link('/index.php?action=quiz', 'Quiz', 'btn jeu');
-        $jeu2 = new link('/index.php?action=', 'jeu 2', 'btn jeu');
+        $linkQuiz = new link('/index.php?action=quiz', 'Quiz', 'btn jeu quiz');
+        $jeu2 = new link('/index.php?action=conversion', 'Conversion', 'btn jeu conversion');
         $jeu3 = new link('/index.php?action=', 'jeu 3', 'btn jeu');
         $form = new Form('/index.php?action=activity', [
             new Input('op1', 'Opérande 1 :', 'text', '', '', true),
