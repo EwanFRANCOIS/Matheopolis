@@ -23,19 +23,24 @@ class ProfileController {
         if ($request->session('role') === 'teacher') {
 
             $classModel = new ClassModel(DatabaseConnection::getInstance());
-            $teacherId = (int)$request->session('teacherId');
+            $userId = $request->session('userId');
+            if ($userId === null) {
+                return Response::redirect('index.php?action=login');
+            }
 
             if ($request->method === 'POST' && $request->get('subaction') === 'generate_code') {
             // On genere le code class qui sera aleatoire et securise
-                $nomClasse = trim((string)$request->post('className'));
-                $cycle = trim((string)$request->post('level'));
+                $nomClasse = $request->post('className');
+                $cycle = $request->post('level');
 
                 if ($nomClasse === '' || $cycle === '') {
                     $error = 'Veuillez indiquer un nom et un cycle de classe.';
                 } else try {
-                    $createdCode = $classModel->addClass($teacherId, $nomClasse, $cycle);
-                    return Response::redirect('index.php?action=profile');
+                    $createdCode = $classModel->addClass($userId, $nomClasse, $cycle);
+                } catch (\RuntimeException $e) {
+                    $error = $e->getMessage();
                 } catch (ExceptionDatabaseController | PDOException | Exception $e) {
+                    error_log('Création de classe impossible : ' . $e->getMessage());
                     $error = 'Error : Code class cannot be created';
                 }
             }
@@ -46,7 +51,7 @@ class ProfileController {
                 $codeClasse = $request->post('code');
                 try {
                     if ($codeClasse && $pseudo && $password) {
-                        $classModel->createStudent($teacherId, $pseudo, $password, $codeClasse);
+                        $classModel->createStudent($userId, $pseudo, $password, $codeClasse);
                         return Response::redirect('index.php?action=profile');
                     } else {
                         $error = 'Veuillez remplir tous les champs et générer un code de classe.';
@@ -58,7 +63,7 @@ class ProfileController {
 
             try {
                 // Récupération du code actuel et des élèves pour affichage normal de la page
-                $classes = $classModel->getClassesByTeacher($teacherId);
+                $classes = $classModel->getClassesByTeacher($userId);
             } catch (Exception $e) {
                 $error = 'Impossible de charger les informations de la classe.';
             }
@@ -73,7 +78,7 @@ class ProfileController {
                     $error = 'Veuillez sélectionner un fichier CSV valide.';
                 } else {
                     try {
-                        $classModel->importStudentsCsv($teacherId, $codeClasse, $fichier['tmp_name']);
+                        $classModel->importStudentsCsv($userId, $codeClasse, $fichier['tmp_name']);
                         return Response::redirect('index.php?action=profile');
                     } catch (ExceptionDatabaseController | PDOException | Exception $e) {
                         $error = 'Erreur lors de l\'importation : ' . $e->getMessage();
@@ -82,10 +87,13 @@ class ProfileController {
             }
         } else if ($request->session('role') === 'student') {
             $classModel = new ClassModel(DatabaseConnection::getInstance());
-            $studentId = (int)$request->session('studentId');
+            $userId = $request->session('userId');
+            if ($userId === null) {
+                return Response::redirect('index.php?action=login');
+            }
 
             try {
-                $currentClass = $classModel->getClassInfo($studentId);
+                $currentClass = $classModel->getClassInfo($userId);
             } catch (ExceptionDatabaseController | PDOException | Exception $e) {
                 $error = 'Impossible de récupérer le nom de la classe.';
             }

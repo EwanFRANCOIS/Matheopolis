@@ -41,10 +41,9 @@ class ProfileView
         }
         $alertError = new Alert($messages);
 
-        $classCode = is_array($classInfo) ? ($classInfo['classCode'] ?? null) : $classInfo;
-        $codeMessage = $this->createdCode
-            ? $alertCode = new Alert(["Code de classe : " . $this->createdCode], true)
-            : $alertCode = new Alert(["Vous n'avez pas encore généré de code pour votre classe."]);
+        $alertCode = $this->createdCode
+            ? new Alert(["Code de classe : " . $this->createdCode], true)
+            : new Alert(["Vous n'avez pas encore généré de code pour votre classe."]);
 
         // Bouton pour générer ou régénérer le code de classe
         $buttonLabel = !empty($classes)
