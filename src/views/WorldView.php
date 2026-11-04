@@ -13,13 +13,17 @@ class WorldView
         int $nombrePages
     ): string {
         $content = new Paragraph([
-            $activites[$page - 1],
+            $activites[$page - 1] ?? '',
         ]);
 
+        $isActive = ($i === $page);
+        $style = $isActive ? 'font-weight: bold;' : '';
 
-        $worldFirstPage = new Link('href="?action=world&page=<?= $page - 1 ?>"', '←');
-        $worldPageChange = new Link('?action=world&page=<?= $i ?>" style="<?= $i === $page ?', 'style="<?= $i === $page ? "font-weight: bold;" : "" ?>');
-        $worldLastPage = new Link('?action=world&page=<?= $page + 1 ?>', '→');
+        $prevPage = max(1, $page - 1);
+        $nextPage = min($nombrePages, $page + 1);
+
+        $worldPrevPage = new Link('/index.php?action=world&page=' . $prevPage, '←', 'page-link');
+        $worldNextPage = new Link('/index.php?action=world&page=' . $nextPage, '→', 'page-link');
 
         ob_start();
         ?>
@@ -35,15 +39,19 @@ class WorldView
     </div>
 
         <?php if ($page > 1) : ?>
-        <?= $worldFirstPage ?>
+        <?= $worldPrevPage ?>
         <?php endif; ?>
 
-        <?php for ($i = 1; $i <= $nombrePages; $i++) : ?>
-        <?= $worldPageChange ?>
-        <?php endfor; ?>
+        <?php for ($i = 1; $i <= $nombrePages; $i++) :
+            $isActive = ($i === $page);
+            $style = $isActive ? 'font-weight: bold;' : null;
+            $worldPageChange = new Link('/index.php?action=world&page=' . $i, (string)$i, 'page-link', $style);
+        
+            echo $worldPageChange;
+        endfor; ?>
 
         <?php if ($page < $nombrePages) : ?>
-        <?= $worldLastPage ?>
+        <?= $worldNextPage ?>
         <?php endif; ?>
 
 </div>
