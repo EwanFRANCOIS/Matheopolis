@@ -4,6 +4,8 @@ namespace src\views;
 
 use src\core\Response;
 use src\views\components\Link;
+use src\views\components\Button;
+use src\views\components\Paragraph;
 
 class Layout
 {
@@ -23,18 +25,29 @@ class Layout
             Suivez une aventure folle et accomplissez les énigmes tout au long de votre parcours.';
             $_titreRef = 'Matheopolis';
 
-            $acceuil = new Link('/index.php', 'Acceuil');
-            $livres = new Link('/index.php?action=book', 'Les livres');
-            $world = new Link('/index.php?action=world', 'L\'univers');
-            $activity = new Link('/index.php?action=activity', 'Activités');
+            $linkHomepage = new Link(href: '/index.php', text: 'Accueil');
+            $linkBook = new Link(href: '/index.php?action=book', text: 'Les livres');
+            $linkWorld = new Link(href: '/index.php?action=world', text: 'L\'univers');
+            $linkActivity = new Link(href: '/index.php?action=activity', text: 'Activités');
 
-            $signup = new Link('/index.php?action=signup', 'Inscription');
-            $login = new Link('/index.php?action=login', 'Connexion');
-            $profile = new Link('/index.php?action=profile', 'Profil');
-            $logout = new Link('/index.php?action=logout', 'Déconnexion');
+            $buttonMenu = new Button(label: 'Menu ▾');
 
-            $matheopolis = new Link('https://www.matheopolis.org/', 'Site officiel Matheopolis');
-            $sitemap = new Link('/sitemap.xml', 'Plan du site.');
+            $linkSignup = new Link(href: '/index.php?action=signup', text: 'Inscription');
+            $linkLogin = new Link(href: '/index.php?action=login', text: 'Connexion');
+            
+            $linkProfile = new Link(href: '/index.php?action=profile', text: 'Profil');
+            $linkLogout = new Link(href: '/index.php?action=logout', text: 'Déconnexion');
+
+            $linkMention = new Link(href: '/index.php?action=mentions', text: 'Mentions légales');
+
+            $paragraphFooter = new Paragraph(['Le présent du site à été réalisé par FRANCOIS Ewan, JAMBERT Aurele, KHADISSOVA Lezina,
+            MATIC CHARBIT Nina et MOYENIN Nicolas.
+            Hébergé par alwaysdata.
+            Si vous souhaitez en savoir plus sur Matheopolis ou
+            bien acheter les livres, rejoignez leur site web ci-dessous.']);
+
+            $linkOfficialWebsite = new Link(href: 'https://www.matheopolis.org/', text: 'Site officiel Matheopolis');
+            $linkSiteMap = new Link(href: '/sitemap.xml', text: 'Plan du site');
 
             ob_start();
             ?><!DOCTYPE html>
@@ -61,20 +74,20 @@ class Layout
 
     <nav>
         <ul>
-            <li><?= $acceuil ?></li>
-            <li><?= $livres ?></li>
-            <li><?= $world ?></li>
-            <li><?= $activity ?></li>
+            <li><?=$linkHomepage?></li>
+            <li><?=$linkBook?></li>
+            <li><?=$linkWorld?></li>
+            <li><?=$linkActivity?></li>
         </ul>
         <div class="dropdown">
-            <button type="button">Menu ▾</button>
+            <?=$buttonMenu?>
             <div class="menu">
                 <?php if ($this->userEmail === null) { ?>
-                <?= $signup ?>
-                <?= $login ?>
+                <?=$linkSignup?>
+                <?=$linkLogin?>
                 <?php } else { ?>
-                <?= $profile ?>
-                <?= $logout ?>
+                <?=$linkProfile?>
+                <?=$linkLogout?>
                 <?php }?>
             </div>
         </div>
@@ -85,18 +98,10 @@ class Layout
     </main>
 
     <footer>
-        <h2>Mention légales</h2>
-        <p>
-            Le présent du site à été réalisé par FRANCOIS Ewan, JAMBERT Aurele, KHADISSOVA Lezina,
-            MATIC CHARBIT Nina et MOYENIN Nicolas.
-
-            Hébergé par alwaysdata.
-
-            <br>Si vous souhaitez en savoir plus sur Matheopolis ou
-            bien acheter les livres, rejoignez leur site web ci-dessous.
-        </p>
-        <?= $matheopolis ?>
-        <?= $sitemap ?>
+        <h2><?=$linkMention?></h2>
+        <?=$paragraphFooter?>
+        <?=$linkOfficialWebsite?>
+        <?=$linkSiteMap?>
     </footer>
 
     <script>
