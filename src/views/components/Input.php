@@ -6,7 +6,7 @@ final class Input extends Component
 {
     public function __construct(
         private readonly string $name,
-        private readonly string $label,
+        private readonly string $label = '',
         private readonly string $type = 'text',
         private readonly string $placeholder = '',
         private readonly string $value = '',
@@ -27,6 +27,11 @@ final class Input extends Component
         if ($this->type === 'checkbox') {
             $html .= ' class="checkbox-container"';
         }
+
+        if ($this->type === 'hidden') {
+            return '<input type="hidden" id="' . $name . '" name="' . $name . '" value="' . $value . '">';
+        }
+
         $html .= '><label for="' . $name . '">' . $label . '</label>';
         $html .= '<input type="' . $type . '" id="' . $name . '" name="' . $name . '"';
 

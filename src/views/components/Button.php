@@ -9,7 +9,9 @@ final class Button extends Component
         private readonly string $type = 'submit',
         private readonly ?string $name = null,
         private readonly ?string $value = null,
-        private readonly ?string $class = null
+        private readonly ?string $class = null,
+        private readonly ?string $onClick = null,
+        private readonly ?string $id = null
     ) {
     }
 
@@ -29,6 +31,14 @@ final class Button extends Component
 
         if ($this->value !== null) {
             $html .= ' value="' . $this->e($this->value) . '"';
+        }
+
+        if ($this->onClick !== null) {
+            $html .= ' onclick="' . $this->e($this->onClick) . '"';
+        }
+
+        if ($this->id !== null) {
+            $html .= ' id="' . $this->e($this->id) . '"';
         }
 
         $html .= '>' . $this->e($this->label) . '</button>';

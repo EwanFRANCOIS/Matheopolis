@@ -72,9 +72,13 @@ nav {
 }
 
 nav ul {
-    list-style: none;
     display: flex;
     gap: 30px;
+}
+
+a {
+    appearance: none;
+    text-decoration: none;
 }
 
 nav a,
@@ -87,7 +91,6 @@ footer a:visited {
     font-family: var(--font-titre);
     font-size: 0.85rem;
     text-transform: uppercase;
-    text-decoration: none;
     letter-spacing: 1.5px;
     transition: color 0.2s ease;
 }
@@ -159,6 +162,21 @@ h2 {
     margin: 20px 0;
 }
 
+h3 {
+    color: var(--gold);
+    font-size: 24px;
+    font-family: var(--font-titre);
+    margin: 20px 0;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    border-bottom: 1px solid var(--gold-dim);
+}
+
+ul, li {
+    list-style: none;
+    padding-left: 0;
+}
+
 .small {
     font-family: var(--font-titre);
     color: var(--gold);
@@ -222,7 +240,32 @@ h2 {
 
 .btn:hover {
     background: var(--gold);
-    color: var(--bg);
+    color: var(--font-dark);
+    transform: scale(1.1);
+}
+
+.activity-container {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
+.btn.jeu {
+    display: flex;
+    margin-top: 10px;
+    color: var(--gold);
+    font-size: 55px;
+    justify-content: center;
+    text-align: center;
+    width: 300px;
+    height: 300px;
+    background-color: var(--gold-soft);
+    border: 2px solid var(--gold);
+    transition: 0.5s ease;
+}
+
+.btn.jeu:hover {
+    background: var(--red-parchment);
 }
 
 .btn.red {
@@ -273,6 +316,10 @@ footer {
     align-items: center;
     gap: 16px;
     margin-top: 10px;
+}
+
+.activity-panel[hidden] {
+    display: none;
 }
 
 .form-area form {
