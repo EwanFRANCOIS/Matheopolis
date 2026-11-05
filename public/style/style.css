@@ -140,7 +140,16 @@ main {
     display: flex;
     flex-direction: column;
     margin: 40px;
-    gap: 24px;
+    gap: 30px;
+}
+
+.cards {
+    max-width: 1350px;
+    width: 92%;
+    margin: 50px auto;
+    display: grid;
+    grid-template-columns: 1.4fr 1fr; 
+    gap: 35px;
 }
 
 header {
@@ -182,6 +191,10 @@ ul, li {
     color: var(--gold);
     font-size: 15px;
     letter-spacing: 3px;
+}
+
+.small.red {
+    color: var(--red-parchment);
 }
 
 .card {

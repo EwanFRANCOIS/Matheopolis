@@ -113,78 +113,81 @@ class ProfileView
     </div>
 <?php endif; ?>
 
-<div class="card">
-    <?= $info ?>
-</div>
+<div class="cards">
 
-<?php
-if ($role === 'teacher') {
-    ?>
-    <div class="card notebook">
-        <span class="small">CLASSES</span>
-        <h2>Creer une nouvelle Classe</h2>
-        <?= $formClass ?>
-        <div>
-            <?= $alertCode ?>
+    <div class="card">
+        <?= $info ?>
+    </div>
+
+    <?php
+    if ($role === 'teacher') {
+        ?>
+        <div class="card notebook">
+            <span class="small">CLASSES</span>
+            <h2>Creer une nouvelle Classe</h2>
+            <?= $formClass ?>
+            <div>
+                <?= $alertCode ?>
+            </div>
         </div>
-    </div>
 
-    <!-- création de compte pour élève (si code classe existe)-->
-    <?php if (!empty($classes)) : ?>
-    <div class="card notebook">
-        <span class="small">INSCRIPTION</span>
-        <h2>Créer un compte pour un élève</h2>
-        <?= $formCreateStudent ?>
-        <h2>Importez votre classe</h2>
-        <?= $alertCSV ?>
-        <?= $formImportClass ?>
-    </div>
-    <?php endif; ?>
-
-    <!-- Liste des classes et de leurs élèves -->
-    <div class="card notebook">
-        <span class="small">SUIVI</span>
-        <h2>Vos classes</h2>
-
+        <!-- création de compte pour élève (si code classe existe)-->
         <?php if (!empty($classes)) : ?>
-            <ul class="classes">
-                <?php foreach ($classes as $class) : ?>
-                    <li>
-                        <h3><?= $class['name'] ?></h3>
-                        <p class="small"> <?= $class['cycle'] ?> - <?= $class['code'] ?></p>
-                        <?php if (!empty($class['students'])) : ?>
-                            <?= new ListComponent($class['students']) ?>
-                        <?php else : ?>
-                            <p><em>Aucun élève inscrit.</em></p>
-                        <?php endif; ?>
-                    </li>
-                <?php endforeach; ?>
-            </ul>
-        <?php else : ?>
-            <p>Aucune classe n'a été créée pour le moment.</p>
-        <?php endif; ?>
-    </div>
-
-    <?php
-} else if ($role === 'student') {
-    ?>
-    <div class="card notebook">
-        <span class="small">CARNET D'APPRENTISSAGE</span>
-        <h2>Informations sur votre classe</h2>
-        <div>
-            <h2>Votre classe : <?= $classInfo['name'] ?? '' ?></h2>
-            <p>Cycle : <?= $classInfo['cycle'] ?? '' ?></p>
-            <p>Code : <strong><?= $classInfo['classCode'] ?? '' ?></strong></p>
+        <div class="card notebook">
+            <span class="small">INSCRIPTION</span>
+            <h2>Créer un compte pour un élève</h2>
+            <?= $formCreateStudent ?>
+            <h2>Importez votre classe</h2>
+            <?= $alertCSV ?>
+            <?= $formImportClass ?>
         </div>
-    </div>
-    <?php
-}
-?>
+        <?php endif; ?>
 
-<div class="card parchment">
-    <h2>Voulez-vous supprimer votre profil ?</h2>
-    <?= $deleteInfo ?>
-    <?= $deleteForm ?>
+        <!-- Liste des classes et de leurs élèves -->
+        <div class="card parchment">
+            <span class="small red">SUIVI</span>
+            <h2>Vos classes</h2>
+
+            <?php if (!empty($classes)) : ?>
+                <ul class="classes">
+                    <?php foreach ($classes as $class) : ?>
+                        <li>
+                            <h3><?= $class['name'] ?></h3>
+                            <p class="small red"> <?= $class['cycle'] ?> - <?= $class['code'] ?></p>
+                            <?php if (!empty($class['students'])) : ?>
+                                <?= new ListComponent($class['students']) ?>
+                            <?php else : ?>
+                                <p><em>Aucun élève inscrit.</em></p>
+                            <?php endif; ?>
+                        </li>
+                    <?php endforeach; ?>
+                </ul>
+            <?php else : ?>
+                <p>Aucune classe n'a été créée pour le moment.</p>
+            <?php endif; ?>
+        </div>
+
+        <?php
+    } else if ($role === 'student') {
+        ?>
+        <div class="card notebook">
+            <span class="small">CARNET D'APPRENTISSAGE</span>
+            <h2>Informations sur votre classe</h2>
+            <div>
+                <h2>Votre classe : <?= $classInfo['name'] ?? '' ?></h2>
+                <p>Cycle : <?= $classInfo['cycle'] ?? '' ?></p>
+                <p>Code : <strong><?= $classInfo['classCode'] ?? '' ?></strong></p>
+            </div>
+        </div>
+        <?php
+    }
+    ?>
+
+    <div class="card parchment">
+        <h2>Voulez-vous supprimer votre profil ?</h2>
+        <?= $deleteInfo ?>
+        <?= $deleteForm ?>
+    </div>
 </div>
 
         <?php

@@ -40,6 +40,7 @@ class HomepageView
     <span class="small">BIENVENUE SUR</span>
     <h1>Matheopolis</h1>
 </header>
+<div class="cards">
     <div class="card">
     <?= $intro ?>
     </div>
@@ -52,6 +53,7 @@ class HomepageView
     <div class="card parchment">
     <h2>Notre site</h2>
      <?= $site ?>
+    </div>
 </div>
 
         <?php
