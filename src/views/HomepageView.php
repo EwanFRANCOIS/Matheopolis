@@ -19,7 +19,6 @@ class HomepageView
             "Matheopolis est un projet pédagogique mais aussi une collection de romans illustrés 
             (portés par l'association 'Math Pour Tous' et les instituts de recherches 
             sur l'enseignement des mathématiques).
-            <br>
             Ses convictions résident donc dans une philosophie profonde de la vulgarisation 
             et de la transmission de la culture
             scientifique."
