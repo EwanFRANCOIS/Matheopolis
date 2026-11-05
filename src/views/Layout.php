@@ -3,6 +3,9 @@
 namespace src\views;
 
 use src\core\Response;
+use src\views\components\Link;
+use src\views\components\Button;
+use src\views\components\Paragraph;
 
 class Layout
 {
@@ -21,6 +24,30 @@ class Layout
             $_description = 'Liens vers notre super site \'MATHEOPOLIS\'. 
             Suivez une aventure folle et accomplissez les énigmes tout au long de votre parcours.';
             $_titreRef = 'Matheopolis';
+
+            $linkHomepage = new Link(href: '/index.php', text: 'Accueil');
+            $linkBook = new Link(href: '/index.php?action=book', text: 'Les livres');
+            $linkWorld = new Link(href: '/index.php?action=world', text: 'L\'univers');
+            $linkActivity = new Link(href: '/index.php?action=activity', text: 'Activités');
+
+            $buttonMenu = new Button(label: 'Menu ▾');
+
+            $linkSignup = new Link(href: '/index.php?action=signup', text: 'Inscription');
+            $linkLogin = new Link(href: '/index.php?action=login', text: 'Connexion');
+            
+            $linkProfile = new Link(href: '/index.php?action=profile', text: 'Profil');
+            $linkLogout = new Link(href: '/index.php?action=logout', text: 'Déconnexion');
+
+            $linkMention = new Link(href: '/index.php?action=mentions', text: 'Mentions légales');
+
+            $paragraphFooter = new Paragraph(['Le présent du site à été réalisé par FRANCOIS Ewan, JAMBERT Aurele, KHADISSOVA Lezina,
+            MATIC CHARBIT Nina et MOYENIN Nicolas.
+            Hébergé par alwaysdata.
+            <br>Si vous souhaitez en savoir plus sur Matheopolis ou
+            bien acheter les livres, rejoignez leur site web ci-dessous.']);
+
+            $linkOfficialWebsite = new Link(href: 'https://www.matheopolis.org/', text: 'Site officiel Matheopolis');
+            $linkSiteMap = new Link(href: '/sitemap.xml', text: 'Plan du site');
 
             ob_start();
             ?><!DOCTYPE html>
@@ -47,20 +74,20 @@ class Layout
 
     <nav>
         <ul>
-            <li><a href="/index.php">Accueil</a></li>
-            <li><a href="/index.php?action=book">Les livres</a></li>
-            <li><a href="/index.php?action=world">L'univers</a></li>
-            <li><a href="/index.php?action=activity">Activités</a></li>
+            <li><?=$linkHomepage?></li>
+            <li><?=$linkBook?></li>
+            <li><?=$linkWorld?></li>
+            <li><?=$linkActivity?></li>
         </ul>
         <div class="dropdown">
-            <button type="button">Menu ▾</button>
+            <?=$buttonMenu?>
             <div class="menu">
                 <?php if ($this->userEmail === null) { ?>
-                <a href="/index.php?action=signup">Inscription</a>
-                <a href="/index.php?action=login">Connexion</a>
+                <?=$linkSignup?>
+                <?=$linkLogin?>
                 <?php } else { ?>
-                <a href="/index.php?action=profile">Profil</a>
-                <a href="/index.php?action=logout">Déconnexion</a>
+                <?=$linkProfile?>
+                <?=$linkLogout?>
                 <?php }?>
             </div>
         </div>
@@ -71,18 +98,10 @@ class Layout
     </main>
 
     <footer>
-        <h2><a href="/index.php?action=mentions">Mentions légales</a></h2>
-        <p>
-            Le présent du site à été réalisé par FRANCOIS Ewan, JAMBERT Aurele, KHADISSOVA Lezina,
-            MATIC CHARBIT Nina et MOYENIN Nicolas.
-
-            Hébergé par alwaysdata.
-
-            <br>Si vous souhaitez en savoir plus sur Matheopolis ou
-            bien acheter les livres, rejoignez leur site web ci-dessous.
-        </p>
-        <a href="https://www.matheopolis.org/">Site officiel Matheopolis</a>
-        <a href="/sitemap.xml">Plan du site.</a>
+        <h2><?=$linkMention?></h2>
+        <?=$paragraphFooter?>
+        <?=$linkOfficialWebsite?>
+        <?=$linkSiteMap?>
     </footer>
 
     <script>
