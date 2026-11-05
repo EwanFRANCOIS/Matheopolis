@@ -251,12 +251,15 @@ ul, li {
 }
 
 .btn.jeu {
+    position: relative;
+    overflow: hidden;
     display: flex;
     margin-top: 10px;
+    padding-top: 100px;
     color: var(--gold);
     font-size: 55px;
-    justify-content: center;
     text-align: center;
+    justify-content: center;
     width: 300px;
     height: 300px;
     background-color: var(--gold-soft);
@@ -264,14 +267,64 @@ ul, li {
     transition: 0.5s ease;
 }
 
-.btn.jeu:hover {
-    background: var(--red-parchment);
+.btn.jeu:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-color: rgba(0, 0, 0, 0.5);
+    background-position: center;
+    opacity: 0.5;
+    transition: opacity 0.5s ease;
+    z-index: -1;
+}
+
+.btn.jeu.calculator:hover::before {
+    background-image: url('../Images/Calculator-Bg.png');
+    opacity: 1;
+}
+
+.btn.jeu.calculator:hover {
+    color: transparent;
+}
+
+.btn.jeu.quiz:hover::before {
+    background-image: url('../Images/quizPaper.png');
+    opacity: 1;
+}
+
+.btn.jeu.quiz:hover {
+    color: transparent;
+}
+
+.btn.jeu.conversion:hover::before {
+    background-image: url('../Images/conversion.png');
+    opacity: 1;
+}
+
+.btn.jeu.conversion {
+    padding-top: 110px;
+    padding-bottom: 180px;
+    font-size: 40px;
+}
+
+.btn.jeu.conversion:hover {
+    color: transparent;
+}
+
+.btn.jeu.conversion:hover {
+    color: transparent;
 }
 
 .btn.red {
     background: var(--red-parchment);
     color: var(--font-light);
 }
+
 .btn.red:hover {
     background: var(--font-light);
     color: var(--red-parchment);
@@ -383,4 +436,10 @@ input, select {
 
 .dialog_content {
     flex: 1;
+}
+
+.speed-game-intro {
+    font-size: 18px;
+    line-height: 1.5;
+    margin-bottom: 20px;
 }
