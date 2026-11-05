@@ -43,7 +43,7 @@ class Layout
             $paragraphFooter = new Paragraph(['Le présent du site à été réalisé par FRANCOIS Ewan, JAMBERT Aurele, KHADISSOVA Lezina,
             MATIC CHARBIT Nina et MOYENIN Nicolas.
             Hébergé par alwaysdata.
-            <br>Si vous souhaitez en savoir plus sur Matheopolis ou
+            Si vous souhaitez en savoir plus sur Matheopolis ou
             bien acheter les livres, rejoignez leur site web ci-dessous.']);
 
             $linkOfficialWebsite = new Link(href: 'https://www.matheopolis.org/', text: 'Site officiel Matheopolis');
