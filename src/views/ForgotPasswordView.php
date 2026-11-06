@@ -48,7 +48,7 @@ class ForgotPasswordView
         ]);
 
         $showMessageError = new Paragraph([
-            htmlspecialchars($messageError)
+            htmlspecialchars($messageError ?? '')
         ], 'style="color: red;"');
 
         $showMessageSuccess = new Paragraph([

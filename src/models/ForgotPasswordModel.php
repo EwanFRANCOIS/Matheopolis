@@ -34,7 +34,7 @@ class ForgotPasswordModel
     private function saveTokenInDataBase(string $email, string $token): bool
     {
         $sql = "UPDATE users SET reset_code = :token, 
-        expiration_date = DATE_ADD(NOW(), INTERVAL 15 MINUTE) WHERE login = :email";
+        expiration_date = DATE_ADD(NOW(), INTERVAL 15 MINUTE) WHERE email = :email";
         $statement = $this->connection->getConnection()->prepare($sql);
 
         if (!$statement->execute([':token' => $token, ':email' => $email])) {
@@ -65,7 +65,7 @@ class ForgotPasswordModel
 
 
     // Attention, le lien va peut-etre devoir etre changé, le but est de créer un lien unique pour changer de mdp
-        $link = 'https://ninamc.alwaysdata.net/index.php?action=forgotpassword&token=' . $token;
+        $link = 'https://math3opolis.alwaysdata.net/index.php?action=forgotpassword&token=' . $token;
         $message = "Bonjour,\n\n voici votre lien de récupération de mot de passe : \n" . $link;
 
     // En-têtes obligatoires / recommandés
@@ -93,7 +93,7 @@ class ForgotPasswordModel
     public function verifyTokenAndChangePassword(string $token, string $newPassword): bool
     {
     // recherche de l'utilisateur associé au token dans la BDD
-        $sql = "SELECT login FROM users 
+        $sql = "SELECT email FROM users 
                 WHERE reset_code = :token 
                   AND reset_code IS NOT NULL 
                   AND expiration_date > NOW()";
@@ -113,10 +113,10 @@ class ForgotPasswordModel
                           SET password = :password, 
                               reset_code = NULL, 
                               expiration_date = NULL 
-                          WHERE login = :login";
+                          WHERE email = :email";
             $updateStmt = $this->connection->getConnection()->prepare($updateSql);
 
-            if (!$updateStmt->execute([':password' => $passwordHash, ':login' => $user->login])) {
+            if (!$updateStmt->execute([':password' => $passwordHash, ':email' => $user->email])) {
                 throw new ExceptionDatabaseController("Erreur de base de données.");
             }
 

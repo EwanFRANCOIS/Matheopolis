@@ -22,9 +22,6 @@ class WorldView
             $activites[$page - 1] ?? '',
         ]);
 
-        $isActive = ($i === $page);
-        $style = $isActive ? 'font-weight: bold;' : '';
-
         $prevPage = max(1, $page - 1);
         $nextPage = min($nombrePages, $page + 1);
 
