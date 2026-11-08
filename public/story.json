@@ -11,7 +11,7 @@
     },
     "Carnet de Laurence": {
       "nom": "Carnet de Laurence",
-      "avatar": "/Images/verity.png"
+      "avatar": "/Images/carnet.png"
     },
     "PNJ": {
       "nom": "PNJ",
@@ -24,7 +24,7 @@
       "dialogues": [
         {
           "perso": "Vous",
-          "texte": "Cela fait maintenant plusieurs mois que Laurence Guerney a disparu sans laisser de trace. Peut-être même un an maintenant que j’y pense... Son absence pèse lourdement, et c'est dans le silence feutré de son appartement poussiéreux que j’occupe mes mains à trier ses affaires. Je suis chargée de récupérer ses affaires personnelles, étant donné que son appartement n’est plus payé depuis un moment, il faut le vider."
+          "texte": "Cela fait maintenant plusieurs mois que Laurence Guerney a disparu sans laisser de trace. Son absence pèse lourdement sur ses proches, et c'est dans le silence de son appartement poussiéreux que j’occupe mes mains à trier ses affaires. Je me suis porté volontaire pour trier ses affaires personnelles, j'étais assez proche d'elle, après tout."
         },
         {
           "perso": "Vous",
@@ -32,7 +32,7 @@
         },
         {
           "perso": "Vous",
-          "texte": "Elle n’avait jamais été une très bonne élève. Particulièrement en maths. Mais en 3ème, c’est comme si quelque chose avait changé. Je ne sais pas ce que c’était exactement, mais elle avait commencé à s’intéresser beaucoup plus aux maths. Pas seulement en cours, elle semblait vraiment passionnée. Soudain, Laurence accumula bonnes notes sur bonnes notes sans faire d’effort particulier, et cela se poursuivit au lycée."
+          "texte": "Elle n’avait jamais été une très bonne élève. Particulièrement en maths. Mais en 3ème, c’est comme si quelque chose avait changé. Je ne sais pas ce que c’était exactement, mais elle avait commencé à s’intéresser beaucoup plus aux maths. Pas seulement en cours, elle semblait vraiment passionnée. Soudain, Laurence accumula bonnes notes sur bonnes notes sans faire d’effort particulier, et ça se poursuivit au lycée."
         },
         {
           "perso": "Vous",
@@ -103,7 +103,132 @@
     {
       "titre": "Chapitre 1",
       "dialogues": [
-
+        {
+          "perso": "Vous",
+          "texte": "Les feuilles étaient éparpillées autour de moi, seul le son des voitures passant dehors remplissait ma chambre. Cela faisait quelques heures que j'avais le nez fourré dans le carnet que j'avais trouvé plus tôt chez Laurence."
+        },
+        {
+          "perso": "Vous",
+          "texte": "Je prenais des notes, j'essayais de trouver chaque piste potentielle pour avancer l'enquête. Mais il n'était rempli que de gribouillis, d'annotations et d'équations dont je ne comprenais rien. C'est comme si Laurence ne voulait pas être retrouvée !"
+        },
+        {
+          "perso": "Vous",
+          "texte": "Soupirant, je mis ma tête dans mes mains, les yeux fermés. Elle doit avoir laissé des indices là-dedans ! Mais je ne trouve rien d'utile. À moins que, d'une certaine manière, ces équations puissent mener à elle ?"
+        },
+        {
+          "perso": "Vous",
+          "texte": "Rouvrant les yeux, je me penchai vers ces équations. Je les avais ignorées, pensant qu'il ne s'agissait que d'informations inutiles, mais peut-être qu'il y avait vraiment quelque chose là-dedans."
+        },
+        {
+          "perso": "Vous",
+          "texte": "Je repris le carnet et commençai à examiner les pages plus attentivement. Certaines équations revenaient plusieurs fois, accompagnées de schémas et de petites explications. D'autres semblaient être liées entre elles, comme si Laurence essayait de démontrer quelque chose."
+        },
+        {
+          "perso": "Vous",
+          "texte": "En tournant quelques pages, je tombai sur une section qui semblait justement consacrée à ces fameux principes mathématiques."
+        },
+        {
+          "perso": "Vous",
+          "texte": "« Bon... Essayons de comprendre tout ça. »"
+        },
+        {
+          "perso": "Vous",
+          "texte": "Je sortis une nouvelle feuille et commençai à recopier les premières explications. Ce n'était pas forcément évident, mais en prenant le temps de lire et de suivre les raisonnements de Laurence, certaines choses commençaient à devenir plus claires."
+        },
+        {
+          "perso": "Vous",
+          "texte": "Elle avait pris soin de détailler chaque étape, avec des exemples et des annotations dans les marges. C'était presque comme si elle essayait d'enseigner ces notions à quelqu'un."
+        },
+        {
+          "perso": "Vous",
+          "texte": "Je continuai ma lecture, de plus en plus intriguée. Pourquoi avait-elle passé autant de temps à expliquer ces concepts dans son carnet de voyage ? Et surtout, quel rapport pouvaient-ils avoir avec Mathéopolis ?"
+        },
+        {
+          "perso": "Vous",
+          "texte": "Je finis par arriver à une page contenant plusieurs exercices et équations inachevés."
+        },
+        {
+          "perso": "Vous",
+          "texte": "« Mmh... Qu'est-ce que c'est que ça ? »"
+        },
+        {
+          "perso": "Vous",
+          "texte": "Je parcourus rapidement les différentes lignes. Il semblait s'agir d'exercices permettant de mettre en pratique les notions expliquées précédemment."
+        },
+        {
+          "perso": "Vous",
+          "texte": "Peut-être que leurs résultats pourraient m'aider à comprendre la suite de ses recherches ?"
+        },
+        {
+          "perso": "Vous",
+          "texte": "Autant essayer de résoudre ces quelques équations à mon tour.",
+          "action": "lancer_activite",
+          "quiz": {
+            "question": "Résolvez cette équation : <strong>1 + 2 = ?</strong>",
+            "reponse_attendue": "3",
+            "message_erreur": "Ce n'est pas ça..."
+          }
+        },
+        {
+          "perso": "Vous",
+          "texte": "Après quelques instants de réflexion, je terminai enfin les exercices. Je comparai mes résultats avec les annotations présentes dans le carnet, puis reportai mes réponses sur mes notes."
+        },
+        {
+          "perso": "Vous",
+          "texte": "Je crois que je commence à comprendre..."
+        },
+        {
+          "perso": "Vous",
+          "texte": "Les mathématiques avaient toujours été un moyen pour Laurence d'étudier et de comprendre le monde. Mais cette fois, ses recherches semblaient aller bien au-delà de simples théories."
+        },
+        {
+          "perso": "Vous",
+          "texte": "Je tournai la page suivante, espérant trouver une explication à tout cela. Et justement, une nouvelle annotation attira mon attention."
+        },
+        {
+          "perso": "Carnet",
+          "texte": "« La connaissance des formules et des théorèmes ne suffit pas. Pour comprendre véritablement les mathématiques, il faut en saisir les fondements et les mécanismes. Il faut apprendre à raisonner, à établir des liens entre les concepts et à comprendre ce qui se cache derrière chaque résultat. Ce n'est qu'avec cette compréhension que l'esprit peut entrer dans Mathéopolis. »"
+        },
+        {
+          "perso": "Vous",
+          "texte": "Je relus le passage plusieurs fois."
+        },
+        {
+          "perso": "Vous",
+          "texte": "Alors, c'était donc ça ? Mathéopolis ne serait accessible qu'à ceux qui comprennent réellement les mathématiques ?"
+        },
+        {
+          "perso": "Vous",
+          "texte": "Je repensai à la première description que j'avais lue dans son carnet. Laurence disait que tout le monde possédait cette capacité, sans même le savoir. Mais il fallait visiblement apprendre à s'en servir."
+        },
+        {
+          "perso": "Vous",
+          "texte": "Je continuai de feuilleter le carnet, à la recherche d'autres indications. Quelques pages plus loin, je trouvai une dernière note :"
+        },
+        {
+          "perso": "Carnet",
+          "texte": "« Une fois les fondements assimilés, il ne reste qu'à concentrer son esprit et à suivre le chemin. Ne cherche pas à atteindre Mathéopolis avec ton corps, mais avec ta pensée. »"
+        },
+        {
+          "perso": "Vous",
+          "texte": "Je restai silencieuse quelques instants. « Avec mon esprit... ? »"
+        },
+        {
+          "perso": "Vous",
+          "texte": "C'était complètement absurde. Pourtant, Laurence semblait avoir consacré des années à ces recherches. Et si elle avait réellement découvert un moyen d'accéder à cette ville, je ne pouvais pas simplement ignorer cette possibilité."
+        },
+        {
+          "perso": "Vous",
+          "texte": "Je regardai les feuilles éparpillées autour de moi. Pour la première fois depuis que j'avais commencé à étudier le carnet, j'avais l'impression d'avoir enfin avancé."
+        },
+        {
+          "perso": "Vous",
+          "texte": "Il ne me restait plus qu'à essayer."
+        },
+        {
+          "perso": "Vous",
+          "texte": "Je referma le carnet et le posa soigneusement sur mon bureau. Demain, je tenterai de suivre les instructions de Laurence. Si Mathéopolis existe réellement, alors c'est peut-être là-bas que je trouverai les réponses que je cherche."
+        }
       ]
     },
     {
