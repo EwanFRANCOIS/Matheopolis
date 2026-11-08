@@ -15,11 +15,11 @@ class StoryView
 
         $firstChapter = isset($_GET['chapitre']) ? (int)$_GET['chapitre'] : 0;
         if (isset($_GET['dialogue'])) {
-            $dialogueDeDepart = (int)$_GET['dialogue'];
+            $firstDialogue = (int)$_GET['dialogue'];
         } elseif ($firstChapter > 0) {
-            $dialogueDeDepart = -1;
+            $firstDialogue = -1;
         } else {
-            $dialogueDeDepart = -2;
+            $firstDialogue = -2;
         }
         ob_start();
         ?>
@@ -47,19 +47,21 @@ class StoryView
                 </div>
             </div>
         </div>
-        <div id="btn-dialogue-suivant">
+        <div id="btn-next-dialogue">
             <?= (new Button('>>'))->render(); ?>
         </div>
 
-        <div id="boite-enigme" class="card" style="display: none; margin-top: 20px;">
-            <h3>Énigme</h3>
-            <p id="quiz-question"></p> 
+        <div id="quiz-box" class="card parchment form-area" style="display: none; margin-top: 20px;">
+            <h2>Énigme</h2>
             
-            <label for="reponse-joueur">Votre réponse :</label>
-            <input type="text" id="reponse-joueur" style="padding: 5px; margin: 10px 0;">
+            <p id="quiz-question" class="small"></p> 
             
-            <button id="btn-valider-enigme" class="btn">Valider</button>
-            <p id="message-erreur" style="color: red; font-weight: bold; margin-top: 10px;"></p>
+            <label for="player-answer">Votre réponse :</label>
+            <input type="text" id="player-answer" autocomplete="off" style="max-width: 300px; text-align: center;">
+            
+            <button id="btn-submit-quiz" class="btn red">Valider</button>
+            
+            <div id="error-message" class="alert" style="display: none; width: 100%; text-align: center;"></div>
         </div>
 
         <form method="GET" action="index.php">
@@ -69,12 +71,12 @@ class StoryView
             </form>
 
         <script>
-            let reponseAttendueActuelle = "";
-            let messageErreurActuel = "";
+            let currentExpectedAnswer = "";
+            let currentErrorMessage = "";
             let histoire = <?= $jsonContent ?>;
         
             let currentChapter = <?= $firstChapter ?>;
-            let currentIndex = <?= $dialogueDeDepart ?>;
+            let currentIndex = <?= $firstDialogue ?>;
 
             function afficherDialogue() {
                 
@@ -99,8 +101,8 @@ class StoryView
                     document.getElementById('story-nom').textContent = perso.nom;
                     document.getElementById('story-texte').textContent = dialogueLine.texte;
 
-                    let nextButton = document.getElementById('btn-dialogue-suivant');
-                    let boiteEnigme = document.getElementById('boite-enigme');
+                    let nextButton = document.getElementById('btn-next-dialogue');
+                    let boiteEnigme = document.getElementById('quiz-box');
 
                     if (dialogueLine.action === "lancer_activite") {
                         nextButton.style.display = 'none';
@@ -108,8 +110,8 @@ class StoryView
 
                         if (dialogueLine.quiz) {
                             document.getElementById('quiz-question').innerHTML = dialogueLine.quiz.question;
-                            reponseAttendueActuelle = dialogueLine.quiz.reponse_attendue;
-                            messageErreurActuel = dialogueLine.quiz.message_erreur || "Mauvaise réponse, essayez encore !";
+                            currentExpectedAnswer = dialogueLine.quiz.reponse_attendue;
+                            currentErrorMessage = dialogueLine.quiz.message_erreur || "Mauvaise réponse, essayez encore !";
                         }
                     } else {
                         nextButton.style.display = 'block';
@@ -120,7 +122,7 @@ class StoryView
 
             afficherDialogue();
 
-            document.getElementById('btn-dialogue-suivant').firstElementChild.addEventListener('click', function(e) {
+            document.getElementById('btn-next-dialogue').firstElementChild.addEventListener('click', function(e) {
                 e.preventDefault();
                 
                 currentIndex++;
@@ -142,25 +144,26 @@ class StoryView
                         document.getElementById('story-nom').textContent = "Fin";
                         document.getElementById('story-texte').textContent = "L'histoire est terminée. Il est temps de passer à l'activité !";
                         
-                        document.getElementById('btn-dialogue-suivant').style.display = 'none'; 
+                        document.getElementById('btn-next-dialogue').style.display = 'none'; 
                     }
                 }
             });
 
-            document.getElementById('btn-valider-enigme').addEventListener('click', function() {
-                let reponse = document.getElementById('reponse-joueur').value.trim();
-                let messageErreur = document.getElementById('message-erreur');
+            document.getElementById('btn-submit-quiz').addEventListener('click', function() {
+                let answer = document.getElementById('player-answer').value.trim();
+                let errorMessageDisplay = document.getElementById('error-message');
 
-                if (reponse.toLowerCase() === reponseAttendueActuelle.toLowerCase()) {
-                    messageErreur.textContent = ""; 
-                    document.getElementById('reponse-joueur').value = ""; 
+                if (answer.toLowerCase() === currentExpectedAnswer.toLowerCase()) {
+                    errorMessageDisplay.style.display = 'none';
+                    document.getElementById('player-answer').value = ""; 
                     
-                    document.getElementById('boite-enigme').style.display = 'none'; 
-                    document.getElementById('btn-dialogue-suivant').style.display = 'inline-block'; 
+                    document.getElementById('quiz-box').style.display = 'none'; 
+                    document.getElementById('btn-next-dialogue').style.display = 'inline-block'; 
                     
-                    document.getElementById('btn-dialogue-suivant').firstElementChild.click();
+                    document.getElementById('btn-next-dialogue').firstElementChild.click();
                 } else {
-                    messageErreur.textContent = messageErreurActuel;
+                    errorMessageDisplay.textContent = currentErrorMessage;
+                    errorMessageDisplay.style.display = 'block';
                 }
             });
 
