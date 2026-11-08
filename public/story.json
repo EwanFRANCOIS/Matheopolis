@@ -5,15 +5,15 @@
       "nom": "Narrateur",
       "avatar": "/Images/verity.png"
     },
-    "vous": {
+    "Vous": {
       "nom": "Vous",
       "avatar": "/Images/verity.png"
     },
-    "carnet": {
+    "Carnet de Laurence": {
       "nom": "Carnet de Laurence",
       "avatar": "/Images/verity.png"
     },
-    "pnj": {
+    "PNJ": {
       "nom": "PNJ",
       "avatar": "/Images/verity.png"
     }
@@ -23,79 +23,79 @@
       "titre": "Introduction",
       "dialogues": [
         {
-          "perso": "protagoniste",
+          "perso": "Vous",
           "texte": "Cela fait maintenant plusieurs mois que Laurence Guerney a disparu sans laisser de trace. Peut-être même un an maintenant que j’y pense... Son absence pèse lourdement, et c'est dans le silence feutré de son appartement poussiéreux que j’occupe mes mains à trier ses affaires. Je suis chargée de récupérer ses affaires personnelles, étant donné que son appartement n’est plus payé depuis un moment, il faut le vider."
         },
         {
-          "perso": "protagoniste",
+          "perso": "Vous",
           "texte": "Je me perds dans mes pensées, repensant à la fille avec qui je passais des cours entiers à discuter et rigoler..."
         },
         {
-          "perso": "protagoniste",
+          "perso": "Vous",
           "texte": "Elle n’avait jamais été une très bonne élève. Particulièrement en maths. Mais en 3ème, c’est comme si quelque chose avait changé. Je ne sais pas ce que c’était exactement, mais elle avait commencé à s’intéresser beaucoup plus aux maths. Pas seulement en cours, elle semblait vraiment passionnée. Soudain, Laurence accumula bonnes notes sur bonnes notes sans faire d’effort particulier, et cela se poursuivit au lycée."
         },
         {
-          "perso": "protagoniste",
+          "perso": "Vous",
           "texte": "Une fois le lycée fini, elle devint chercheuse en mathématiques. L’une des meilleures mathématiciennes du monde, même. Mais plus les années passaient, plus ses recherches avançaient, plus elle semblait… préoccupée. Et aussi énigmatique. Comme si elle essayait de se cacher d’un danger."
         },
         {
-          "perso": "protagoniste",
+          "perso": "Vous",
           "texte": "Tout le monde dit que je dois rêver, qu’elle a dû disparaître lors d’un de ses nombreux voyages, peut-être en visitant un lieu dangereux. Mais je sais qu’il doit y avoir quelque chose de plus que ça. Il a dû lui arriver quelque chose lié à ses recherches, et je suis déterminé.e à découvrir quoi. Si seulement je savais où commencer à la rechercher…"
         },
         {
-          "perso": "protagoniste",
+          "perso": "Vous",
           "texte": "Du coin de l'œil, je remarquai un petit objet qui dépassait du dessous de son étagère, me sortant de mes pensées. Intriguée, je m'accroupis pour l’inspecter. Il s’agit d’un petit livre marron, sans couverture ni titre…"
         },
         {
-          "perso": "protagoniste",
+          "perso": "Vous",
           "texte": "Je l’ouvre, prise d’une curiosité, et le feuillette rapidement. Pas croyable ! Il s’agit de son carnet de voyage !"
         },
         {
-          "perso": "protagoniste",
+          "perso": "Vous",
           "texte": "Je le récupère soigneusement. Ce carnet pourrait très bien contenir des informations sur la disparition de Laurence. Les dates des entrées ne semblent pas très vieilles, après tout."
         },
         {
-          "perso": "protagoniste",
+          "perso": "Vous",
           "texte": "Je m’assois sur le bord de son lit afin de démarrer ma lecture. Les premières pages sont remplies d’équations complexes que je ne comprends pas totalement, de croquis de monuments anciens visités lors de ses voyages, de petites annotations… Mais je vois un mot peu familier répété plusieurs fois : Mathéopolis."
         },
         {
-          "perso": "protagoniste",
+          "perso": "Vous",
           "texte": "Je continue de lire, un air concentré sur le visage, espérant qu’elle explique ce que cela signifie…"
         },
         {
-          "perso": "carnet",
+          "perso": "Carnet de Laurence",
           "texte": "« Mathéopolis, la ville des maths, habitée par tous les plus grands savants de l’histoire. Elle est accessible par l’esprit et tout le monde possède sans le savoir la capacité d’y entrer. À l'aide des carnets de mon père, j’ai su m’y immerger aussi, mais ce don est très convoité par des personnes cherchant à l'exploiter. C’est pourquoi je dois me cacher. »"
         },
         {
-          "perso": "protagoniste",
+          "perso": "Vous",
           "texte": "Mathéopolis serait donc une ville, la ville des maths, uniquement accessible à l'aide d'un don... ? Les mathématiques auraient-elles fait perdre la raison à Laurence ?"
         },
         {
-          "perso": "protagoniste",
+          "perso": "Vous",
           "texte": "C'est insensé, mais la connaissant, elle n'a pas pu simplement inventer une ville pour le plaisir. Et si Mathéopolis existait réellement ? Ce serait sans doute la piste principale pour la retrouver."
         },
         {
-          "perso": "carnet",
+          "perso": "Carnet de Laurence",
           "texte": "« C'est pourquoi je dois me cacher. »"
         },
         {
-          "perso": "protagoniste",
+          "perso": "Vous",
           "texte": "Cette phrase se répète dans ma tête... Est-ce donc pour cela qu'elle est devenue de plus en plus cachottière au fil des années et a fini par disparaître ? Peut-être qu'elle va bien, finalement."
         },
         {
-          "perso": "protagoniste",
+          "perso": "Vous",
           "texte": "D'un air déterminé, je tourne la page suivante. Si ce carnet et cette étrange ville ont même une petite chance de m'aider à retrouver mon amie, alors je compte bien en déceler tous les secrets."
         },
         {
-          "perso": "protagoniste",
+          "perso": "Vous",
           "texte": "Je commence à parcourir les pages suivantes, espérant trouver davantage d'informations sur cette fameuse Mathéopolis. Mais plus j'avance, moins je comprends ce que je lis. Des équations, des schémas, des démonstrations... Laurence semble avoir consacré une grande partie de ses recherches à des concepts mathématiques particulièrement complexes."
         },
         {
-          "perso": "protagoniste",
+          "perso": "Vous",
           "texte": "Je finis par soupirer. Je ne risque pas d'aller bien loin si je ne comprends même pas ses notes !"
         },
         {
-          "perso": "protagoniste",
+          "perso": "Vous",
           "texte": "Je décide finalement de ramener le carnet chez moi. Je pourrai prendre le temps de l'étudier tranquillement et, avec un peu de chance, finir par comprendre ce que Laurence cherchait à accomplir. Après tout, si je veux découvrir les secrets de Mathéopolis, il va bien falloir commencer quelque part."
         }
       ]
