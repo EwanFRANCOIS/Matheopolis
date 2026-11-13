@@ -1,0 +1,17 @@
+[
+  {
+    "n": 1,
+	"character_id": 1,
+    "content": "premiere partie"
+  },
+  {
+    "n": 2,
+	"character_id": 1,
+    "content": "deuxième partie"
+  },
+  {
+    "n": 3,
+	"character_id": 1,
+    "content": "troisième partie"
+  }
+]
