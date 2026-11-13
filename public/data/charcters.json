@@ -1,7 +1,12 @@
 [
   {
     "id": 1,
-    "avatar" : "/images/verity.png",
+    "avatar" : "/Images/verity.png",
     "name": "Verity"
+  },
+  {
+    "id": 2,
+    "avatar" : "/Images/carnet.png",
+    "name": "Carnet de Laurence"
   }
 ]

@@ -15,16 +15,9 @@ class StoryController
 
     public function execute(Request $request): Response
     {
-        $firstChapter = isset($request->get['chapitre']) ? (int) $request->get['chapitre'] : 0;
-        if (isset($request->get['dialogue'])) {
-            $firstDialogue = (int) $request->get['dialogue'];
-        } elseif ($firstChapter > 0) {
-            $firstDialogue = -1;
-        } else {
-            $firstDialogue = -2;
-        }
+        $n = isset($request->get['dialogue']) ? (int) $request->get['dialogue'] : 1;
 
-        $vue = (new StoryView())->show($firstChapter, $firstDialogue);
-        return $this->view->render('Story', $vue);
+        $vue = (new StoryView())->show($n);
+        return $this->view->render('Histoire', $vue);
     }
 }
