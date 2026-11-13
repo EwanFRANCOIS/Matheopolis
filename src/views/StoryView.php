@@ -4,15 +4,27 @@ namespace src\views;
 
 use src\views\components\Typewriter;
 use src\views\components\Button;
+use src\views\components\Input;
+use src\views\components\Form;
+use src\views\components\Paragraph;
 
 
 class StoryView
 {
-    public function show(): string
+    public function show(int $firstChapter = 0, int $firstDialogue = -2): string
     {
         $jsonPath = __DIR__ . '/../../public/story.json';
         $jsonContent = file_get_contents($jsonPath);
 
+        $btnSubmitQuiz = new Button(label: 'Valider', type: 'button', class: 'small', id: 'btn-submit-quiz');
+
+        $answerQuiz = new Input(name: 'answerQuiz', type: 'text', placeholder: 'Votre réponse...', id: 'player-answer', style: 'max-width: 300px; text-align: center;', required: false);
+
+        $formStory = new Form('index.php', [
+            new Input(type: 'hidden', name: 'action', value: 'activity'),
+            new Input(type: 'hidden', name: 'step', value: 'game'),
+            new Button('Activités')
+        ]);
 
         ob_start();
         ?>
@@ -47,21 +59,16 @@ class StoryView
         <div id="quiz-box" class="card parchment form-area" style="display: none; margin-top: 20px;">
             <h2>Énigme</h2>
             
-            <p id="quiz-question" class="small"></p> 
+            <p id="quiz-question" class="small"></p>
             
-            <label for="player-answer">Votre réponse :</label>
-            <input type="text" id="player-answer" autocomplete="off" style="max-width: 300px; text-align: center;">
-            
-            <button id="btn-submit-quiz" class="btn red">Valider</button>
+            <?=$answerQuiz->render()?>
+
+            <?=$btnSubmitQuiz->render()?>
             
             <div id="error-message" class="alert" style="display: none; width: 100%; text-align: center;"></div>
         </div>
 
-        <form method="GET" action="index.php">
-            <input type="hidden" name="action" value="activity">
-            <input type="hidden" name="step" value="game">
-            <?= (new Button('Activités'))->render(); ?>
-            </form>
+        <?=$formStory?>
 
         <script>
             let currentExpectedAnswer = "";
@@ -72,7 +79,6 @@ class StoryView
             let currentIndex = <?= $firstDialogue ?>;
 
             function afficherDialogue() {
-                
                 let chapitre = histoire.chapitres[currentChapter]; 
 
                 if (currentIndex === -2) {
@@ -82,7 +88,6 @@ class StoryView
                 } 
                 else if (currentIndex === -1) {
                     document.getElementById('story-image').src = "/Images/verity.png";
-                    
                     document.getElementById('story-nom').textContent = chapitre.titre; 
                     document.getElementById('story-texte').textContent = "Prêt à commencer la lecture ?";
                 }
@@ -115,6 +120,7 @@ class StoryView
 
             afficherDialogue();
 
+            // 1. Écouteur pour le bouton suivant [>>]
             document.getElementById('btn-next-dialogue').firstElementChild.addEventListener('click', function(e) {
                 e.preventDefault();
                 
@@ -129,34 +135,56 @@ class StoryView
                     if (currentChapter < histoire.chapitres.length - 1) {
                         currentChapter++;
                         currentIndex = -1;
-                        
                         afficherDialogue();
                     } 
                     else {
                         document.getElementById('story-image').src = "/Images/verity.png";
                         document.getElementById('story-nom').textContent = "Fin";
                         document.getElementById('story-texte').textContent = "L'histoire est terminée. Il est temps de passer à l'activité !";
-                        
                         document.getElementById('btn-next-dialogue').style.display = 'none'; 
                     }
                 }
             });
 
-            document.getElementById('btn-submit-quiz').addEventListener('click', function() {
-                let answer = document.getElementById('player-answer').value.trim();
-                let errorMessageDisplay = document.getElementById('error-message');
+                document.getElementById('btn-submit-quiz').addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                try {
+                    console.log("1. Clic capturé");
 
-                if (answer.toLowerCase() === currentExpectedAnswer.toLowerCase()) {
-                    errorMessageDisplay.style.display = 'none';
-                    document.getElementById('player-answer').value = ""; 
+                    let answerInput = document.getElementById('player-answer');
+                    console.log("2. Champ input trouvé :", answerInput);
+
+                    let errorMessageDisplay = document.getElementById('error-message');
                     
-                    document.getElementById('quiz-box').style.display = 'none'; 
-                    document.getElementById('btn-next-dialogue').style.display = 'inline-block'; 
-                    
-                    document.getElementById('btn-next-dialogue').firstElementChild.click();
-                } else {
-                    errorMessageDisplay.textContent = currentErrorMessage;
-                    errorMessageDisplay.style.display = 'block';
+                    if (!answerInput) {
+                        console.error("ERREUR : Impossible de trouver l'élément #player-answer !");
+                        return;
+                    }
+
+                    let answer = answerInput.value.trim();
+                    let userAns = String(answer).toLowerCase();
+                    let expectedAns = String(currentExpectedAnswer).toLowerCase();
+
+                    console.log("3. Valeur tapée :", JSON.stringify(userAns), "/ Attendue :", JSON.stringify(expectedAns));
+
+                    if (userAns === expectedAns) {
+                        console.log("4. Succès !");
+                        errorMessageDisplay.style.display = 'none';
+                        answerInput.value = ""; 
+                        
+                        document.getElementById('quiz-box').style.display = 'none'; 
+                        document.getElementById('btn-next-dialogue').style.display = 'inline-block'; 
+                        
+                        let nextBtn = document.getElementById('btn-next-dialogue').firstElementChild;
+                        if (nextBtn) nextBtn.click();
+                    } else {
+                        console.log("5. Échec de la réponse.");
+                        errorMessageDisplay.textContent = currentErrorMessage;
+                        errorMessageDisplay.style.display = 'block';
+                    }
+                } catch (err) {
+                    console.error("ERREUR JS CRITIQUE :", err);
                 }
             });
 
