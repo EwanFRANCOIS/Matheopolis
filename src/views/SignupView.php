@@ -19,7 +19,7 @@ class SignupView
     {
         $error = $this->error;
         $info = new Paragraph([
-            'Si vous voulez accedez à l\'ensemble du site blah blah blah vendez votre âme et inscrivez vous :)'
+            'Si vous voulez accéder à l\'ensemble du site inscrivez-vous !'
         ]);
 
         $form = new Form('/index.php?action=signup', [
@@ -37,29 +37,40 @@ class SignupView
             'Vous pouvez rejoindre une classe existante en utilisant le code de la classe fourni par votre enseignant.'
         ]);
 
-        $alert = $error !== null && $error !== '' ? new Alert([$error]) : new Alert([]);
-        $link = new Link('/index.php?action=login', 'Se connecter');
+        $alert = !empty($error) ? new Alert([$error]) : null;
+        $link = new Paragraph([
+            new Link('/index.php?action=login', 'Déjà inscrit ? Se connecter')
+        ]);
 
         ob_start();
         ?>
 
 <header>
+    <span class="small">REJOINDRE L'AVENTURE</span>
     <h1>S'inscrire</h1>
 </header>
 
-<div class="card">
-    <?= $info ?>
-</div>
+<div class="colonne" style="max-width: 680px; width: 100%; margin: 0 auto;">
+    <div class="card notebook watermark-card">
+        <span class="small">NOUVEAU COMPTE</span>
+        <h2>Créer un profil</h2>
+        <?= $info ?>
 
-<div class="form-area">
-    <?= $form ?>
-    <?= $alert ?>
-    <?= $link ?>
-</div>
+        <?php if ($alert !== null) : ?>
+            <?= $alert ?>
+        <?php endif; ?>
 
-<div class="card">
-    <h2>Vous êtes un étudiant ?</h2>
-    <?= $infoStudent ?>
+        <div class="form-area">
+            <?= $form ?>
+            <?= $link ?>
+        </div>
+    </div>
+
+    <div class="card parchment">
+        <span class="small red">ACCÈS ÉLÈVE</span>
+        <h2>Vous êtes un étudiant ?</h2>
+        <?= $infoStudent ?>
+    </div>
 </div>
 
         <?php

@@ -19,7 +19,7 @@ class LoginView
     {
         $error = $this->error;
         $info = new Paragraph([
-            'Vous avez déjà vendu votre âme ? Connectez vous pour accéder à l\'ensemble du site.'
+            'Vous avez déjà rejoint l\'aventure ! Connectez-vous pour accéder à l\'ensemble du site.'
         ]);
 
         $form = new Form('/index.php?action=login', [
@@ -31,30 +31,38 @@ class LoginView
             ]),
         ]);
 
-        $alert = $error !== null && $error !== '' ? new Alert([$error]) : new Alert([]);
+        $alert = !empty($error) ? new Alert([$error]) : null;
         $linkForgot = new Paragraph([
             new Link('/index.php?action=forgotpassword', 'Mot de passe oublié ?')
         ]);
         $linkSignup = new Paragraph([
-            new Link('/index.php?action=signup', 'S\'inscrire')
+            new Link('/index.php?action=signup', 'Pas encore de compte ? S\'inscrire')
         ]);
 
         ob_start();
         ?>
 
 <header>
+    <span class="small">ACCÈS AUX ARCHIVES</span>
     <h1>Connexion</h1>
 </header>
 
-<div class="card">
-    <?= $info ?>
-</div>
+<div class="colonne" style="max-width: 680px; width: 100%; margin: 0 auto;">
+    <div class="card notebook watermark-card">
+        <span class="small">IDENTIFICATION</span>
+        <h2>Bon retour parmi nous</h2>
+        <?= $info ?>
 
-<div class="form-area">
-    <?= $form ?>
-    <?= $alert ?>
-    <?= $linkForgot ?>
-    <?= $linkSignup ?>
+        <?php if ($alert !== null) : ?>
+            <?= $alert ?>
+        <?php endif; ?>
+
+        <div class="form-area">
+            <?= $form ?>
+            <?= $linkForgot ?>
+            <?= $linkSignup ?>
+        </div>
+    </div>
 </div>
 
         <?php
