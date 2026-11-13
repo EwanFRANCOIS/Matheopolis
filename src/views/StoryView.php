@@ -4,7 +4,7 @@ namespace src\views;
 
 use src\models\StoryModel;
 use src\views\components\Typewriter;
-use src\views\components\Button;
+use src\views\components\Link;
 
 class StoryView
 {
@@ -44,26 +44,12 @@ class StoryView
             </div>
         </div>
 
-        <?php if ($hasSuite): ?>
-            <!-- suite -->
-            <form method="GET" action="index.php">
-                <input type="hidden" name="action" value="story">
-                <input type="hidden" name="dialogue" value="<?= $n + 1 ?>">
-                <?= (new Button('>>'))->render(); ?>
-            </form>
-            <form method="GET" action="index.php">
-                <input type="hidden" name="action" value="activity">
-                <input type="hidden" name="step" value="game">
-                <?= (new Button('Accéder aux activités'))->render(); ?>
-            </form>
-        <?php else: ?>
-            <!-- activité -->
-            <form method="GET" action="index.php">
-                <input type="hidden" name="action" value="activity">
-                <input type="hidden" name="step" value="game">
-                <?= (new Button('Accéder aux activités'))->render(); ?>
-            </form>
-        <?php endif; ?>
+        <div class="story-actions">
+            <?php if ($hasSuite): ?>
+                <?= (new Link("index.php?action=story&dialogue=" . ($n + 1), "Suivant >", "btn"))->render(); ?>
+            <?php endif; ?>
+            <?= (new Link("index.php?action=activity&step=game", "Activités |>", "btn"))->render(); ?>
+        </div>
 
         <?php
         return ob_get_clean();
