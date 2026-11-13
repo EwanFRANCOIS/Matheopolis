@@ -51,12 +51,17 @@ class StoryView
                 <input type="hidden" name="dialogue" value="<?= $n + 1 ?>">
                 <?= (new Button('>>'))->render(); ?>
             </form>
+            <form method="GET" action="index.php">
+                <input type="hidden" name="action" value="activity">
+                <input type="hidden" name="step" value="game">
+                <?= (new Button('Accéder aux activités'))->render(); ?>
+            </form>
         <?php else: ?>
             <!-- activité -->
             <form method="GET" action="index.php">
                 <input type="hidden" name="action" value="activity">
                 <input type="hidden" name="step" value="game">
-                <?= (new Button('Passer à l\'activité'))->render(); ?>
+                <?= (new Button('Accéder aux activités'))->render(); ?>
             </form>
         <?php endif; ?>
 
