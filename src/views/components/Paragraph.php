@@ -13,16 +13,22 @@ final class Paragraph extends Component
 
     public function render(): string
     {
+        $html = '<p';
+
         if ($this->class !== null) {
-            return '<p class="' . $this->e($this->class) . '">' . $this->renderAll($this->children) . '</p>';
+           $html .= "class=" . $this->e($this->class) . '"';  
+        }
+
+        if ($this->id !== null) {
+            $html .= "id=" . $this->e($this->id) . '"';
         }
 
         if ($this->id !== null) {
             return '<p id="' . $this->e($this->id) . '">' . $this->renderAll($this->children) . '</p>';
         }
         
-        $html = '<p' . ($this->class !== null ? ' class="' . $this->e($this->class) . '"' : '') . '>';
+        $html .= '>' . $this->renderAll($this->children) . '</p>';
 
-        return '<p>' . $this->renderAll($this->children) . '</p>';
+        return $html;
     }
 }

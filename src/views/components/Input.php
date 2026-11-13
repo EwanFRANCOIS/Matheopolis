@@ -10,6 +10,8 @@ final class Input extends Component
         private readonly string $type = 'text',
         private readonly string $placeholder = '',
         private readonly string $value = '',
+        private readonly string $id = '',
+        private readonly string $style = '',
         private readonly bool $required = true
     ) {
     }
@@ -21,7 +23,8 @@ final class Input extends Component
         $type = $this->e($this->type);
         $placeholder = $this->e($this->placeholder);
         $value = $this->e($this->value);
-
+        $style = $this->e($this->style);
+        $id = $this->e($this->id);
 
         $html = '<div';
         if ($this->type === 'checkbox') {
@@ -29,11 +32,18 @@ final class Input extends Component
         }
 
         if ($this->type === 'hidden') {
-            return '<input type="hidden" id="' . $name . '" name="' . $name . '" value="' . $value . '">';
+            $htmlId = $id !== '' ? $id : $name;
+            return '<input type="hidden" id="' . $htmlId . '" name="' . $name . '" value="' . $value . '">';
         }
 
         $html .= '><label for="' . $name . '">' . $label . '</label>';
-        $html .= '<input type="' . $type . '" id="' . $name . '" name="' . $name . '"';
+        $html .= '<input type="' . $type . '"';
+
+        if ($id !== '') {
+            $html .= ' id="' . $id . '"';
+        }
+
+        $html .= ' name="' . $name . '"';
 
         if ($this->placeholder !== '') {
             $html .= ' placeholder="' . $placeholder . '"';
@@ -45,6 +55,10 @@ final class Input extends Component
 
         if ($this->required) {
             $html .= ' required';
+        }
+
+        if ($style !== '') {
+            $html .= ' style="' . $style . '"';
         }
 
         $html .= ' class="input"></div>';
