@@ -6,7 +6,7 @@ use src\views\components\Button;
 use src\views\components\Form;
 use src\views\components\Input;
 use src\views\components\Paragraph;
-use src\views\components\Link;
+use src\views\components\Tile;
 
 class ActivityView
 {
@@ -17,17 +17,6 @@ class ActivityView
     public function show(): string
     {
         $result = $this->result;
-
-        $buttonCalculator = new Button(
-            label: 'Calculatrice', 
-            type: 'submit', 
-            id: 'CalculatorId',
-            class: 'btn jeu calculator'
-            );
-        
-        $linkQuiz = new link('/index.php?action=quiz', 'Quiz', 'btn jeu quiz');
-        $jeu2 = new link('/index.php?action=conversion', 'Conversion', 'btn jeu conversion');
-        $jeu3 = new link('/index.php?action=', 'jeu 3', 'btn jeu');
 
         $form = new Form('/index.php?action=activity', [
             new Input('op1', 'Opérande 1 :', 'text', '', '', true),
@@ -43,18 +32,47 @@ class ActivityView
 
         $resultBlock = $result !== null ? new Paragraph([(string) $result]) : null;
 
+        $tiles = [
+            new Tile(
+                href: '/index.php?action=quiz',
+                symbol: '?',
+                title: 'Quiz',
+                description: "Testez vos connaissances sur l'univers et les énigmes",
+                class: 'quiz'
+            ),
+            new Tile(
+                href: null,
+                symbol: '±',
+                title: 'Calculatrice',
+                description: 'Effectuez vos opérations arithmétiques rapidement',
+                class: 'calculator',
+                id: 'CalculatorId'
+            ),
+            new Tile(
+                href: '/index.php?action=conversion',
+                symbol: '⇄',
+                title: 'Conversion',
+                description: 'Convertissez les unités et les systèmes de mesure',
+                class: 'conversion'
+            ),
+            new Tile(
+                href: '/index.php?action=',
+                symbol: 'Δ',
+                title: 'Jeu 3',
+                description: 'Un nouveau défi mathématique arrive bientôt'
+            ),
+        ];
+
         ob_start();
         ?>
 
 <header>
+    <span class="small">EXERCICES</span>
     <h1>Activités</h1>
 </header>
 
-<div class="activity-container">
-    <?= $linkQuiz->render() ?>
-    <?= $buttonCalculator->render() ?>
-    <?= $jeu2->render() ?>
-    <?= $jeu3->render() ?>
+<div class="tile-grid">
+    <?= implode('', $tiles) ?>
 </div>
 
 <div id="d1" class="card form-area activity-panel" hidden>
