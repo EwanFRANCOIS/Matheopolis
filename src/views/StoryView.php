@@ -13,14 +13,7 @@ class StoryView
         $jsonPath = __DIR__ . '/../../public/story.json';
         $jsonContent = file_get_contents($jsonPath);
 
-        $firstChapter = isset($_GET['chapitre']) ? (int)$_GET['chapitre'] : 0;
-        if (isset($_GET['dialogue'])) {
-            $firstDialogue = (int)$_GET['dialogue'];
-        } elseif ($firstChapter > 0) {
-            $firstDialogue = -1;
-        } else {
-            $firstDialogue = -2;
-        }
+
         ob_start();
         ?>
         <header>
