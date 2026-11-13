@@ -19,6 +19,7 @@ class ProfileView
         private readonly ?array $students = [],
         private readonly ?array $classes = [],
         private readonly ?string $createdCode = null,
+        private readonly ?array $notes = []
     ) {}
 
     public function show(): string
@@ -27,6 +28,7 @@ class ProfileView
         $error = $this->error;
         $classInfo = $this->classInfo;
         $classes = $this->classes;
+        $notes = $this->notes;
 
         $info = new Paragraph([
             'Bienvenue sur votre profil'
@@ -188,6 +190,18 @@ class ProfileView
             <div class="card parchment">
                 <span class="small red">PROGRESSION</span>
                 <h2>Relevé des notes</h2>
+                <?php if (!empty($notes)) : ?>
+                    <ul class="notes">
+                        <?php foreach ($notes as $note) : ?>
+                            <li>
+                                <h3><?= $note['title'] ?></h3>
+                                <p>Score : <?= $note['score'] ?></p>
+                            </li>
+                        <?php endforeach; ?>
+                    </ul>
+                <?php else : ?>
+                    <p>Vos résultats d'exercices apparaîtront ici.</p>
+                <?php endif; ?>
             </div>
         </div>
     <?php endif; ?>
