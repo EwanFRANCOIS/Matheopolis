@@ -3,6 +3,7 @@
 namespace src\views;
 
 use src\views\components\Paragraph;
+use src\views\components\Tile;
 
 class HomepageView
 {
@@ -27,30 +28,71 @@ class HomepageView
             mais aussi pour rendre celles-ci vivantes, concrètes et accessibles à travers une très grande aventure."
         ]);
 
+        $tiles = [
+            new Tile(
+                href: 'index.php?action=book',
+                symbol: '∑',
+                title: 'Les Livres',
+                description: "Découvrir les tomes et l'histoire de Laurence Guerney"
+            ),
+            new Tile(
+                href: 'index.php?action=world',
+                symbol: 'φ',
+                title: "L'Univers",
+                description: 'Plonger dans les mystères et les lieux de Matheopolis'
+            ),
+            new Tile(
+                href: 'index.php?action=activity',
+                symbol: '∞',
+                title: 'Activités',
+                description: 'Calculateur rapide, quiz et défis mathématiques'
+            ),
+        ];
+
         ob_start();
         ?>
 
-<header>
-    <span class="small">BIENVENUE SUR</span>
-    <h1>Matheopolis</h1>
-</header>
-<div class="cards">
-    <div class="card full">
-        <?= $intro ?>
+<section class="split-home">
+    <div class="split-left">
+        <span class="small">BIENVENUE DANS LA VILLE DES MATHEMATIQUES</span>
+        <h1>MATHEOPOLIS</h1>
+        <p class="hero-subtitle">Redécouvrir les mathématiques à travers l'aventure de Laurence Guerney</p>
+        
+        <div class="split-intro">
+            <?= $intro ?>
+        </div>
+
+        <div class="hero-actions">
+            <a href="#explorer-grid" class="btn">Explorer l'univers</a>
+            <a href="index.php?action=signup" class="btn btn-gold-fill">Rejoindre l'Ordre</a>
+        </div>
     </div>
 
-    <div class="card notebook">
-        <span class="small">LE PROJET</span>
-        <h2>Objectif</h2>
-        <?= $info ?>
+    <div class="split-right">
+        <div class="card notebook watermark-card">
+            <span class="small">LE PROJET</span>
+            <h2>Objectif</h2>
+            <?= $info ?>
+        </div>
+
+        <div class="card parchment">
+            <span class="small red">LA MISSION</span>
+            <h2>Notre site</h2>
+            <?= $site ?>
+        </div>
+    </div>
+</section>
+
+<section id="explorer-grid">
+    <div>
+        <span class="small">ARCHIVES INTERACTIVES</span>
+        <h2>Explorer le domaine</h2>
     </div>
 
-    <div class="card parchment">
-        <span class="small red">LA MISSION</span>
-        <h2>Notre site</h2>
-        <?= $site ?>
+    <div class="tile-grid">
+        <?= implode('', $tiles) ?>
     </div>
-</div>
+</section>
 
         <?php
         return ob_get_clean();
